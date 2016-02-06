@@ -1,0 +1,2 @@
+maven multi module:
+http://books.sonatype.com/mvnex-book/reference/multimodule-sect-intro.html
