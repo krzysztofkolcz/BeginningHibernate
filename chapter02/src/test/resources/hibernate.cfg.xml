@@ -18,6 +18,7 @@
     <property name="show_sql">true</property>
     <!-- Drop and re-create the database schema on startup -->
     <property name="hbm2ddl.auto">create-drop</property>
+    <property name="c3p0.timeout">10</property><!-- anyd c3p0 property - With this line in the configuration, Hibernate will disable its internal connection pool and use c3p0 instead.-->
     <mapping class="chapter02.hibernate.Message"/>
   </session-factory>
    
