@@ -94,9 +94,19 @@ public class RankingTest {
       Transaction tx = session.beginTransaction();
       String name = "Stefan";
       String skill = "Java";
-      Query q = session.createQuery("from Ranking r where r.subject.name = :name and r.skill.name = :skill");
-      q.setString("name",name);
-      q.setString("skill",skill);
+      int avg = getAverage(name,skill);
+      System.out.println("Avg. ranking for " + name + " in " + skill + " is: " + avg);
+      tx.commit();
+      session.close();
+      assertEquals(avg,7);
+    }
+
+    private int getAverage(String subjectName,String skillName){
+      Session session = factory.openSession();
+      Transaction tx = session.beginTransaction();
+      Query q = session.createQuery("from Ranking r where r.subject.name = :subjectName and r.skill.name = :skillName");
+      q.setString("subjectName",subjectName);
+      q.setString("skillName",skillName);
       int avg = 0;
       Integer sum = 0;
       int count = 0;
@@ -108,10 +118,9 @@ public class RankingTest {
         System.out.println(sum);
       }
       avg = sum / count;
-      System.out.println("Avg. ranking for " + name + " in " + skill + " is: " + avg);
       tx.commit();
       session.close();
-      assertEquals(avg,7);
+      return avg;
     }
 
     private void populateRankingData(){
@@ -134,6 +143,38 @@ public class RankingTest {
       ranking.setSkill(skill);
       ranking.setRanking(rankingRate);
       session.save(ranking);
+    }
+
+    @Test
+    public void changeRankingTest(){
+      populateRankingData();
+      Session session = factory.openSession();
+      Transaction tx = session.beginTransaction();
+      Query q = session.createQuery("from Ranking r where r.subject.name = :subjectName and r.object.name = :objectName and r.skill.name = :skillName");
+      q.setString("subjectName","Stefan");
+      q.setString("objectName","Ludwika");
+      q.setString("skillName","Java");
+      Ranking r = (Ranking)q.uniqueResult();
+      r.setRanking(4);
+      tx.commit();
+      session.close();
+      assertEquals(getAverage("Stefan","Java"),6);
+    }
+
+    @Test
+    public void removeRankingTest(){
+      populateRankingData();
+      Session session = factory.openSession();
+      Transaction tx = session.beginTransaction();
+      Query q = session.createQuery("from Ranking r where r.subject.name = :subjectName and r.object.name = :objectName and r.skill.name = :skillName");
+      q.setString("subjectName","Stefan");
+      q.setString("objectName","Ludwika");
+      q.setString("skillName","Java");
+      Ranking r = (Ranking)q.uniqueResult();
+      assertNotNull(r, "Ranking not found");
+      session.delete(r);
+      tx.commit();
+      session.close();
     }
 }
 
