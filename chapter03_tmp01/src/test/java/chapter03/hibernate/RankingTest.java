@@ -1,4 +1,4 @@
-package chapter03.hibernate;
+ackage chapter03.hibernate;
 
 import org.hibernate.Query;
 import org.hibernate.Session;

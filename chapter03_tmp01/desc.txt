@@ -2,3 +2,4 @@
 2. dodanie testu zapisu osoby
 3. dodanie funkcji pobierającej wszystkie rankingi i wyliczającej średnią dla jednej z umiejętności
 4. Zmiana rankingu (update)
+5. Do strony 35 - serwis Ranking
