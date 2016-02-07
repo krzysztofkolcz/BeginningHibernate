@@ -1,0 +1,3 @@
+1. dodanie encji, oraz testu zapisu rankingu
+2. dodanie testu zapisu osoby
+3. dodanie funkcji pobierającej wszystkie rankingi i wyliczającej średnią dla jednej z umiejętności

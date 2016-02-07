@@ -86,5 +86,54 @@ public class RankingTest {
       Skill skill = (Skill)q.uniqueResult();
       return skill;
     }
+
+    @Test
+    public void rankingAvarage(){
+      populateRankingData();
+      Session session = factory.openSession();
+      Transaction tx = session.beginTransaction();
+      String name = "Stefan";
+      String skill = "Java";
+      Query q = session.createQuery("from Ranking r where r.subject.name = :name and r.skill.name = :skill");
+      q.setString("name",name);
+      q.setString("skill",skill);
+      int avg = 0;
+      Integer sum = 0;
+      int count = 0;
+      for(Ranking r : (List<Ranking>)q.list()){
+        System.out.println(r);
+        count++;
+        System.out.println(count);
+        sum += r.getRanking();
+        System.out.println(sum);
+      }
+      avg = sum / count;
+      System.out.println("Avg. ranking for " + name + " in " + skill + " is: " + avg);
+      tx.commit();
+      session.close();
+      assertEquals(avg,7);
+    }
+
+    private void populateRankingData(){
+      Session session = factory.openSession();
+      Transaction tx = session.beginTransaction();
+      saveOneRakning(session, "Stefan","Marian","Java",8);
+      saveOneRakning(session, "Stefan","Zenobia","Java",6);
+      saveOneRakning(session, "Stefan","Ludwika","Java",7);
+      tx.commit();
+      session.close();
+    }
+
+    private void saveOneRakning(Session session, String subjectName,String objectName,String skillName,Integer rankingRate){
+      Person object = savePerson(session,objectName);
+      Person subject = savePerson(session,subjectName);
+      Skill skill = saveSkill(session,skillName);
+      Ranking ranking = new Ranking();
+      ranking.setObject(object);
+      ranking.setSubject(subject);
+      ranking.setSkill(skill);
+      ranking.setRanking(rankingRate);
+      session.save(ranking);
+    }
 }
 
