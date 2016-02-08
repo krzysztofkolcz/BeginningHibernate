@@ -11,6 +11,8 @@
   <modules>
     <module>chapter01</module>
     <module>chapter02</module>
+    <module>chapter03_tmp01</module>
+    <module>util</module>
   </modules>
   <name>hibernate-parent</name>
    
