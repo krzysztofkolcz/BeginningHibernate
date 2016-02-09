@@ -5,10 +5,28 @@
     http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>hibernate-parent</artifactId>
-    <groupId>com.redhat.osas.books.hibernate</groupId>
+    <groupId>com.kkolcz.hibernate.util</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
    
   <artifactId>chapter03_tmp01</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>[4.2.6,4.2.9)</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>[0.9.2.1,)</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kkolcz.hibernate.util</groupId>
+            <artifactId>util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

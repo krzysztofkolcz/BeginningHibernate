@@ -1,8 +1,14 @@
 package chapter03.application;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import javax.persistence.*;
 import com.kkolcz.hibernate.util.SessionUtil;
- 
-public class RankingServiceImpl implements RankingService{
+import chapter03.hibernate.*;
+import java.util.List;
+public class HibernateRankingService implements RankingService{
 
     @Override
     public int getRankingFor(String subject, String skill){
@@ -11,37 +17,41 @@ public class RankingServiceImpl implements RankingService{
         
         Query q = session.createQuery("from Ranking r where r.subject.name = :subject and r.skill.name = :skill");
         List<Ranking> ranks = q.list();
-        int avg = 0;
         int count = 0;
         int sum = 0;
         for(Ranking r : ranks){
           sum += r.getRanking();
           count++; 
         }
-        count == 0 ? avg = 0 : avg = sum/count;
         tx.commit();
         session.close();
-        return avg;
+        return count == 0 ? 0 : sum/count;
     }
 
     @Override
-    public void addRanking(Session session,String subjectName, String objectName, String skillName, int rank){
-        
-        Person object = savePerson(session,ovserverName);
+    public void addRanking(String subjectName, String objectName, String skillName, int rank){
+        Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        addRanking(session, subjectName, objectName, skillName, rank);
+        tx.commit();
+        session.close();
+    }
+
+    private void addRanking(Session session,String subjectName, String objectName, String skillName, int rank){
+        Person object = savePerson(session,objectName);
         Person subject = savePerson(session,subjectName);
         Skill skill = saveSkill(session,skillName);
         Ranking ranking = new Ranking();
         ranking.setObject(object);
         ranking.setSubject(subject);
         ranking.setSkill(skill);
-        ranking.setRanking();
+        ranking.setRanking(rank);
         session.save(rank);
-
     }
 
     @Override
     public void updateRanking(String subjectName,String objectName,String skillName,int rank){
-        Session session = factory.openSession();
+        Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         Ranking r = findRanking(session,subjectName,objectName,skillName);
         if(r==null){
@@ -52,7 +62,6 @@ public class RankingServiceImpl implements RankingService{
         r.setRanking(rank);
         tx.commit();
         session.close();
-        assertEquals(getAverage("Stefan","Java"),6);
     }
 
     private Ranking findRanking(Session session, String subjectName,String objectName,String skillName){

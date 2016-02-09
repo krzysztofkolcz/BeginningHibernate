@@ -1,16 +1,15 @@
 package chapter03.application;
 
 import org.testng.annotations.Test;
-
 import static org.testng.Assert.assertEquals;
 
 public class AddRankingTest{
     RankingService service = new HibernateRankingService();
 
     @Test
-    public voic addRankingTest(){
+    public void addRankingTest(){
       service.addRanking("Stefan","Genowefa","Java",9);
-      Integer rankingRate = service.getRankingFor("Stefan","Java");
+      int rankingRate = service.getRankingFor("Stefan","Java");
       assertEquals(rankingRate,8);
     }
 }

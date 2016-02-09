@@ -5,7 +5,7 @@
     http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>hibernate-parent</artifactId>
-    <groupId>com.redhat.osas.books.hibernate</groupId>
+    <groupId>com.kkolcz.hibernate.util</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
