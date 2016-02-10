@@ -11,8 +11,8 @@
   <modules>
     <module>chapter01</module>
     <module>chapter02</module>
-    <module>chapter03_tmp01</module>
     <module>util</module>
+    <module>chapter03_tmp01</module>
   </modules>
   <name>hibernate-parent</name>
    
@@ -46,11 +46,6 @@
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
       <version>[0.9.2.1,)</version>
-    </dependency>
-    <dependency>
-      <groupId>com.kkolcz.hibernate.util</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>
