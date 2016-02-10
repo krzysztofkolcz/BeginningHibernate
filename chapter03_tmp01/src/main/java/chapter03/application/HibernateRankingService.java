@@ -14,7 +14,13 @@ public class HibernateRankingService implements RankingService{
     public int getRankingFor(String subject, String skill){
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
-        
+        int averate = getRankingFor(session,subject,skill);
+        tx.commit();
+        session.close();
+        return averate;
+    }
+
+    private int getRankingFor(Session session,String subject, String skill){
         Query q = session.createQuery("from Ranking r where r.subject.name = :subject and r.skill.name = :skill");
         List<Ranking> ranks = q.list();
         int count = 0;
@@ -23,8 +29,6 @@ public class HibernateRankingService implements RankingService{
           sum += r.getRanking();
           count++; 
         }
-        tx.commit();
-        session.close();
         return count == 0 ? 0 : sum/count;
     }
 
@@ -107,4 +111,21 @@ public class HibernateRankingService implements RankingService{
         return skill;
     }
 
+    @Override
+    public void removeRanking(String subject, String observer, String skill) {
+        Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+
+        removeRanking(session, subject, observer, skill);
+
+        tx.commit();
+        session.close();
+    }
+
+    private void removeRanking(Session session, String subject, String observer, String skill) {
+        Ranking ranking = findRanking(session, subject, observer, skill);
+        if (ranking != null) {
+            session.delete(ranking);
+        }
+    }
 }
