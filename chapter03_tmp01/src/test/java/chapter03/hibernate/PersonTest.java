@@ -17,32 +17,32 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class PersonTest {
-    SessionFactory factory;
-    @BeforeMethod
-    public void setUp(){
-      Configuration configuration = new Configuration();
-      configuration.configure();
-      ServiceRegistryBuilder srb = new ServiceRegistryBuilder();
-      srb.applySettings(configuration.getProperties());
-      ServiceRegistry sr  = srb.buildServiceRegistry();
-      factory = configuration.buildSessionFactory(sr);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-      factory.close();
-    }
-
-    @Test
-    public void savePersonTest(){
-      Session session = factory.openSession();
-      Transaction tx = session.beginTransaction();
-
-      Person person = new Person();
-      person.setName("Stefan");
-      session.save(person);
-
-      tx.commit();
-      session.close();
-    }
+    /* SessionFactory factory; */
+    /* @BeforeMethod */
+    /* public void setUp(){ */
+    /*   Configuration configuration = new Configuration(); */
+    /*   configuration.configure(); */
+    /*   ServiceRegistryBuilder srb = new ServiceRegistryBuilder(); */
+    /*   srb.applySettings(configuration.getProperties()); */
+    /*   ServiceRegistry sr  = srb.buildServiceRegistry(); */
+    /*   factory = configuration.buildSessionFactory(sr); */
+    /* } */
+    /*  */
+    /* @AfterMethod */
+    /* public void tearDown(){ */
+    /*   factory.close(); */
+    /* } */
+    /*  */
+    /* @Test */
+    /* public void savePersonTest(){ */
+    /*   Session session = factory.openSession(); */
+    /*   Transaction tx = session.beginTransaction(); */
+    /*  */
+    /*   Person person = new Person(); */
+    /*   person.setName("Stefan"); */
+    /*   session.save(person); */
+    /*  */
+    /*   tx.commit(); */
+    /*   session.close(); */
+    /* } */
 }

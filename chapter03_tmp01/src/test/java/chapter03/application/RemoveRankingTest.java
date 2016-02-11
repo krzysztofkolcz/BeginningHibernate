@@ -17,5 +17,5 @@ public class RemoveRankingTest{
     public void removeNonexistentRanking() {
         service.removeRanking("R3", "R5", "RS3");
     }
-     
+
 }
