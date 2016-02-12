@@ -22,7 +22,7 @@ public class HibernateRankingService implements RankingService{
 
     private int getRankingFor(Session session,String subject, String skill){
         Query q = session.createQuery("from Ranking r where r.subject.name = :subject and r.skill.name = :skill");
-        q.setString("name",subject);
+        q.setString("subject",subject);
         q.setString("skill",skill);
         List<Ranking> ranks = q.list();
         int count = 0;
@@ -52,7 +52,7 @@ public class HibernateRankingService implements RankingService{
         ranking.setSubject(subject);
         ranking.setSkill(skill);
         ranking.setRanking(rank);
-        session.save(rank);
+        session.save(ranking);
     }
 
     @Override

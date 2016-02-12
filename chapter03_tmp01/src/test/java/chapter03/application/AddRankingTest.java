@@ -8,7 +8,7 @@ public class AddRankingTest{
 
     @Test
     public void addRankingTest(){
-      service.addRanking("Stefan","Genowefa","Mule",new Integer(9));
+      service.addRanking("Stefan","Genowefa","Mule",9);
       int rankingRate = service.getRankingFor("Stefan","Mule");
       assertEquals(rankingRate,9);
     }
