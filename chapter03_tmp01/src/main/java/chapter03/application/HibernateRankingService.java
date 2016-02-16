@@ -65,6 +65,7 @@ public class HibernateRankingService implements RankingService{
     }
 
     private int getRankingFor(Session session,String subject, String skill){
+        System.out.println("GET RANKING FOR");
         Query q = session.createQuery("from Ranking r where r.subject.name = :subject and r.skill.name = :skill");
         q.setString("subject",subject);
         q.setString("skill",skill);
@@ -74,12 +75,14 @@ public class HibernateRankingService implements RankingService{
         for(Ranking r : ranks){
           sum += r.getRanking();
           count++; 
+            System.out.println(count);
+            System.out.println(sum);
         }
         return count == 0 ? 0 : sum/count;
     }
 
     @Override
-    public void addRanking(String subjectName, String objectName, String skillName, int rank){
+    public void addRanking(String subjectName, String objectName, String skillName, Integer rank){
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         addRanking(session, subjectName, objectName, skillName, rank);
@@ -87,7 +90,7 @@ public class HibernateRankingService implements RankingService{
         session.close();
     }
 
-    private void addRanking(Session session,String subjectName, String objectName, String skillName, int rank){
+    private void addRanking(Session session,String subjectName, String objectName, String skillName, Integer rank){
         Person object = savePerson(session,objectName);
         Person subject = savePerson(session,subjectName);
         Skill skill = saveSkill(session,skillName);
