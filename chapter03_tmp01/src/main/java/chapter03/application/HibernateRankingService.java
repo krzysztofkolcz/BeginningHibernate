@@ -8,16 +8,60 @@ import javax.persistence.*;
 import com.kkolcz.hibernate.util.SessionUtil;
 import chapter03.hibernate.*;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 public class HibernateRankingService implements RankingService{
+
+    @Override
+    public Person findBestForSkill(String skill){
+      Person person = null;
+      Session session = SessionUtil.getSession();
+      Transaction tx = session.beginTransaction();
+      Query q = session.createQuery("select r.subject.name,avg(r.ranking) from Ranking r where r.skill.name = :skillName group by r.subject.name order by avg(r.ranking) desc");
+      q.setParameter("skillName",skill);
+      List<Object[]> result = q.list();
+      if(result.size()>0){
+          person = findPerson(session, (String)result.get(0)[0]);
+      }
+      tx.commit();
+      session.close();
+      return person;
+    }
+
+    @Override
+    public Map<String,Integer> getRankingsFor(String subject){
+      Session session = SessionUtil.getSession();
+      Transaction tx = session.beginTransaction();
+      Map<String,Integer> rankings = new HashMap<>(); 
+      Query q = session.createQuery("from Ranking r where r.subject.name = :name order by r.skill.name");
+      q.setString("name",subject);
+      List<Ranking> list= q.list();
+      String lastSkillName = "";
+      int sum = 0;
+      int count = 0;
+      for(Ranking r : list){
+        if(!lastSkillName.equals(r.getSkill().getName())){
+          sum = 0;
+          count = 0;
+          lastSkillName = r.getSkill().getName();
+        }
+        sum += r.getRanking();
+        count++;
+        rankings.put(lastSkillName,sum/count);
+      }
+      tx.commit();
+      session.close();
+      return rankings;
+    }
 
     @Override
     public int getRankingFor(String subject, String skill){
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
-        int averate = getRankingFor(session,subject,skill);
+        int average = getRankingFor(session,subject,skill);
         tx.commit();
         session.close();
-        return averate;
+        return average;
     }
 
     private int getRankingFor(Session session,String subject, String skill){
@@ -65,7 +109,6 @@ public class HibernateRankingService implements RankingService{
         }else{
           r.setRanking(rank);
         }
-        r.setRanking(rank);
         tx.commit();
         session.close();
     }
