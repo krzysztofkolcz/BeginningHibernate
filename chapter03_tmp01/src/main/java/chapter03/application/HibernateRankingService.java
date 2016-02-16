@@ -82,7 +82,7 @@ public class HibernateRankingService implements RankingService{
     }
 
     @Override
-    public void addRanking(String subjectName, String objectName, String skillName, Integer rank){
+    public void addRanking(String subjectName, String objectName, String skillName, int rank){
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         addRanking(session, subjectName, objectName, skillName, rank);
@@ -90,7 +90,7 @@ public class HibernateRankingService implements RankingService{
         session.close();
     }
 
-    private void addRanking(Session session,String subjectName, String objectName, String skillName, Integer rank){
+    private void addRanking(Session session,String subjectName, String objectName, String skillName, int rank){
         Person object = savePerson(session,objectName);
         Person subject = savePerson(session,subjectName);
         Skill skill = saveSkill(session,skillName);
