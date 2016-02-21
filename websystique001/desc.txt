@@ -1,0 +1,55 @@
+mvn archetype:generate -DgroupId=websystique001 -DartifactId=websystique001 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+
+pom.xml
+plugins:
+maven-war-plugin
+maven-compiler-plugin
+
+dependencies:
+spring-core
+spring-web
+spring-webmvc
+spring-tx
+spring-orm
+commons-lang
+commons-lang3
+javax.servlet-api
+jstl
+javax.servlet.jsp-api
+hibernate-validator
+validation-api
+hibernate-core
+mysql-connector-java
+joda-time
+usertype.core
+sitemesh
+slf4j-log4j12
+junit
+spring-test
+testng
+mockito-all
+h2
+dbunit
+
+
+Doać konfigurację:
+HibernateConfiguration
+AppConfig
+
+
+
+cd ~/liquibase
+Edycja pliku liquibase.properties
+driver=com.mysql.jdbc.Driver 
+classpath=/home/krzysztof/.m2/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
+changeLogFile=/home/krzysztof/IdeaProjects/BeginningHibernate/websystique/src/main/resources/liquibase/changelog.xml 
+url=jdbc:mysql://localhost/websystique001
+username=websystique001 
+password=websystique001
+
+java -jar liquibase.jar mirate
+
+Spring security
+http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
+
+
