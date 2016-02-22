@@ -1,4 +1,4 @@
-mvn archetype:generate -DgroupId=websystique001 -DartifactId=websystique001 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+mvn archetype:generate -DgroupId=websystique002 -DartifactId=websystique002 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
 
 pom.xml
 plugins:
@@ -43,11 +43,11 @@ Edycja pliku liquibase.properties
 driver=com.mysql.jdbc.Driver 
 classpath=/home/krzysztof/.m2/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
 changeLogFile=/home/krzysztof/IdeaProjects/BeginningHibernate/websystique/src/main/resources/liquibase/changelog.xml 
-url=jdbc:mysql://localhost/websystique001
-username=websystique001 
-password=websystique001
+url=jdbc:mysql://localhost/websystique002
+username=websystique002 
+password=websystique002
 
-java -jar liquibase.jar mirate
+java -jar liquibase.jar migrate
 
 TODO - przetestować dodanie do classpath
 dowload, unzip and move to /home/kkolcz/apps/liquibase/
@@ -59,3 +59,8 @@ http://websystique.com/spring-security/spring-security-4-hello-world-annotation-
 
 
 Problem z tagami jsp - usuwam web.xml
+
+http://websystique.com/spring-security-tutorial/
+http://websystique.com/category/spring-security/
+
+mvn archetype:generate -DgroupId=websystique002 -DartifactId=websystique002 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
