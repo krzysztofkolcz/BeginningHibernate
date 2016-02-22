@@ -49,6 +49,11 @@ password=websystique001
 
 java -jar liquibase.jar mirate
 
+TODO - przetestować dodanie do classpath
+dowload, unzip and move to /home/kkolcz/apps/liquibase/
+export PATH=$PATH:/home/kkolcz/apps/liquibase
+liquibase --version
+
 Spring security
 http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
 
