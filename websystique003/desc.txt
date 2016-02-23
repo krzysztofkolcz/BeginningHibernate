@@ -1,0 +1,9 @@
+Zabezpieczenie fragmentów widoku
+http://websystique.com/spring-security/spring-security-4-secure-view-layer-using-taglibs/
+
+pom.xml:
+spring-security-taglibs
+
+.jsp:
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="hasRole('ADMIN')">

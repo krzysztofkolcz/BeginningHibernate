@@ -1,2 +1,18 @@
 maven multi module:
 http://books.sonatype.com/mvnex-book/reference/multimodule-sect-intro.html
+
+websystique001:
+projectHibernate na podstawie:
+http://websystique.com/springmvc/spring-4-mvc-and-hibernate4-integration-example-using-annotations/
+oraz spring security:
+http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
+
+
+websystique002:
+http://maven.apache.org/archetype/maven-archetype-plugin/usage.html
+http://websystique.com/spring-security/spring-security-4-custom-login-form-annotation-example/
+
+
+websystique003:
+Zabezpieczenie fragmentów widoku
+http://websystique.com/spring-security/spring-security-4-secure-view-layer-using-taglibs/
