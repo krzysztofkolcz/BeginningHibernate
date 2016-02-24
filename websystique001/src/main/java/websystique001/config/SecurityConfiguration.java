@@ -13,15 +13,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-          auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("USER");
-          auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
-          auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");//dba have two roles.
+        auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");//dba have two roles.
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
+      http.authorizeRequests()
         .antMatchers("/", "/home").permitAll() 
         .antMatchers("/admin/**").access("hasRole('ADMIN')")
         .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
