@@ -7,3 +7,6 @@ spring-security-taglibs
 .jsp:
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <sec:authorize access="hasRole('ADMIN')">
+
+Zastąpienie tekstu w odnalezionych plikach:
+find . -type f -print0 | xargs -0 sed -i 's/websystique002/websystique004/g'
