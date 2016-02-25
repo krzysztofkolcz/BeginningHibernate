@@ -1,0 +1,5 @@
+Problem z manifest file, przy odpaleniu
+java -jar target/HibernateStandAloneDemo.jar
+
+Próbuje mvn shade plugin:
+https://maven.apache.org/plugins/maven-shade-plugin/examples/executable-jar.html
