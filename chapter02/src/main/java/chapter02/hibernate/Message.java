@@ -1,4 +1,5 @@
 package chapter02.hibernate;
+
 import javax.persistence.*;
  
 @Entity

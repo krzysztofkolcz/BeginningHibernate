@@ -1,11 +1,14 @@
 maven multi module:
 http://books.sonatype.com/mvnex-book/reference/multimodule-sect-intro.html
+mvn archetype:generate -DgroupId=org.sonatype.mavenbook -DartifactId=simple -Dpackage=org.sonatype.mavenbook -Dversion=1.0-SNAPSHOT 
+wyszukiwania dependencies: https://repository.sonatype.org/
 
 websystique001:
 projectHibernate na podstawie:
 http://websystique.com/springmvc/spring-4-mvc-and-hibernate4-integration-example-using-annotations/
 oraz spring security:
 http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
+Wykorzystane również liquibase
 
 
 websystique002:
@@ -16,3 +19,108 @@ http://websystique.com/spring-security/spring-security-4-custom-login-form-annot
 websystique003:
 Zabezpieczenie fragmentów widoku
 http://websystique.com/spring-security/spring-security-4-secure-view-layer-using-taglibs/
+
+
+HibernateExample:
+http://www.mastertheboss.com/jboss-frameworks/maven-tutorials/maven-hibernate-jpa/maven-and-hibernate-4-tutorial
+!!!
+mvn compile exec:java -Dexec.mainClass=com.mastertheboss.hibernate.HibernateTest 
+Couldn't destroy threadgroup hibernate:
+Sesja mysql nie jest poprawnie zamykana. Należy dodać flagę:
+http://stackoverflow.com/questions/29878937/how-to-properly-close-hibernate-session-with-mysql-server
+-Dexec.cleanupDaemonThreads=false
+
+
+
+websystiqueHibernateHello001:
+Problem z manifest file, przy odpaleniu
+java -jar target/HibernateStandAloneDemo.jar
+Próbuje mvn shade plugin:
+https://maven.apache.org/plugins/maven-shade-plugin/examples/executable-jar.html
+To wywołanie coś wreszcie daje!:
+java -cp target/HibernateStandAloneDemo.jar com.websystique.hibernate.HibernateStandAloneDemo 
+http://books.sonatype.com/mvnex-book/reference/simple-project-sect-building-simple.html
+Niestety daje tyle:
+Session Factory could not be created.java.lang.NoClassDefFoundError: org/hibernate/cfg/Configuration
+...
+... 2 more
+Caused by: java.lang.ClassNotFoundException: org.hibernate.cfg.Configuration
+Próbuje:
+mvn compile exec:java -Dexec.mainClass=com.websystique.hibernate.HibernateStandAloneDemo 
+Ok, działa, jest tylko problem z nieistniejącą tabelką bazy danych.
+Pomogło dodanie go hibernate.cfg.xml:
+        <property name="hbm2ddl.auto">create-drop</property>
+wywołany program nie kończy się,  dodaje flagę z HibernateExample:
+-Dexec.cleanupDaemonThreads=false
+
+mvn compile exec:java -Dexec.mainClass=com.websystique.hibernate.HibernateStandAloneDemo -Dexec.cleanupDaemonThreads=false
+
+
+
+
+websystiqueHibernateAnnotations002: 
+http://websystique.com/hibernate/hibernate-mysql-maven-hello-world-example-annotation/
+mvn archetype:generate -DgroupId=com.websystique.hibernate -DartifactId=websystiqueHibernateAnnotations002 -Dpackage=com.websystique.hibernate -Dversion=1.0
+
+dodanie plików migracji do src/main/resources/liquibase
+changelog.xml
+db.1.xml
+...
+
+cd ~/liquibase
+Zmiana propertisów w liquibase.properties:
+
+driver=com.mysql.jdbc.Driver 
+classpath=/home/krzysztof/.m2/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
+changeLogFile=/home/krzysztof/IdeaProjects/BeginningHibernate/websystique001/src/main/resources/liquibase/changelog.xml 
+url=jdbc:mysql://localhost/hibernate_test
+username=hibernate_test
+password=hibernate_test
+
+java -jar liquibase.jar migrate
+
+dodanie dependencies:
+hibernate-core
+mysql-connector-java
+
+dodanie klasy modelu z annotacjami
+dodanie pliku hibernate.cfg.xml do src/main/resources
+
+mvn clean package
+mvn compile exec:java -Dexec.mainClass=com.websystique.hibernate.HibernateStandAloneDemo -Dexec.cleanupDaemonThreads=false
+
+wywołanie:
+java -cp target/websystiqueHibernateAnnotations002-1.0.jar com.websystique.hibernate.HibernateStandAloneDemo
+nie działa:
+Caused by: java.lang.ClassNotFoundException: org.hibernate.cfg.AnnotationConfiguration
+dodanie classpath do jarów w .m2 również nie działa
+java 
+
+Próbuje zrboić standalone jar, na podstawie:
+http://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven
+
+
+
+
+
+Kompilacja i uruchomienie programu z linii komend:
+The Java File
+TheJavaFile.java
+
+Compile the Java File to a *.class file
+javac TheJavaFile.java
+
+This will create a TheJavaFile.class file
+Execution of the Java File
+java TheJavaFile
+
+Creation of an executable *.jar file
+You've got two options here -
+With an external manifest file :
+Create the manifest file say - MANIFEST.mf
+The MANIFEST file is nothing but an explicit entry of the Main Class
+jar -cvfm TheJavaFile.jar MANIFEST.mf TheJavaFile.class
+Executable by Entry Point:
+jar -cvfe TheJavaFile.jar <MainClass> TheJavaFile.class
+To run the Jar File
+java -jar TheJavaFile.jar

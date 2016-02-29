@@ -1,0 +1,9 @@
+http://www.mastertheboss.com/jboss-frameworks/maven-tutorials/maven-hibernate-jpa/maven-and-hibernate-4-tutorial
+
+mvn compile exec:java -Dexec.mainClass=com.mastertheboss.hibernate.HibernateTest
+
+
+Couldn't destroy threadgroup hibernate:
+Sesja mysql nie jest poprawnie zamykana. Należy dodać flagę:
+http://stackoverflow.com/questions/29878937/how-to-properly-close-hibernate-session-with-mysql-server
+-Dexec.cleanupDaemonThreads=false
