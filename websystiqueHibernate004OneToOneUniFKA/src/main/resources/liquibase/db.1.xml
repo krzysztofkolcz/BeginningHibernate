@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+  <changeSet id="1-create-table-student" author="kkolcz">
+    <createTable tableName="STUDENT">
+      <column name="student_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="home_address_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="first_name" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="last_name" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="section" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="STUDENT"/>
+    </rollback>
+  </changeSet>
+  <changeSet id="2-create-table-address" author="kkolcz">
+    <createTable tableName="ADDRESS">
+      <column name="address_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="street" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="city" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="country" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="ADDRESS"/>
+    </rollback>
+  </changeSet>
+
+  <changeSet id="3-add-foreign-key-student-address" author="kkolcz">
+    <addForeignKeyConstraint baseColumnNames="home_address_id"
+                baseTableName="STUDENT"
+                constraintName="student_address"
+                onDelete="CASCADE"
+                referencedColumnNames="address_id"
+                referencedTableName="ADDRESS"/>
+    <rollback>
+      <dropForeignKeyConstraint baseTableName="STUDENT" constraintName="student_address"/>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>

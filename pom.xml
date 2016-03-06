@@ -14,6 +14,7 @@
         <!-- <module>chapter04</module> -->
         <!-- <module>websystique002</module> -->
     <!-- <module>websystiqueHibernateAnnotations002</module> -->
+    <module>websystiqueHibernate004OneToOneUniFKA</module>
   </modules>
 
     <name>hibernate-parent</name>

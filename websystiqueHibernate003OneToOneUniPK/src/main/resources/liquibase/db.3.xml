@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+  <changeSet id="5-change-student-table-id-to-student-id" author="kkolcz">
+    <dropForeignKeyConstraint baseTableName="ADDRESS" constraintName="student_address"/>
+    <renameColumn catalogName="hibernate_tests"
+            columnDataType="int"
+            newColumnName="student_id"
+            oldColumnName="id"
+            remarks="change column name"
+            schemaName="public"
+            tableName="STUDENT"/>
+    <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="ADDRESS" constraintName="student_address" onDelete="CASCADE" referencedColumnNames="student_id" referencedTableName="STUDENT"/>
+    <rollback>
+      <dropForeignKeyConstraint baseTableName="ADDRESS" constraintName="student_address"/>
+      <renameColumn catalogName="hibernate_tests"
+              columnDataType="int"
+              newColumnName="id"
+              oldColumnName="student_id"
+              remarks="A String"
+              schemaName="public"
+              tableName="STUDENT"/>
+      <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="ADDRESS" constraintName="student_address" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="STUDENT"/>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>
