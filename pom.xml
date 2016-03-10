@@ -8,13 +8,14 @@
 
     <modules>
         <!-- <module>chapter01</module> -->
-        <module>chapter02</module>
+        <!-- <module>chapter02</module> -->
         <!-- <module>util</module> -->
         <!-- <module>chapter03_tmp01</module> -->
         <!-- <module>chapter04</module> -->
         <!-- <module>websystique002</module> -->
-    <!-- <module>websystiqueHibernateAnnotations002</module> -->
-    <module>websystiqueHibernate004OneToOneUniFKA</module>
+        <!-- <module>websystiqueHibernateAnnotations002</module> -->
+        <!-- <module>websystiqueHibernate004OneToOneUniFKA</module> -->
+      <module>obiado</module>
   </modules>
 
     <name>hibernate-parent</name>
@@ -141,8 +142,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
