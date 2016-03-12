@@ -872,3 +872,14 @@ Test:
         session.getTransaction().commit();
         session.close();  
     }
+
+
+
+==websystiqueRest002==
+http://websystique.com/springmvc/spring-mvc-4-restful-web-services-crud-example-resttemplate/
+Na potrzeby angular.js
+Odpalanie public static void main z poziomu mavena:
+mvn -e exec:java -Dexec.mainClass="com.websystique.springmvc.SpringRestTestClient"
+Na podstawie:
+http://www.vineetmanohar.com/2009/11/3-ways-to-run-java-main-from-maven/
+Klasa może być zarówno w main jak i test

@@ -16,6 +16,7 @@
         <!-- <module>websystiqueHibernateAnnotations002</module> -->
         <!-- <module>websystiqueHibernate004OneToOneUniFKA</module> -->
       <module>obiado</module>
+    <module>websystiqueRest002</module>
   </modules>
 
     <name>hibernate-parent</name>
