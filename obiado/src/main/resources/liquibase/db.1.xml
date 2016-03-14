@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="kkolcz">
+    <createTable tableName="app_user">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="sso_id" type="varchar(30)">
+        <constraints nullable="false" unique="true" uniqueConstraintName="app_user_sso_id_unique"/>
+      </column>
+      <column name="password" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="first_name" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="last_name" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="email" type="varchar(150)">
+        <constraints nullable="false" unique="true" uniqueConstraintName="app_user_email_unique"/>
+      </column>
+      <column name="state" type="varchar(30)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="joining_date" type="date">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="user_profile" >
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="type" type="varchar(30)">
+        <constraints nullable="false" unique="true" uniqueConstraintName="user_profile_type_unique"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="app_user_user_profile" >
+      <column name="user_id" type="bigint">
+        <constraints primaryKey="true" nullable="false" references="app_user(id)" foreignKeyName="fk_app_user" />
+      </column>
+      <column name="user_profile_id" type="bigint">
+        <constraints primaryKey="true" nullable="false" references="user_profile(id)" foreignKeyName="fk_user_profile" />
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>

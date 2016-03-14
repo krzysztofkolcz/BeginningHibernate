@@ -10,13 +10,12 @@ oraz spring security:
 http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
 Wykorzystane również liquibase
 
-
-==websystique002:==
+==websystiqueSecurity002LoginForm==
 http://maven.apache.org/archetype/maven-archetype-plugin/usage.html
 http://websystique.com/spring-security/spring-security-4-custom-login-form-annotation-example/
 
 
-==websystique003:==
+==websystiqueSecurity004ViewLayer==
 Zabezpieczenie fragmentów widoku
 http://websystique.com/spring-security/spring-security-4-secure-view-layer-using-taglibs/
 
