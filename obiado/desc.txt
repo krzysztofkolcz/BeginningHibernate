@@ -1,0 +1,23 @@
+Spring Security:
+websystique spring security
+chyba te:
+http://websystique.com/spring-security/spring-security-4-hibernate-annotation-example/
+http://websystique.com/spring-security/spring-security-4-custom-login-form-annotation-example/
+
+Formularz rejestracji:
+http://www.baeldung.com/registration-with-spring-mvc-and-spring-security
+
+liquibase:
+/home/kkolcz/app/liquibase
+liquibase.properties (jak liquibase.properties.example)
+java -jar liquibase.jar migrate
+
+
+Przykład annotacji:
+http://www.mkyong.com/java/java-custom-annotations-example/
+
+
+Przypisanie użytkownikowi roli - hibernate many-to-many:
+http://websystique.com/springmvc/springmvc-hibernate-many-to-many-example-annotation-using-join-table/
+
+Niedokończone!!!

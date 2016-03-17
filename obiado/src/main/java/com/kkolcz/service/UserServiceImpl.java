@@ -12,14 +12,39 @@ import com.kkolcz.model.User;
 public class UserServiceImpl implements UserService{
  
     @Autowired
-    private UserDao dao;
+    private UserDao userDao;
  
     public User findById(int id) {
-        return dao.findById(id);
+        return userDao.findById(id);
     }
  
     public User findBySso(String sso) {
-        return dao.findBySSO(sso);
+        return userDao.findBySSO(sso);
+    }
+
+    @Transactional
+    @Override
+    public User registerNewUserAccount(UserCommand userCommand) throws EmailExistsException {
+        if (emailExist(userCommand.getEmail())) {  
+            throw new EmailExistsException("There is an account with that email adress: " + userCommand.getEmail());
+        }
+        User user = new User();    
+        user.setFirstName(userCommand.getFirstName());
+        user.setLastName(userCommand.getLastName());
+        user.setPassword(userCommand.getPassword());
+        user.setEmail(userCommand.getEmail());
+        HashSet<UserProfile> userProfiles = new HasSet<UserProfile>();
+        userProfiles.add();
+        setUserProfiles(Set<UserProfile> userProfiles)
+        return userDao.save(user); 
+    }
+
+    private boolean emailExist(String email) {
+        User user = userDao.findByEmail(email);
+        if (user != null) {
+            return true;
+        }
+        return false;
     }
  
 }

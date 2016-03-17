@@ -1,0 +1,6 @@
+driver:com.mysql.jdbc.Driver
+classpath:/home/kkolcz/.m2/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
+url:jdbc:mysql://localhost/obiado
+username:obiado 
+password:obiado
+changeLogFile=/home/kkolcz/IdeaProjects/BeginningHibernate/obiado/src/main/resources/liquibase/changelog.xml
