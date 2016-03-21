@@ -3,7 +3,7 @@ package com.kkolcz.dao;
 import java.util.List;
 import com.kkolcz.model.UserProfile;
  
-public interface UserDao {
+public interface UserProfileDao {
  
     UserProfile findById(int id);
     UserProfile findByType(String type);

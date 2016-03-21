@@ -1,7 +1,11 @@
 package com.kkolcz.dao;
+
+import java.util.List;
  
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
  
 import com.kkolcz.model.User;
@@ -17,16 +21,17 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         return user;
     }
  
+    /*
     public User findBySSO(String sso) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("ssoId", sso));
         User user = (User) crit.uniqueResult();
-        /* websystique - hibernate many-to-many */
         if(user!=null){
             Hibernate.initialize(user.getUserProfiles());
         }
         return user;
     }
+    */
 
     /* websystique - hibernate many-to-many */
    @SuppressWarnings("unchecked")
@@ -48,19 +53,29 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     public User findByEmail(String email) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("email", email));
-        return (User) crit.uniqueResult();
+        User user = (User) crit.uniqueResult();
+        if(user!=null){
+            Hibernate.initialize(user.getUserProfiles());
+        }
+        return user;
     }
 
     /* websystique - hibernate many-to-many */
-    public void save(User user) {
+    public void persistUser(User user) {
         persist(user);
+    }
+
+    public void saveUser(User user) {
+        save(user);
     }
  
     /* websystique - hibernate many-to-many */
+    /*
     public void deleteBySSO(String sso) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("ssoId", sso));
         User user = (User)crit.uniqueResult();
         delete(user);
     }
+    */
 }

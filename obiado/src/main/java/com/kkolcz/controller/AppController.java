@@ -2,6 +2,7 @@ package com.kkolcz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
  
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,11 +12,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
+
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.validation.BindingResult;
+
+import org.springframework.web.servlet.ModelAndView;
 import com.kkolcz.model.User;
+import com.kkolcz.command.UserCommand;
+import com.kkolcz.service.UserService;
+import com.kkolcz.service.UserProfileService;
+import com.kkolcz.exception.EmailExistsException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class AppController extends BaseController{
+
+    @Autowired UserService userService;
+    @Autowired UserProfileService userProfileService;
 
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
@@ -38,17 +55,18 @@ public class AppController extends BaseController{
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registerPage() {
+    public String registerPage(ModelMap model) {
         UserCommand user = new UserCommand();
-        model.addAttribute("user",user);
+        model.addAttribute("userCommand",user);
         return "register";
     }
 
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView register( 
-        @ModelAttribute("user") @Valid UserCommand userCommand, 
+        @ModelAttribute("userCommand") @Valid UserCommand userCommand, 
         BindingResult result, 
-        WebRequest request, 
-        Errors errors) {
+        WebRequest request) {
 
         User registered = new User();
         if (!result.hasErrors()) {

@@ -2,7 +2,7 @@ package com.kkolcz.service;
  
 import java.util.List;
  
-import com.websystique.springmvc.model.UserProfile;
+import com.kkolcz.model.UserProfile;
  
  
 public interface UserProfileService {

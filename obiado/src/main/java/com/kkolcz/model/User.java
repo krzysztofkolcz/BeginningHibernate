@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +22,6 @@ public class User {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
  
-    @Column(name="sso_id", unique=true, nullable=false)
-    private String ssoId;
-     
     @Column(name="password", nullable=false)
     private String password;
          
@@ -39,7 +37,7 @@ public class User {
     @Column(name="state", nullable=false)
     private String state=State.ACTIVE.getState();
  
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "app_user_user_profile", 
              joinColumns = { @JoinColumn(name = "user_id") }, 
              inverseJoinColumns = { @JoinColumn(name = "user_profile_id") })
@@ -53,13 +51,6 @@ public class User {
         this.id = id;
     }
  
-    public String getSsoId() {
-        return ssoId;
-    }
- 
-    public void setSsoId(String ssoId) {
-        this.ssoId = ssoId;
-    }
  
     public String getPassword() {
         return password;
@@ -114,7 +105,7 @@ public class User {
         final int prime = 31;
         int result = 1;
         result = prime * result + id;
-        result = prime * result + ((ssoId == null) ? 0 : ssoId.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
         return result;
     }
  
@@ -129,17 +120,17 @@ public class User {
         User other = (User) obj;
         if (id != other.id)
             return false;
-        if (ssoId == null) {
-            if (other.ssoId != null)
+        if (email == null) {
+            if (other.email != null)
                 return false;
-        } else if (!ssoId.equals(other.ssoId))
+        } else if (!email.equals(other.email))
             return false;
         return true;
     }
  
     @Override
     public String toString() {
-        return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+        return "User [id=" + id + ", password=" + password
                 + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles +"]";
     }

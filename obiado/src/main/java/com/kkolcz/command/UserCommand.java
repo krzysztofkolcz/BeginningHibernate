@@ -2,9 +2,11 @@ package com.kkolcz.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import com.kkolcz.annotation.PasswordMatches;
+import com.kkolcz.annotation.ValidEmail;
 
 @PasswordMatches 
-public class UserDto {
+public class UserCommand{
     @NotNull
     @NotEmpty
     private String firstName;
@@ -23,9 +25,6 @@ public class UserDto {
     @ValidEmail
     private String email;
 
-    @NotNull
-    @NotEmpty
-    private String userName;
 
     public String getFirstName() {
         return firstName;
@@ -45,5 +44,26 @@ public class UserDto {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

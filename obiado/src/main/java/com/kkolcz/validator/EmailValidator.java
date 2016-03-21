@@ -2,8 +2,12 @@ package com.kkolcz.validator;
 
 /* import javax.validation.*;  */
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.kkolcz.annotation.ValidEmail;
 
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {  
     private Pattern pattern;
