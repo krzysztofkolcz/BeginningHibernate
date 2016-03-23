@@ -34,6 +34,12 @@ public class AppController extends BaseController{
     @Autowired UserService userService;
     @Autowired UserProfileService userProfileService;
 
+    /* @Autowired */
+    /* public AppController(UserService userService, UserProfileService uerProfileService){ */
+    /*   this.userService = userService; */
+    /*   this.userProfileService = userProfileService; */
+    /* } */
+
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());

@@ -17,7 +17,7 @@ import javax.persistence.Table;
  
 @Entity
 @Table(name="app_user")
-public class User {
+public class User implements Model {
  
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(userCommand.getPassword());
         user.setEmail(userCommand.getEmail());
         HashSet<UserProfile> userProfiles = new HashSet<UserProfile>();
-        UserProfile userProfile =userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
+        UserProfile userProfile = userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
         userProfiles.add(userProfile);
         user.setUserProfiles(userProfiles);
         userDao.saveUser(user); 

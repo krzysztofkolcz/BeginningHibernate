@@ -20,4 +20,10 @@ http://www.mkyong.com/java/java-custom-annotations-example/
 Przypisanie użytkownikowi roli - hibernate many-to-many:
 http://websystique.com/springmvc/springmvc-hibernate-many-to-many-example-annotation-using-join-table/
 
-Niedokończone!!!
+Rejestracja działa.
+
+Testy:
+http://www.petrikainulainen.net/spring-mvc-test-tutorial/
+https://springtestdbunit.github.io/spring-test-dbunit/
+https://springtestdbunit.github.io/spring-test-dbunit/sample.html
+http://www.marcphilipp.de/blog/2012/03/13/database-tests-with-dbunit-part-1/
