@@ -10,5 +10,6 @@ public interface UserProfileDao {
     List<UserProfile> findAll();
     void persist(UserProfile profile);
     void save(UserProfile profile);
+    void removeAll();
      
 }

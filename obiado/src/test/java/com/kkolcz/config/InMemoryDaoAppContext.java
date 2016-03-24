@@ -57,6 +57,11 @@ public class InMemoryDaoAppContext extends WebMvcConfigurerAdapter{
       return new  AppController();
     }
 
+    @Bean 
+    public AdminController adminController(){
+      return new  AdminController();
+    }
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

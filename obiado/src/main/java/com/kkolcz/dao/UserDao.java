@@ -14,6 +14,7 @@ public interface UserDao {
     List<User> findAllUsers();
     void persistUser(User user);
     void saveUser(User user);
+    void removeAll();
     /* void deleteBySSO(String sso); */
      
 }

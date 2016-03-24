@@ -29,5 +29,9 @@ public class UserProfileInMemoryDao extends AbstractInMemoryDao<UserProfile> imp
     public void persist(UserProfile userProfile){
       super.save(userProfile);
     }
+
+    public void removeAll(){
+      dao.removeAll(dao);
+    }
      
 }

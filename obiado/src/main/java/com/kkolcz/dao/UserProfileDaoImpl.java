@@ -28,5 +28,9 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>impleme
         crit.addOrder(Order.asc("type"));
         return (List<UserProfile>)crit.list();
     }
+
+    public void removeAll(){
+    //TODO
+    }
      
 }

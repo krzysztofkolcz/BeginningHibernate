@@ -35,5 +35,6 @@ public abstract class AbstractInMemoryDao<T extends Model> {
     protected Criteria createEntityCriteria(){
       return null;
     }
+
  
 }

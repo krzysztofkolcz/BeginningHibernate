@@ -69,15 +69,18 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {InMemoryDaoAppContext.class})
 @WebAppConfiguration
-public class InMemoryDaoControllerTest {
+public class AdminControllerTest {
 
     @Autowired UserDao userDao;
     @Autowired UserProfileDao userProfileDao;
@@ -99,86 +102,58 @@ public class InMemoryDaoControllerTest {
     } 
 
     @Before
-    public void setUpUserProfile() {
-      System.out.println("=======================================");
-      System.out.println("list size:");
-      System.out.println(userDao.findAllUsers().size());
-      System.out.println("=======================================");
+    public void setUpInMemoryData() {
       UserProfile userProfileReg = new UserProfile();
       userProfileReg.setType(UserProfileType.REGISTERED.getUserProfileType());
       userProfileDao.save(userProfileReg);
       UserProfile userProfileAdm = new UserProfile();
       userProfileAdm.setType(UserProfileType.ADMIN.getUserProfileType());
       userProfileDao.save(userProfileAdm);
+
+      String firstName = "Marian";
+      String lastName = "Zenoniusz";
+      String email = "marian.zenoniusz@gmail.com";
+      String password = "Power123";
+      User user = new User();
+      user.setFirstName(firstName);
+      user.setLastName(lastName);
+      user.setEmail(email);
+      user.setPassword(password);
+
+      HashSet<UserProfile> userProfiles = new HashSet<UserProfile>();
+      userProfiles.add(userProfileReg);
+      userProfiles.add(userProfileAdm);
+      user.setUserProfiles(userProfiles);
+
+      userDao.saveUser(user);
     } 
 
-    /* private MockHttpServletRequestBuilder postRegisterForm (String firstName, String lastName, String email, String password, String matchingPassword){ */
-    private ResultActions postRegisterForm (String firstName, String lastName, String email, String password, String matchingPassword) throws Exception{
-      /* return mockMvc.post(CONTROLLER_URL)  */
-            // User is logged in
-            /* .principal(CURRENT_USER)  */
-        return mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param(FIRST_NAME, firstName)
-                .param(LAST_NAME, lastName)
-                .param(EMAIL, email)
-                .param(PASSWORD, password)
-                .param(MATCHING_PASSWORD, password)
-        );
+    @After
+    public void clearInMemoryData(){
+      userDao.removeAll();
+      userProfileDao.removeAll();
     }
 
 
+    @Test
+    public void adminUserListPageTest() throws Exception{
+      System.out.println("++++++++++++++++++++++++++++++++=");
+      System.out.println(AdminController.VIEW_USER_LIST);
+      System.out.println("++++++++++++++++++++++++++++++++=");
 
-    @Test 
-    public void testAppControllerRegistrationPost() throws Exception{
-        String firstName = "Marian";
-        String lastName = "Zenoniusz";
-        String email = "marian.zenoniusz@gmail.com";
-        String password = "Power123";
-
-        /* mockMvc.perform(post("/register") */
-        /*         .contentType(MediaType.APPLICATION_FORM_URLENCODED) */
-        /*         .param(FIRST_NAME, firstName) */
-        /*         .param(LAST_NAME, lastName) */
-        /*         .param(EMAIL, email) */
-        /*         .param(PASSWORD, password) */
-        /*         .param(MATCHING_PASSWORD, password) */
-        /* ) */
-        postRegisterForm(firstName,lastName,email,password,password)
-                .andExpect(view().name(AppController.VIEW_SUCCESS_REGISTER));
-
-        User user = userDao.findByEmail("marian.zenoniusz@gmail.com");
-        assertThat(user.getFirstName(), is(equalTo(firstName)));
-        assertThat(user.getLastName(), is(equalTo(lastName)));
-        assertThat(user.getEmail(), is(equalTo(email)));
-        assertThat(user.getPassword(), is(equalTo(password)));
-        UserProfile userProfileReg = userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
-        UserProfile userProfileAdm = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
-        assertThat(user.getUserProfiles(), contains(userProfileReg));
-        assertThat(user.getUserProfiles(), not(contains(userProfileAdm)));
-
+      mockMvc.perform(get("/admin/userList"))
+      .andExpect(view().name(AdminController.VIEW_USER_LIST))
+      .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp"))
+      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(1)))
+      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasItem(
+                              allOf(
+                                      hasProperty(FIRST_NAME, is("Marian")),
+                                      hasProperty(LAST_NAME, is("Zenoniusz")),
+                                      hasProperty(EMAIL, is("marian.zenoniusz@gmail.com"))
+                              )
+                      )));
     }
 
-    @Test 
-    public void testAppControllerRegistrationPost_EmptyFirstName() throws Exception{
-        String firstName = "";
-        String lastName = "Zenoniusz";
-        String email = "marian.zenoniusz@gmail.com";
-        String password = "Power123";
-        /* mockMvc.perform(post("/register") */
-        /*         .contentType(MediaType.APPLICATION_FORM_URLENCODED) */
-        /*         .param(FIRST_NAME, firstName) */
-        /*         .param(LAST_NAME, lastName) */
-        /*         .param(EMAIL, email) */
-        /*         .param(PASSWORD, password) */
-        /*         .param(MATCHING_PASSWORD, password) */
-        /* ) */
-        postRegisterForm(firstName,lastName,email,password,password)
-                .andExpect(view().name(AppController.VIEW_REGISTER))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/views/register.jsp"))
-                .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"firstName" ))
-                .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", isEmptyOrNullString()) ));
-    }
+
 
 }

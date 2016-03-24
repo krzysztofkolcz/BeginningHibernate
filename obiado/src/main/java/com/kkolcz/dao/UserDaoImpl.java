@@ -78,4 +78,8 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         delete(user);
     }
     */
+
+    public void removeAll(){
+      //TODO
+    }
 }

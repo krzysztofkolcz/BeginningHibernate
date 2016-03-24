@@ -33,4 +33,8 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
       this.save(user);
     }
 
+
+    public void removeAll(){
+      dao.removeAll(dao);
+    }
 }

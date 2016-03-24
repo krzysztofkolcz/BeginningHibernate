@@ -34,3 +34,5 @@ Zmieniam hibernate validator z 5.1.2 na 5.2.4.Final. To rozwiązało problem
 
 Walidacja pól formularzy:
 http://www.disasterarea.co.uk/blog/mockmvc-to-test-spring-mvc-form-validation/
+
+TODO - test dla zalogowanego administratora - mock
