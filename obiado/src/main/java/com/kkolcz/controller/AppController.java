@@ -40,6 +40,10 @@ public class AppController extends BaseController{
     /*   this.userProfileService = userProfileService; */
     /* } */
 
+    public static final String MODEL_ATTRIBUTE_USER_COMMAND = "userCommand";
+    public static final String VIEW_REGISTER = "register";
+    public static final String VIEW_SUCCESS_REGISTER = "successRegister";
+
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
@@ -63,8 +67,8 @@ public class AppController extends BaseController{
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerPage(ModelMap model) {
         UserCommand user = new UserCommand();
-        model.addAttribute("userCommand",user);
-        return "register";
+        model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,user);
+        return VIEW_REGISTER;
     }
 
 
@@ -82,10 +86,10 @@ public class AppController extends BaseController{
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            return new ModelAndView("registration", "user", userCommand);
+            return new ModelAndView(VIEW_REGISTER, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
         } 
         else {
-            return new ModelAndView("successRegister", "user", userCommand);
+            return new ModelAndView(VIEW_SUCCESS_REGISTER,MODEL_ATTRIBUTE_USER_COMMAND , userCommand);
         }
     }
 

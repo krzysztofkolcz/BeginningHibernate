@@ -27,3 +27,10 @@ http://www.petrikainulainen.net/spring-mvc-test-tutorial/
 https://springtestdbunit.github.io/spring-test-dbunit/
 https://springtestdbunit.github.io/spring-test-dbunit/sample.html
 http://www.marcphilipp.de/blog/2012/03/13/database-tests-with-dbunit-part-1/
+
+
+Testy nie uwzględniają walidacji, np. dodając puste pole firstName przechodzi rejestracja.
+Zmieniam hibernate validator z 5.1.2 na 5.2.4.Final. To rozwiązało problem
+
+Walidacja pól formularzy:
+http://www.disasterarea.co.uk/blog/mockmvc-to-test-spring-mvc-form-validation/

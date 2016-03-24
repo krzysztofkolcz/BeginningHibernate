@@ -59,6 +59,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -106,10 +107,11 @@ public class InMemoryDaoControllerTest {
     } 
 
 
+
     @Test 
     public void testAppControllerRegistrationPost() throws Exception{
         String firstName = "Marian";
-        String lastName = "Marian";
+        String lastName = "Zenoniusz";
         String email = "marian.zenoniusz@gmail.com";
         String password = "Power123";
 
@@ -120,21 +122,40 @@ public class InMemoryDaoControllerTest {
                 .param(EMAIL, email)
                 .param(PASSWORD, password)
                 .param(MATCHING_PASSWORD, password)
-                /* .sessionAttr(TodoController.MODEL_ATTRIBUTE_TODO, new TodoDTO()) */
         )
-                /* .andExpect(status().isMovedTemporarily()) */
-                .andExpect(view().name("successRegister"));
-                /* .andExpect(model().attribute(AppController.FIRST_NAME, is("Marian"))); */
-                /* .andExpect(model().attribute(TodoController.PARAMETER_TODO_ID, is("3"))) */
-                /* .andExpect(flash().attribute(TodoController.FLASH_MESSAGE_KEY_FEEDBACK, is("Todo entry: title was added."))); */
+                .andExpect(view().name(AppController.VIEW_SUCCESS_REGISTER));
+
         User user = userDao.findByEmail("marian.zenoniusz@gmail.com");
         assertThat(user.getFirstName(), is(equalTo(firstName)));
         assertThat(user.getLastName(), is(equalTo(lastName)));
         assertThat(user.getEmail(), is(equalTo(email)));
         assertThat(user.getPassword(), is(equalTo(password)));
         UserProfile userProfileReg = userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
+        UserProfile userProfileAdm = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
         assertThat(user.getUserProfiles(), contains(userProfileReg));
+        assertThat(user.getUserProfiles(), not(contains(userProfileAdm)));
 
+    }
+
+    @Test 
+    public void testAppControllerRegistrationPost_EmptyFirstName() throws Exception{
+        String firstName = "";
+        String lastName = "Zenoniusz";
+        String email = "marian.zenoniusz@gmail.com";
+        String password = "Power123";
+        mockMvc.perform(post("/register")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(FIRST_NAME, firstName)
+                .param(LAST_NAME, lastName)
+                .param(EMAIL, email)
+                .param(PASSWORD, password)
+                .param(MATCHING_PASSWORD, password)
+        )
+                .andExpect(view().name(AppController.VIEW_REGISTER))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/views/register.jsp"))
+                .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"firstName" ))
+                .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", isEmptyOrNullString()) ));
     }
 
 }
