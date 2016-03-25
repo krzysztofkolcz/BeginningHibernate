@@ -36,3 +36,28 @@ Walidacja pól formularzy:
 http://www.disasterarea.co.uk/blog/mockmvc-to-test-spring-mvc-form-validation/
 
 TODO - test dla zalogowanego administratora - mock
+
+TODO - dokończyć setupowanie dbunita:
+http://www.marcphilipp.de/blog/2012/03/13/database-tests-with-dbunit-part-1/
+http://www.petrikainulainen.net/programming/spring-framework/integration-testing-of-spring-mvc-applications-controllers/
+http://springtestdbunit.github.io/spring-test-dbunit/
+http://www.mkyong.com/spring/spring-embedded-database-examples/
+https://coderphil.wordpress.com/2012/04/23/database-testing-using-dbunit-spring-and-annotations/
+http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/jdbc.html#jdbc-embedded-database-support
+http://stackoverflow.com/questions/2012292/spring-configuration-for-embedded-h2-database-for-tests
+
+Problem z session factory.
+http://www.inspire-software.com/en/index/view/articles-design-and-impl-dbunit-hibernate-integration-testing.html
+
+Run single test - https://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html
+
+Found interface org.springframework.test.context.TestContext, but class was expected
+http://stackoverflow.com/questions/21016157/spring-4-found-interface-org-springframework-test-context-testcontext-but-cla
+zmiana wersji na: 
+  <artifactId>spring-test-dbunit</artifactId>
+  <version>1.2.1</version>
+
+org.hibernate.exception.SQLGrammarException: could not prepare statement
+
+Prawdopodobnie niezsetupowana baza danych
+http://stackoverflow.com/questions/9329283/how-to-initialize-in-memory-hsqldb-using-script-via-spring

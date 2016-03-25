@@ -23,7 +23,7 @@
       <joda-time.version>2.3</joda-time.version>
       <!-- <testng.version>6.9.4</testng.version> -->
       <mockito.version>1.10.19</mockito.version>
-      <h2.version>1.4.187</h2.version>
+      <!-- <h2.version>1.4.187</h2.version> -->
       <dbunit.version>2.2</dbunit.version>
       <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
       <mysql.version>5.1.31</mysql.version>
@@ -69,21 +69,58 @@
       <!--   <version>${testng.version}</version> -->
       <!--   <scope>test</scope> -->
       <!-- </dependency> -->
+
+
+      <!--http://www.petrikainulainen.net/programming/spring-framework/integration-testing-of-spring-mvc-applications-controllers -->
+      <dependency>
+          <groupId>com.github.springtestdbunit</groupId>
+          <artifactId>spring-test-dbunit</artifactId>
+          <version>1.2.1</version>
+          <scope>test</scope>
+      </dependency>
+      <!-- <dependency> -->
+      <!--     <groupId>org.springframework</groupId> -->
+      <!--     <artifactId>spring-test-mvc</artifactId> -->
+      <!--     <version>1.0.0.M2</version> -->
+      <!--     <scope>test</scope> -->
+      <!--     <exclusions> -->
+      <!--         <exclusion> -->
+      <!--             <artifactId>hamcrest-all</artifactId> -->
+      <!--             <groupId>org.hamcrest</groupId> -->
+      <!--         </exclusion> -->
+      <!--     </exclusions> -->
+      <!-- </dependency> -->
+
+
+
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>1.9.5</version>
       </dependency>
-      <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>${h2.version}</version>
-        <scope>test</scope>
-      </dependency>
+      <!-- <dependency> -->
+      <!--   <groupId>com.h2database</groupId> -->
+      <!--   <artifactId>h2</artifactId> -->
+      <!--   <version>${h2.version}</version> -->
+      <!--   <scope>test</scope> -->
+      <!-- </dependency> -->
       <dependency>
         <groupId>dbunit</groupId>
         <artifactId>dbunit</artifactId>
         <version>${dbunit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.5.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>2.0.0</version>
         <scope>test</scope>
       </dependency>
 
