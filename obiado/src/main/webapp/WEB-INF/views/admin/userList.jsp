@@ -24,6 +24,8 @@
                   <th>Last Name</th> 
                   <th>Email</th> 
                   <th>Roles</th> 
+                  <th width="100"></th> <!-- Edit -->
+                  <th width="100"></th> <!-- Delete -->
                 </tr> 
               </thead> 
               <tbody> 
@@ -45,6 +47,12 @@
                       </c:forEach>
                       </ul>
                     </td> 
+                    <td>
+                        <a class="btn btn-default" href="/admin/edit-user-${user.id}" role="button">Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="/admin/delete-user-${user.id}" role="button">Delete</a>
+                    </td>
                   </tr> 
                   </c:forEach>
               </c:if>

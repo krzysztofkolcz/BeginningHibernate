@@ -79,12 +79,29 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-    private boolean emailExist(String email) {
+    public boolean emailExist(String email) {
         User user = userDao.findByEmail(email);
         if (user != null) {
             return true;
         }
         return false;
+    }
+
+    /* for administrator - user can have many profiles */
+    @Transactional
+    @Override
+    public User updateUser(UserCommand userCommand) throws EmailExistsException {
+        if (emailExist(userCommand.getEmail())) {  
+            throw new EmailExistsException("There is an account with that email adress: " + userCommand.getEmail());
+        }
+        User user = userDao.findById(userCommand.getId());    
+        user.setFirstName(userCommand.getFirstName());
+        user.setLastName(userCommand.getLastName());
+        user.setPassword(userCommand.getPassword());
+        user.setEmail(userCommand.getEmail());
+        user.setUserProfiles(userCommand.getUserProfiles());
+        userDao.saveUser(user); 
+        return user;
     }
  
 }

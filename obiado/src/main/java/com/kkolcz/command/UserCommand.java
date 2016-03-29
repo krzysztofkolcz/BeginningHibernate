@@ -6,9 +6,13 @@ import javax.validation.constraints.NotNull;
 import com.kkolcz.annotation.PasswordMatches;
 import com.kkolcz.annotation.ValidEmail;
 import com.kkolcz.model.UserProfile;
+import com.kkolcz.model.User;
 
 @PasswordMatches 
 public class UserCommand{
+
+    private int id;
+
     @NotNull
     @NotEmpty
     private String firstName;
@@ -29,6 +33,18 @@ public class UserCommand{
 
     @NotNull
     private Set<UserProfile> userProfiles; 
+
+    public UserCommand(){
+    }
+
+    public UserCommand(User user){
+      this.id = user.getId();
+      this.firstName = user.getFirstName();
+      this.lastName = user.getLastName();
+      this.password = user.getPassword();
+      this.email = user.getEmail();
+      this.userProfiles = user.getUserProfiles(); 
+    }
 
 
     public String getFirstName() {
@@ -81,4 +97,12 @@ public class UserCommand{
         this.userProfiles = userProfiles;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

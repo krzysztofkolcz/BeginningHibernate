@@ -45,7 +45,7 @@ public class AppController extends BaseController{
     public static final String VIEW_REGISTER = "register";
     public static final String VIEW_SUCCESS_REGISTER = "successRegister";
 
-    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+    @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
         return "accessDenied";

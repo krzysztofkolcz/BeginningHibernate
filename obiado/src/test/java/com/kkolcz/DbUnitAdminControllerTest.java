@@ -114,7 +114,7 @@ public class DbUnitAdminControllerTest {
       System.out.println(AdminController.VIEW_USER_LIST);
       System.out.println("++++++++++++++++++++++++++++++++=");
 
-      mockMvc.perform(get("/admin/userList"))
+      mockMvc.perform(get("/admin/user-list"))
       .andExpect(view().name(AdminController.VIEW_USER_LIST))
       .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp"))
       .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(6)))
