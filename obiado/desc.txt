@@ -61,3 +61,6 @@ org.hibernate.exception.SQLGrammarException: could not prepare statement
 
 Prawdopodobnie niezsetupowana baza danych
 http://stackoverflow.com/questions/9329283/how-to-initialize-in-memory-hsqldb-using-script-via-spring
+
+Do przerobienia:
+https://tillias.wordpress.com/2012/11/10/unit-testing-and-integration-testing-using-junit-liquibase-hsqldb-hibernate-maven-and-spring-framework/

@@ -1,9 +1,11 @@
 package com.kkolcz.command;
 
+import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.kkolcz.annotation.PasswordMatches;
 import com.kkolcz.annotation.ValidEmail;
+import com.kkolcz.model.UserProfile;
 
 @PasswordMatches 
 public class UserCommand{
@@ -24,6 +26,9 @@ public class UserCommand{
     @NotEmpty
     @ValidEmail
     private String email;
+
+    @NotNull
+    private Set<UserProfile> userProfiles; 
 
 
     public String getFirstName() {
@@ -66,4 +71,14 @@ public class UserCommand{
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public Set<UserProfile> getUserProfiles() {
+        return userProfiles;
+    }
+ 
+    public void setUserProfiles(Set<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
+    }
+
 }

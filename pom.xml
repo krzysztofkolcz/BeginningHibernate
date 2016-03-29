@@ -24,7 +24,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <testng.version>6.8.7</testng.version>
+        <testng.version>6.9.4</testng.version>
         <hibernate-core.version>4.2.11.Final</hibernate-core.version>
         <hibernate-validator.version>5.1.0.Alpha1</hibernate-validator.version>
         <hsqldb.version>2.3.1</hsqldb.version>

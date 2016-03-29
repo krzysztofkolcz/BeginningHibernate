@@ -41,6 +41,7 @@ public class AppController extends BaseController{
     /* } */
 
     public static final String MODEL_ATTRIBUTE_USER_COMMAND = "userCommand";
+    public static final String MODEL_ATTRIBUTE_ADMIN = "admin";
     public static final String VIEW_REGISTER = "register";
     public static final String VIEW_SUCCESS_REGISTER = "successRegister";
 
@@ -68,6 +69,7 @@ public class AppController extends BaseController{
     public String registerPage(ModelMap model) {
         UserCommand user = new UserCommand();
         model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,user);
+        model.addAttribute(MODEL_ATTRIBUTE_ADMIN,false);
         return VIEW_REGISTER;
     }
 

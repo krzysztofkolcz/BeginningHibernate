@@ -44,17 +44,20 @@ import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.UserProfileType;
-import com.kkolcz.config.InMemoryDaoAppContext;
+import com.kkolcz.config.DbUnitAppContext;
+import com.kkolcz.config.DbUnitHibernateConfig;
+import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
 import com.kkolcz.config.AppConfig;
 
 
-/* import com.github.springtestdbunit.DbUnitTestExecutionListener; */
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 /* import com.github.springtestdbunit.annotation.DatabaseSetup; */
 /* import com.github.springtestdbunit.annotation.ExpectedDatabase; */
 /* import com.github.springtestdbunit.assertion.DatabaseAssertionMode; */
 
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasItem;
@@ -69,15 +72,32 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
+
+
+import liquibase.Liquibase;
+import liquibase.resource.FileSystemResourceAccessor;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.integration.spring.SpringLiquibase;
+import liquibase.changelog.DatabaseChangeLog;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InMemoryDaoAppContext.class})
+@ContextConfiguration(classes = {DbUnitAppContext.class, DbUnitHibernateLiquibaseConfig.class})
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class })
 @WebAppConfiguration
-public class InMemoryDaoControllerTest {
+public class DbUnitLiquibaseAdminControllerTest {
 
     @Autowired UserDao userDao;
     @Autowired UserProfileDao userProfileDao;
@@ -98,80 +118,66 @@ public class InMemoryDaoControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     } 
 
+    /* http://www.liquibase.org/javadoc/liquibase/Liquibase.html */
     @Before
-    public void setUpUserProfile() {
-      System.out.println("=======================================");
-      System.out.println("list size:");
-      System.out.println(userDao.findAllUsers().size());
-      System.out.println("=======================================");
-      UserProfile userProfileReg = new UserProfile();
-      userProfileReg.setType(UserProfileType.REGISTERED.getUserProfileType());
-      userProfileDao.save(userProfileReg);
-      UserProfile userProfileAdm = new UserProfile();
-      userProfileAdm.setType(UserProfileType.ADMIN.getUserProfileType());
-      userProfileDao.save(userProfileAdm);
-    } 
+    public void setUpDatabase() throws Exception{
+      DataSource dataSource = (DataSource)webApplicationContext.getBean("dataSource");
+      FileSystemResourceAccessor fsra = new FileSystemResourceAccessor();
+      DatabaseChangeLog changelog = new DatabaseChangeLog("src/main/resources/liquibase/changelog.xml");
+      /* Liquibase lb = new Liquibase("src/main/resources/liquibase/changelog.xml", fsra, dataSource.getConnection()); */
+      /* lb.update(""); */
+      /* SpringLiquibase liquibase = new SpringLiquibase(dataSource,"src/main/resources/liquibase/changelog.xml","test"); */
+      /* SpringLiquibase liquibase = new SpringLiquibase(); */
+      /* liquibase.setChangeLog("src/main/resources/liquibase/changelog.xml"); */
+      /* liquibase.setDataSource(dataSource); */
+      /* liquibase.update(""); */
+    
+      /*
+      SpringLiquibase liquibase = new SpringLiquibase();
+      liquibase.setDataSource(dataSource);
+      liquibase.setChangeLog("src/main/resources/liquibase/changelog.xml");
+      liquibase.setContexts("test, development, production");
+      //nie działa performUpdate
+      liquibase.performUpdate(liquibase);
+      */
 
-    /* private MockHttpServletRequestBuilder postRegisterForm (String firstName, String lastName, String email, String password, String matchingPassword){ */
-    private ResultActions postRegisterForm (String firstName, String lastName, String email, String password, String matchingPassword) throws Exception{
-      /* return mockMvc.post(CONTROLLER_URL)  */
-            // User is logged in
-            /* .principal(CURRENT_USER)  */
-        return mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param(FIRST_NAME, firstName)
-                .param(LAST_NAME, lastName)
-                .param(EMAIL, email)
-                .param(PASSWORD, password)
-                .param(MATCHING_PASSWORD, password)
-        );
+      /*
+      Liquibase lb = new Liquibase(changelog, fsra, dataSource.getConnection());
+      lb.update("");
+     */
+
+      /* Liquibase lb = new Liquibase(); */
+    }
+
+    /* @After */
+    /* protected void tearDown() throws Exception */
+    /* { */
+    /*   Liquibase liquibase = new Liquibase("src/main/resources/res/cp1/db.clear.xml", new FileSystemFileOpener(), dataSource.getConnection()); */
+    /*   liquibase.update(""); */
+    /*   super.tearDown(); */
+    /* } */
+
+
+    @Test
+    public void adminUserListPageTest() throws Exception{
+      /* System.out.println("++++++++++++++++++++++++++++++++="); */
+      /* System.out.println(AdminController.VIEW_USER_LIST); */
+      /* System.out.println("++++++++++++++++++++++++++++++++="); */
+      
+
+      /* mockMvc.perform(get("/admin/userList")) */
+      /* .andExpect(view().name(AdminController.VIEW_USER_LIST)) */
+      /* .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp")) */
+      /* .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(2))) */
+      /* .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasItem( */
+      /*                         allOf( */
+      /*                                 hasProperty(FIRST_NAME, is("Marian")), */
+      /*                                 hasProperty(LAST_NAME, is("Zenoniusz")), */
+      /*                                 hasProperty(EMAIL, is("marian.zenoniusz@gmail.com")) */
+      /*                         ) */
+      /*                 ))); */
     }
 
 
-
-/*
-    @Test 
-    public void testAppControllerRegistrationPost() throws Exception{
-        String firstName = "Marian";
-        String lastName = "Zenoniusz";
-        String email = "marian.zenoniusz@gmail.com";
-        String password = "Power123";
-        postRegisterForm(firstName,lastName,email,password,password)
-                .andExpect(view().name(AppController.VIEW_SUCCESS_REGISTER));
-
-        User user = userDao.findByEmail("marian.zenoniusz@gmail.com");
-        assertThat(user.getFirstName(), is(equalTo(firstName)));
-        assertThat(user.getLastName(), is(equalTo(lastName)));
-        assertThat(user.getEmail(), is(equalTo(email)));
-        assertThat(user.getPassword(), is(equalTo(password)));
-        UserProfile userProfileReg = userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
-        UserProfile userProfileAdm = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
-        assertThat(user.getUserProfiles(), contains(userProfileReg));
-        assertThat(user.getUserProfiles(), not(contains(userProfileAdm)));
-
-    }
-*/
-
-    @Test 
-    public void testAppControllerRegistrationPost_EmptyFirstName() throws Exception{
-        String firstName = "";
-        String lastName = "Zenoniusz";
-        String email = "marian.zenoniusz@gmail.com";
-        String password = "Power123";
-        /* mockMvc.perform(post("/register") */
-        /*         .contentType(MediaType.APPLICATION_FORM_URLENCODED) */
-        /*         .param(FIRST_NAME, firstName) */
-        /*         .param(LAST_NAME, lastName) */
-        /*         .param(EMAIL, email) */
-        /*         .param(PASSWORD, password) */
-        /*         .param(MATCHING_PASSWORD, password) */
-        /* ) */
-        postRegisterForm(firstName,lastName,email,password,password)
-                .andExpect(view().name(AppController.VIEW_REGISTER))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/views/register.jsp"))
-                .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"firstName" ))
-                .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", isEmptyOrNullString()) ));
-    }
 
 }

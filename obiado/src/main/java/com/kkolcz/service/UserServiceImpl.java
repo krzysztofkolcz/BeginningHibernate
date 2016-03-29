@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService{
         return userDao.findAllUsers();
     }
 
+    /* for user registration - user has only REGISTERED profile */
     @Transactional
     @Override
     public User registerNewUserAccount(UserCommand userCommand) throws EmailExistsException {
@@ -55,6 +56,25 @@ public class UserServiceImpl implements UserService{
         UserProfile userProfile = userProfileDao.findByType(UserProfileType.REGISTERED.getUserProfileType());
         userProfiles.add(userProfile);
         user.setUserProfiles(userProfiles);
+        userDao.saveUser(user); 
+        return user;
+    }
+
+
+
+    /* for administrator - user can have many profiles */
+    @Transactional
+    @Override
+    public User addUser(UserCommand userCommand) throws EmailExistsException {
+        if (emailExist(userCommand.getEmail())) {  
+            throw new EmailExistsException("There is an account with that email adress: " + userCommand.getEmail());
+        }
+        User user = new User();    
+        user.setFirstName(userCommand.getFirstName());
+        user.setLastName(userCommand.getLastName());
+        user.setPassword(userCommand.getPassword());
+        user.setEmail(userCommand.getEmail());
+        user.setUserProfiles(userCommand.getUserProfiles());
         userDao.saveUser(user); 
         return user;
     }

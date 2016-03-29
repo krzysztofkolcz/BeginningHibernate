@@ -8,5 +8,7 @@
 <body>
     Dear <strong>${user}</strong>, Welcome to Admin Page.
     <a href="<c:url value="/logout" />">Logout</a>
+    <a href="<c:url value="/admin/addUser" />">Add User</a>
+    <a href="<c:url value="/admin/userList" />">User List</a>
 </body>
 </html>

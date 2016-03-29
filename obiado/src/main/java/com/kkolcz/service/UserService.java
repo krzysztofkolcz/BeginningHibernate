@@ -20,4 +20,5 @@ public interface UserService {
     /* http://www.baeldung.com/registration-with-spring-mvc-and-spring-security */
     User registerNewUserAccount(UserCommand userCommand) throws EmailExistsException;
      
+    User addUser(UserCommand userCommand) throws EmailExistsException ;
 }
