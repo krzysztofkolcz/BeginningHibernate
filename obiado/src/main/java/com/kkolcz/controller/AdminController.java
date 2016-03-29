@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.validation.BindingResult;
@@ -25,13 +26,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kkolcz.service.UserService;
 import com.kkolcz.service.UserServiceImpl;
+import com.kkolcz.service.UserProfileService;
+import com.kkolcz.service.UserProfileServiceImpl;
 import com.kkolcz.model.User;
+import com.kkolcz.model.UserProfile;
 import com.kkolcz.command.UserCommand;
 import com.kkolcz.exception.EmailExistsException;
 
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes("roles")
 public class AdminController extends BaseController{
 
   public static final String MODEL_ATTRIBUTE_USER_LIST = "userList";
@@ -42,6 +47,7 @@ public class AdminController extends BaseController{
   public static final String VIEW_SUCCESS_REGISTER = "successRegister";
 
   @Autowired private UserService userService;
+  @Autowired private UserProfileService userProfileService;
 
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -85,5 +91,13 @@ public class AdminController extends BaseController{
       else {
           return new ModelAndView(VIEW_SUCCESS_REGISTER,MODEL_ATTRIBUTE_USER_COMMAND , userCommand);
       }
+  }
+
+  /**
+   * This method will provide UserProfile list to views
+   */
+  @ModelAttribute("roles")
+  public List<UserProfile> initializeProfiles() {
+      return userProfileService.findAll();
   }
 }

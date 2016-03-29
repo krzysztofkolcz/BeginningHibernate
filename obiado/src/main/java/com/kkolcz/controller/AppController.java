@@ -105,4 +105,5 @@ public class AppController extends BaseController{
         }
         return registered;
     }
+
 }
