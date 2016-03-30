@@ -42,10 +42,11 @@ public class AdminController extends BaseController{
   public static final String MODEL_ATTRIBUTE_USER_LIST = "userList";
   public static final String MODEL_ATTRIBUTE_USER_COMMAND = "userCommand";
   public static final String MODEL_ATTRIBUTE_ADMIN = "admin";
+
+  public static final String VIEW_DASHBOARD= "admin/dashboard";
   public static final String VIEW_USER_LIST = "admin/userList";
   public static final String VIEW_REGISTER = "register";
   public static final String VIEW_SUCCESS_REGISTER = "successRegister";
-
   public static final String VIEW_USER_ADD= "admin/userEdit";
   public static final String VIEW_SUCCESS_USER_ADD= "admin/userEdit";
 
@@ -55,7 +56,7 @@ public class AdminController extends BaseController{
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String homePage(ModelMap model){
-    return "admin";
+    return VIEW_DASHBOARD;
   }
 
   @RequestMapping(value = "/user-list", method = RequestMethod.GET)
@@ -124,13 +125,14 @@ public class AdminController extends BaseController{
       @PathVariable String userId) {
 
       if(result.hasErrors()){
-        if(userService.emailExist(userCommand.getEmail())) {
-            result.rejectValue("email", "message.regError");
-        }
+        /* if(userService.emailExist(userCommand.getEmail())) { */
+        /*     result.rejectValue("email", "message.regError"); */
+        /* } */
         return VIEW_USER_ADD;
       }
 
       try {
+          userCommand.setId(Integer.parseInt(userId));
           userService.updateUser(userCommand);
       } catch (EmailExistsException e) {
           /* nie powinno wystąpić - powyżej sprawdzenie maila */

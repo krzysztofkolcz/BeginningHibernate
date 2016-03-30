@@ -48,10 +48,10 @@
                       </ul>
                     </td> 
                     <td>
-                        <a class="btn btn-default" href="/admin/edit-user-${user.id}" role="button">Edit</a>
+                        <a class="btn btn-default" href="<c:url value="/admin/edit-user-${user.id}" />" role="button">Edit</a>
                     </td>
                     <td>
-                        <a class="btn btn-default" href="/admin/delete-user-${user.id}" role="button">Delete</a>
+                        <a class="btn btn-default" href="<c:url value="/admin/delete-user-${user.id}" />" role="button">Delete</a>
                     </td>
                   </tr> 
                   </c:forEach>

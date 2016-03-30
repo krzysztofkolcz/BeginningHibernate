@@ -4,14 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page session="false"%>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Rejestracja</title>
-        <link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
-        <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
-    </head>
- 
+    <jsp:include page="common/header.jsp"/>
     <body>
         <div id="mainWrapper">
             <div class="registration-container">
@@ -61,6 +54,6 @@
                 </div>
             </div>
         </div>
- 
+    <jsp:include page="common/footer.jsp"/>
     </body>
 </html>
