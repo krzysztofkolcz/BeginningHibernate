@@ -882,3 +882,71 @@ mvn -e exec:java -Dexec.mainClass="com.websystique.springmvc.SpringRestTestClien
 Na podstawie:
 http://www.vineetmanohar.com/2009/11/3-ways-to-run-java-main-from-maven/
 Klasa może być zarówno w main jak i test
+
+
+
+TODO:
+com.fasterxml.jackson.annotation.JsonProperty;
+com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+keystores
+@Qualifier
+
+TODO Captcha:
+org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+org.springframework.util.LinkedMultiValueMap;
+
+TODO jsp custom functions
+
+TODO junit theories datapoints
+
+Collection/List stream filter map
+org.springframework.util.MultiValueMap;
+org.springframework.web.client.RestTemplate
+
+TODO Rabbitmq?:
+org.springframework.amqp.core.Queue;
+org.springframework.amqp.rabbit.core.RabbitAdmin;
+
+TODO Szyfrowanie oraz klucze (RSAHelper):
+java.io.IOException;
+java.security.InvalidKeyException;
+java.security.NoSuchAlgorithmException;
+java.security.Signature;
+java.security.SignatureException;
+java.security.interfaces.RSAPrivateKey;
+java.security.interfaces.RSAPublicKey;
+java.security.spec.InvalidKeySpecException;
+java.util.Arrays;
+javax.crypto.BadPaddingException;
+javax.crypto.Cipher;
+javax.crypto.IllegalBlockSizeException;
+javax.crypto.NoSuchPaddingException;
+org.apache.commons.codec.binary.Base64;
+org.apache.logging.log4j.LogManager;
+org.apache.logging.log4j.Logger;
+pl.ipakiet.commons.utils.CryptoUtils;
+
+
+Krycie testów:
+http://www.mkyong.com/qa/maven-cobertura-code-coverage-example/
+
+TODO:
+Testy @Mock, @InjectMocks, @Spy, 
+    public void setUpGeneral(){
+        userCreated = false;
+        userDao = new InMemoryUserDao();
+        MockitoAnnotations.initMocks(this);
+        Mockito.when(discountDao.getAllByKey((String) Mockito.anyObject())).thenReturn(discounts);
+        Mockito.mock(ApplicationContext.class);
+        Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        Mockito.when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(getOrCreateUser());
+        Mockito.when(request.getContextPath()).thenReturn("localhost:8080/panel");
+    }
+
+
+

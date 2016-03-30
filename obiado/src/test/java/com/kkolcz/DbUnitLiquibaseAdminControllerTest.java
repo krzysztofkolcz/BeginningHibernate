@@ -1,5 +1,7 @@
 package com.kkolcz;
 
+import liquibase.database.jvm.HsqlConnection;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /* import org.springframework.web.servlet.view.InternalResourceView; */
@@ -82,6 +84,7 @@ import java.util.HashSet;
 
 
 import liquibase.Liquibase;
+/* import liquibase.FileSystemFileOpener; *//* nie ma już, teraz jest FileSystemResourceAccessor */
 import liquibase.resource.FileSystemResourceAccessor;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.database.Database;
@@ -111,6 +114,8 @@ public class DbUnitLiquibaseAdminControllerTest {
     @Resource
     private WebApplicationContext webApplicationContext;
 
+    @Autowired ApplicationContext context;
+
     private MockMvc mockMvc;
 
     @Before
@@ -121,7 +126,7 @@ public class DbUnitLiquibaseAdminControllerTest {
     /* http://www.liquibase.org/javadoc/liquibase/Liquibase.html */
     @Before
     public void setUpDatabase() throws Exception{
-      DataSource dataSource = (DataSource)webApplicationContext.getBean("dataSource");
+      /* DataSource dataSource = (DataSource)webApplicationContext.getBean("dataSource"); */
       FileSystemResourceAccessor fsra = new FileSystemResourceAccessor();
       DatabaseChangeLog changelog = new DatabaseChangeLog("src/main/resources/liquibase/changelog.xml");
       /* Liquibase lb = new Liquibase("src/main/resources/liquibase/changelog.xml", fsra, dataSource.getConnection()); */
@@ -147,6 +152,19 @@ public class DbUnitLiquibaseAdminControllerTest {
      */
 
       /* Liquibase lb = new Liquibase(); */
+
+
+      DataSource dataSource = (DataSource)context.getBean("dataSource");
+        HsqlConnection hsqlConnection = new HsqlConnection(dataSource.getConnection());
+      //Liquibase liquibase = new Liquibase("src/main/resources/liquibase/changelog.xml", fsra, dataSource.getConnection());
+        Liquibase liquibase;
+        liquibase = new Liquibase("src/main/resources/liquibase/changelog.xml",
+                fsra,
+                hsqlConnection
+        );
+
+
+        liquibase.update("");
     }
 
     /* @After */
@@ -160,22 +178,22 @@ public class DbUnitLiquibaseAdminControllerTest {
 
     @Test
     public void adminUserListPageTest() throws Exception{
-      /* System.out.println("++++++++++++++++++++++++++++++++="); */
-      /* System.out.println(AdminController.VIEW_USER_LIST); */
-      /* System.out.println("++++++++++++++++++++++++++++++++="); */
-      
+      System.out.println("++++++++++++++++++++++++++++++++=");
+      System.out.println(AdminController.VIEW_USER_LIST);
+      System.out.println("++++++++++++++++++++++++++++++++=");
 
-      /* mockMvc.perform(get("/admin/userList")) */
-      /* .andExpect(view().name(AdminController.VIEW_USER_LIST)) */
-      /* .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp")) */
-      /* .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(2))) */
-      /* .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasItem( */
-      /*                         allOf( */
-      /*                                 hasProperty(FIRST_NAME, is("Marian")), */
-      /*                                 hasProperty(LAST_NAME, is("Zenoniusz")), */
-      /*                                 hasProperty(EMAIL, is("marian.zenoniusz@gmail.com")) */
-      /*                         ) */
-      /*                 ))); */
+
+      mockMvc.perform(get("/admin/user-list"))
+      .andExpect(view().name(AdminController.VIEW_USER_LIST))
+      .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp"))
+      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(2)))
+      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasItem(
+                              allOf(
+                                      hasProperty(FIRST_NAME, is("Jacek")),
+                                      hasProperty(LAST_NAME, is("Theys")),
+                                      hasProperty(EMAIL, is("jacek@xyz.com"))
+                              )
+                      )));
     }
 
 

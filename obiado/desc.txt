@@ -64,3 +64,18 @@ http://stackoverflow.com/questions/9329283/how-to-initialize-in-memory-hsqldb-us
 
 Do przerobienia:
 https://tillias.wordpress.com/2012/11/10/unit-testing-and-integration-testing-using-junit-liquibase-hsqldb-hibernate-maven-and-spring-framework/
+
+
+Liquibase test:
+Pobranie kontekstu:
+http://stackoverflow.com/questions/2425015/how-to-access-spring-context-in-junit-tests-annotated-with-runwith-and-context
+
+http://stackoverflow.com/questions/24219565/hsqldb-and-liquibase-table-already-exists-databasechangeloglock
+
+DataSource:
+https://docs.oracle.com/javase/tutorial/jdbc/basics/sqldatasources.html
+http://www.liquibase.org/javadoc/liquibase/database/DatabaseConnection.html
+http://www.liquibase.org/javadoc/liquibase/database/jvm/HsqlConnection.html
+
+Properties:
+http://www.baeldung.com/2012/02/06/properties-with-spring/

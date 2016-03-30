@@ -5,22 +5,20 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
   <changeSet id="inserts" author="kkolcz">
-    <insert tableName="user_profile" schemaName="obiado">
+    <insert tableName="user_profile"  >
         <column name="type" value="ADMIN"/>
     </insert>
-    <insert tableName="user_profile" schemaName="obiado">
+    <insert tableName="user_profile"  >
         <column name="type" value="REGISTERED"/>
     </insert>
-    <insert tableName="app_user" schemaName="obiado">
-      <column name="sso_id" value="kasia"/>
+    <insert tableName="app_user"  >
       <column name="password" value="Power123"/>
       <column name="first_name" value="Kasia"/>
       <column name="last_name" value="Watcher"/>
       <column name="email" value="kasia@xyz.com"/>
       <column name="state" value="Active"/>
     </insert>
-    <insert tableName="app_user" schemaName="obiado">
-      <column name="sso_id" value="jacek"/>
+    <insert tableName="app_user"  >
       <column name="password" value="Power123"/>
       <column name="first_name" value="Jacek"/>
       <column name="last_name" value="Theys"/>
@@ -30,12 +28,12 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <sql>
       INSERT INTO app_user_user_profile (user_id, user_profile_id)
       SELECT user.id, profile.id FROM app_user user, user_profile profile  
-      where user.sso_id='kasia' and profile.type='REGISTERED';
+      where user.email='kasia@xyz.com' and profile.type='REGISTERED';
     </sql>
     <sql>
       INSERT INTO app_user_user_profile (user_id, user_profile_id)
       SELECT user.id, profile.id FROM app_user user, user_profile profile
-      where user.sso_id='jacek' and profile.type='ADMIN';
+      where user.email='jacek@xyz.com' and profile.type='ADMIN';
     </sql>
   </changeSet>
 </databaseChangeLog>
