@@ -950,3 +950,20 @@ Testy @Mock, @InjectMocks, @Spy,
 
 
 
+== obiadoxml ==
+projekt z konfiguracją w xmlu w lokacji src/main/webapp/WEB-INF/config
+chce sprawdzić, czy można dodać katalog do ścieżki classpath w mavenie, oraz, czy możliwe jest trzymanie konfiguracji xmlowych w różnych lokalizacjacha, oraz jak je zaczytywać do testów
+
+mvn archetype:generate -DgroupId=com.kkolcz.obiadoxml -DartifactId=obiadoxml -Dpackage=com.kkolcz.obiadoxml -Dversion=1.0
+mvn archetype:generate -DgroupId=com.kkolcz.obiadoxml -DartifactId=obiadoxml -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -Dpackage=com.kkolcz.obiadoxml -Dversion=1.0
+mkdir test
+SpringInAction/chapter05_tmp01
+kopia pom.xml z obiado. Generalnie wszystkie potrzebne dependencies mavena.
+
+webapp web-inf classpath
+
+maven spring test resources
+http://stackoverflow.com/questions/10104372/testing-with-spring-and-maven-applicationcontext
+
+webapp web-inf spring configuration classpath
+http://forum.spring.io/forum/spring-projects/container/49585-how-to-get-contextconfiguration-using-web-inf-applicationcontext-xml
