@@ -967,3 +967,8 @@ http://stackoverflow.com/questions/10104372/testing-with-spring-and-maven-applic
 
 webapp web-inf spring configuration classpath
 http://forum.spring.io/forum/spring-projects/container/49585-how-to-get-contextconfiguration-using-web-inf-applicationcontext-xml
+
+http://stackoverflow.com/questions/14946298/spring-junit-load-application-context-for-tests
+http://stackoverflow.com/questions/2699181/unit-test-in-maven-requires-access-to-the-src-main-webapp-directory
+http://stackoverflow.com/questions/7613359/why-cant-i-access-src-test-resources-in-junit-test-run-with-maven
+https://spring.io/blog/2012/11/07/spring-framework-3-2-rc1-new-testing-features

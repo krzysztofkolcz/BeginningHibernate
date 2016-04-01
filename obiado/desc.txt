@@ -79,3 +79,8 @@ http://www.liquibase.org/javadoc/liquibase/database/jvm/HsqlConnection.html
 
 Properties:
 http://www.baeldung.com/2012/02/06/properties-with-spring/
+
+
+unit test - nie mogę się dostać do customer-panel-servlet.xml, aby zdefiniować w teście view resolver. Okazuje się, że jest to złe miejsce:
+http://stackoverflow.com/questions/4377699/spring-contextconfiguration-how-to-put-the-right-location-for-the-xml
+http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/resources.html#resources-app-ctx
