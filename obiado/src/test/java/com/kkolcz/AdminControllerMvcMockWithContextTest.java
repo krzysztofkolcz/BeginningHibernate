@@ -6,6 +6,7 @@ import java.net.URLClassLoader;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.context.annotation.Bean;
+import org.springframework.format.FormatterRegistry;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -59,6 +61,9 @@ import com.kkolcz.controller.*;
 import com.kkolcz.service.*;
 import com.kkolcz.model.*;
 
+import com.kkolcz.converter.*;
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
 @WebAppConfiguration
@@ -66,7 +71,7 @@ public class AdminControllerMvcMockWithContextTest{
 
 
     @org.springframework.context.annotation.Configuration
-    static class Configuration
+    static class Configuration extends WebMvcConfigurerAdapter
     {
         @Bean(name="adminController")
         public AdminController controller()
@@ -85,6 +90,16 @@ public class AdminControllerMvcMockWithContextTest{
         {
             return Mockito.mock(UserProfileService.class);
         }
+
+        @Bean
+        public RoleToUserProfileConverter roleToUserProfileConverter (){
+            return new RoleToUserProfileConverter(); 
+        }
+
+        @Override
+        public void addFormatters(FormatterRegistry registry) {
+            registry.addConverter(roleToUserProfileConverter());
+        }
     }
 
     @Resource private WebApplicationContext wac;
@@ -102,13 +117,14 @@ public class AdminControllerMvcMockWithContextTest{
         mockHttpSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
 
         Mockito.when(userService.findById(16)).thenReturn(createUser());
+        Mockito.when(userProfileService.findById(5)).thenReturn(createUserProfileAdmin());
+        Mockito.when(userProfileService.findById(6)).thenReturn(createUserProfileRegistered());
     } 
 
 
+    /*
     @Test
-    public void adminUserListPageTest() throws Exception{
-      /* User edit form */
-
+    public void adminUserEditPageTest() throws Exception{
       mockMvc.perform(get("/admin/edit-user-16"))
       .andExpect(view().name(AdminController.VIEW_USER_ADD))
       .andExpect(forwardedUrl(AdminController.VIEW_USER_ADD))
@@ -116,6 +132,15 @@ public class AdminControllerMvcMockWithContextTest{
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo("Def")) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("email", equalTo("def@wp.pl")) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("password", equalTo("Power123")) ));
+
+    }
+    */
+
+    @Test
+    public void adminUserEditPostValidTest() throws Exception{
+      System.out.println("============================");
+      System.out.println("adminUserEditPostValidTest");
+      System.out.println("============================");
 
       String eFirstName = "Stef";
       String eLastName = "K";
@@ -132,13 +157,28 @@ public class AdminControllerMvcMockWithContextTest{
       .param("email", eEmailName)
       .param("password", ePassword)
       .param("matchingPassword", eMatchingPassword)
-      .param("userProfiles", "5"))
+      .param("userProfiles", "5")
+      .param("userProfiles", "6"))
       .andExpect(view().name(AdminController.VIEW_USER_LIST))
       .andExpect(forwardedUrl(AdminController.VIEW_USER_LIST))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", equalTo(eFirstName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo(eLastName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("email", equalTo(eEmailName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("password", equalTo(ePassword)) ));
+    }
+
+    @Test
+    public void adminUserEditPostPasswordNotMatchingTest() throws Exception{
+      System.out.println("============================");
+      System.out.println("adminUserEditPostPasswordNotMatchingTest");
+      System.out.println("============================");
+
+      String eFirstName = "Stef";
+      String eLastName = "K";
+      String eEmailName = "stef.k@wp.pl";
+      String ePassword = "Rower123";
+      String eMatchingPassword = "Rower123";
+      String eNotMatchingPassword = "agoirehapoiasg";
       
       /* Innalid user edit form - password not match */
       mockMvc.perform(post("/admin/edit-user-16")
@@ -151,7 +191,8 @@ public class AdminControllerMvcMockWithContextTest{
       .param("userProfiles", "5"))
       .andExpect(view().name(AdminController.VIEW_USER_ADD))
       .andExpect(forwardedUrl(AdminController.VIEW_USER_ADD))
-      .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"password" ))
+      /* .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"password" )) */
+      .andExpect(model().hasErrors())
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", equalTo(eFirstName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo(eLastName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("email", equalTo(eEmailName)) ))
@@ -170,5 +211,21 @@ public class AdminControllerMvcMockWithContextTest{
       user.setLastName("Def");
       user.setEmail("def@wp.pl");
       return user;
+    }
+
+    public UserProfile createUserProfileAdmin(){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setId(5);
+        userProfile.setType(UserProfileType.ADMIN.getUserProfileType());
+        return userProfile;
+
+    }
+
+    public UserProfile createUserProfileRegistered(){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setId(6);
+        userProfile.setType(UserProfileType.REGISTERED.getUserProfileType());
+        return userProfile;
+
     }
 }

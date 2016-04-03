@@ -27,6 +27,7 @@ http://www.petrikainulainen.net/spring-mvc-test-tutorial/
 https://springtestdbunit.github.io/spring-test-dbunit/
 https://springtestdbunit.github.io/spring-test-dbunit/sample.html
 http://www.marcphilipp.de/blog/2012/03/13/database-tests-with-dbunit-part-1/
+https://www.luckyryan.com/2013/08/25/testing-spring-mvc-controllers/
 
 
 Testy nie uwzględniają walidacji, np. dodając puste pole firstName przechodzi rejestracja.
@@ -109,3 +110,12 @@ Dodaje log4j properties
 
 dokumentacja testów mockmvc:
 http://docs.spring.io/spring-security/site/docs/current/reference/html/test-mockmvc.html
+
+
+Display binding result errors:
+http://stackoverflow.com/questions/2751603/how-to-get-error-text-in-controller-from-bindingresult
+
+Wydaje mi się, że jest problem z przekonwertowaniem inta z selecta na UserProfile
+http://docs.spring.io/autorepo/docs/spring/3.2.x/spring-framework-reference/html/validation.html
+Ciekawa stronka z przykładami:
+http://www.programcreek.com/java-api-examples/index.php?api=org.springframework.test.web.servlet.MockMvc

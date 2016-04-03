@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,6 +56,7 @@ public class AdminController extends BaseController{
   @Autowired private UserService userService;
   @Autowired private UserProfileService userProfileService;
 
+  @Autowired private MessageSource messageSource; /* na potrzeby wypisania binding errors */
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String homePage(ModelMap model){
@@ -133,10 +135,40 @@ public class AdminController extends BaseController{
       System.out.println("============================");
 
       if(result.hasErrors()){
+        System.out.println("============================");
+        System.out.println("result.hasErrors()");
+        System.out.println("============================");
+        System.out.println("error list:");
         /* if(userService.emailExist(userCommand.getEmail())) { */
         /*     result.rejectValue("email", "message.regError"); */
         /* } */
         /* return VIEW_USER_ADD; */
+        for (Object object : result.getAllErrors()) {
+            /* if(object instanceof FieldError) { */
+            /*     FieldError fieldError = (FieldError) object; */
+            /*     String message = messageSource.getMessage(fieldError, null); */
+            /*     System.out.println(message); */
+            /* } */
+            /* else{ */
+            /*     System.out.println(object); */
+            /* } */
+           if(object instanceof FieldError) {
+                FieldError fieldError = (FieldError) object;
+
+                System.out.println(fieldError.getField());
+                System.out.println(fieldError.getCode());
+                System.out.println(fieldError);
+            }
+
+            if(object instanceof ObjectError) {
+                ObjectError objectError = (ObjectError) object;
+
+                System.out.println(objectError.getCode());
+            }
+        }
+
+        System.out.println("error list end");
+        System.out.println("============================");
         return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 
