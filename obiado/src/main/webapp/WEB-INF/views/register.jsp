@@ -17,32 +17,32 @@
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="firstName">First Name</label>
                                 <form:input class="form-control" id="firstName" path="firstName" name="firstName" value="" />
-                                <form:errors path="firstName" />
+                                <form:errors path="firstName" element="div"/>
                             </div>
 
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="lastName">Last Name</label>
                                 <form:input class="form-control" id="lastName" path="lastName" name="lastName" value="" />
-                                <form:errors path="lastName" />
+                                <form:errors path="lastName" element="div"/>
                             </div>
 
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="email">Email</label>
                                 <form:input class="form-control" id="email" path="email" name="email" value="" />
-                                <form:errors path="email" />
+                                <form:errors path="email" element="div"/>
                             </div>
 
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="password">Password</label>
                                 <form:input class="form-control" id="password" path="password" name="password" value="" />
-                                <form:errors path="password" />
+                                <form:errors path="password" element="div"/>
                             </div>
 
 
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="matchingPassword">Repeat password</label>
                                 <form:input class="form-control" id="matchingPassword" path="matchingPassword" name="matchingPassword" value="" />
-                                <form:errors path="matchingPassword" />
+                                <form:errors element="div" />
                             </div>
 
                             <div class="input-group input-sm">

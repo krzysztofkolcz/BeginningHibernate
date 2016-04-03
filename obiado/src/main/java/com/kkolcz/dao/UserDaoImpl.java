@@ -60,6 +60,15 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         return user;
     }
 
+    public List<User> findByEmailExpectId(String email,int id){
+        /* Criteria criteria = session.createCriteria(User.class); */
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("email", email));
+        crit.add(Restrictions.ne("id", id));
+        List<User> users = (List<User>)crit.list();
+        return users;
+    }
+
     /* websystique - hibernate many-to-many */
     public void persistUser(User user) {
         persist(user);

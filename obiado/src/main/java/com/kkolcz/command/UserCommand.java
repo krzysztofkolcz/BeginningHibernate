@@ -1,5 +1,6 @@
 package com.kkolcz.command;
 
+import java.io.Serializable;
 import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -7,9 +8,12 @@ import com.kkolcz.annotation.PasswordMatches;
 import com.kkolcz.annotation.ValidEmail;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.User;
+import com.kkolcz.validator.*;
 
 @PasswordMatches 
-public class UserCommand{
+public class UserCommand implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
 
@@ -24,6 +28,9 @@ public class UserCommand{
     @NotNull
     @NotEmpty
     private String password;
+
+    @NotNull
+    @NotEmpty
     private String matchingPassword;
 
     @NotNull

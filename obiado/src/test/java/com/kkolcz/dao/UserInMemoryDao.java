@@ -37,4 +37,14 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
     public void removeAll(){
       dao.removeAll(dao);
     }
+
+    public List<User> findByEmailExpectId(String email,int id){
+        List<User> found = new ArrayList<User>();
+        for(User u : dao){
+           if(u.getEmail()==email && u.getId()!=id){
+             found.add(u);
+           } 
+        }
+        return found;
+    }
 }

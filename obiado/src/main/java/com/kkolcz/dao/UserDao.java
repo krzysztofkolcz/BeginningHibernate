@@ -17,4 +17,5 @@ public interface UserDao {
     void removeAll();
     /* void deleteBySSO(String sso); */
      
+    public List<User> findByEmailExpectId(String email,int id);
 }

@@ -33,6 +33,8 @@ import com.kkolcz.model.UserProfile;
 import com.kkolcz.command.UserCommand;
 import com.kkolcz.exception.EmailExistsException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 @Controller
 @RequestMapping("/admin")
@@ -118,17 +120,24 @@ public class AdminController extends BaseController{
   }
 
   @RequestMapping(value = "/edit-user-{userId}", method = RequestMethod.POST)
-  public String editUser(
+  public ModelAndView editUser(
       @ModelAttribute("userCommand") @Valid UserCommand userCommand, 
       BindingResult result, 
       WebRequest request,
       @PathVariable String userId) {
 
+      System.out.println("============================");
+      System.out.println("editUser Controller POST");
+      System.out.println(userCommand.getPassword());
+      System.out.println(userCommand.getMatchingPassword());
+      System.out.println("============================");
+
       if(result.hasErrors()){
         /* if(userService.emailExist(userCommand.getEmail())) { */
         /*     result.rejectValue("email", "message.regError"); */
         /* } */
-        return VIEW_USER_ADD;
+        /* return VIEW_USER_ADD; */
+        return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 
       try {
@@ -137,9 +146,11 @@ public class AdminController extends BaseController{
       } catch (EmailExistsException e) {
           /* nie powinno wystąpić - powyżej sprawdzenie maila */
           result.rejectValue("email", "message.regError");
-          return VIEW_USER_ADD;
+          /* return VIEW_USER_ADD; */
+          return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 
-      return VIEW_USER_LIST;
+      /* return VIEW_USER_LIST; */
+      return new ModelAndView(VIEW_USER_LIST);
   }
 }
