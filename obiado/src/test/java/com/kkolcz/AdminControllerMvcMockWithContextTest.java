@@ -55,6 +55,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.kkolcz.controller.*;
@@ -63,6 +64,9 @@ import com.kkolcz.model.*;
 
 import com.kkolcz.converter.*;
 
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
@@ -96,10 +100,37 @@ public class AdminControllerMvcMockWithContextTest{
             return new RoleToUserProfileConverter(); 
         }
 
+        @Autowired RoleToUserProfileConverter roleToUserProfileConverter;
+
         @Override
         public void addFormatters(FormatterRegistry registry) {
-            registry.addConverter(roleToUserProfileConverter());
+            registry.addConverter(roleToUserProfileConverter);
         }
+
+
+        /* @Override */
+        /* public void addFormatters(FormatterRegistry registry) { */
+        /*     registry.addConverter(roleToUserProfileConverter()); */
+        /* } */
+
+
+        /* @Bean */
+        /* public ConversionService getConversionService() */
+        /* { */
+        /*     ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean(); */
+        /*     bean.setConverters( getConverters() ); */
+        /*     bean.afterPropertiesSet(); */
+        /*     ConversionService object = bean.getObject(); */
+        /*     return object; */
+        /* } */
+        /*  */
+        /* private Set<Converter<?, ?>> getConverters() */
+        /* { */
+        /*     Set<Converter<?, ?>> converters = new HashSet<Converter<?, ?>>(); */
+        /*     converters.add(roleToUserProfileConverter()); */
+        /*     return converters; */
+        /* } */
+
     }
 
     @Resource private WebApplicationContext wac;
@@ -149,8 +180,10 @@ public class AdminControllerMvcMockWithContextTest{
       String eMatchingPassword = "Rower123";
       String eNotMatchingPassword = "agoirehapoiasg";
 
+
       /* Valid user edit form */
       mockMvc.perform(post("/admin/edit-user-16")
+      .session(mockHttpSession)
       .contentType(MediaType.APPLICATION_FORM_URLENCODED)
       .param("firstName", eFirstName)
       .param("lastName", eLastName)
@@ -182,6 +215,7 @@ public class AdminControllerMvcMockWithContextTest{
       
       /* Innalid user edit form - password not match */
       mockMvc.perform(post("/admin/edit-user-16")
+      .session(mockHttpSession)
       .contentType(MediaType.APPLICATION_FORM_URLENCODED)
       .param("firstName", eFirstName)
       .param("lastName", eLastName)
