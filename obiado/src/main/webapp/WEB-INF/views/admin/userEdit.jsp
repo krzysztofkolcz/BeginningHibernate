@@ -21,48 +21,46 @@
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="firstName">First Name</label>
                         <form:input class="form-control" id="firstName" path="firstName" name="firstName" value="" />
-                        <form:errors path="firstName" />
+                        <form:errors path="firstName" element="div" />
                     </div>
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="lastName">Last Name</label>
                         <form:input class="form-control" id="lastName" path="lastName" name="lastName" value="" />
-                        <form:errors path="lastName" />
+                        <form:errors path="lastName" element="div" />
                     </div>
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="email">Email</label>
                         <form:input class="form-control" id="email" path="email" name="email" value="" />
-                        <form:errors path="email" />
+                        <form:errors path="email" element="div" />
                     </div>
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="password">Password</label>
                         <form:input class="form-control" id="password" path="password" name="password" value="" />
-                        <form:errors path="password" />
+                        <form:errors path="password" element="div" />
                     </div>
 
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="matchingPassword">Repeat password</label>
                         <form:input class="form-control" id="matchingPassword" path="matchingPassword" name="matchingPassword" value="" />
-                        <form:errors path="matchingPassword" />
+                        <form:errors path="matchingPassword" element="div" />
+                        <form:errors element="div" />
+                    </div>
+
+
+                    <div class="input-group input-sm">
+                        <label class="input-group-addon" for="userProfiles">Roles</label>
+                        <form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
+                        <div class="has-error">
+                            <form:errors path="userProfiles" class="help-inline"/>
+                        </div>
                     </div>
 
                     <div class="input-group input-sm">
                         <button type="submit" class="btn btn-default" >Register</button>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="col-md-3 control-lable" for="userProfiles">Roles</label>
-                            <div class="col-md-7">
-                                <form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
-                                <div class="has-error">
-                                    <form:errors path="userProfiles" class="help-inline"/>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </form:form>

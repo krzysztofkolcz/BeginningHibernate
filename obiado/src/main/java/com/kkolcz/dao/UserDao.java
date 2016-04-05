@@ -9,7 +9,6 @@ public interface UserDao {
      
     /* User findBySSO(String sso); */
 
-    User findByEmail(String email);
 
     List<User> findAllUsers();
     void persistUser(User user);
@@ -17,5 +16,6 @@ public interface UserDao {
     void removeAll();
     /* void deleteBySSO(String sso); */
      
+    public User findByEmail(String email) ;
     public List<User> findByEmailExpectId(String email,int id);
 }

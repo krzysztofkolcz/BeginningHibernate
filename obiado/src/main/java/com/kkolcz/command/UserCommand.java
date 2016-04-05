@@ -49,6 +49,7 @@ public class UserCommand implements Serializable{
       this.firstName = user.getFirstName();
       this.lastName = user.getLastName();
       this.password = user.getPassword();
+      this.matchingPassword = user.getPassword();
       this.email = user.getEmail();
       this.userProfiles = user.getUserProfiles(); 
     }

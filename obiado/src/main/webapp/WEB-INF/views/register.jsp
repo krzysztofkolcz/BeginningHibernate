@@ -38,7 +38,6 @@
                                 <form:errors path="password" element="div"/>
                             </div>
 
-
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="matchingPassword">Repeat password</label>
                                 <form:input class="form-control" id="matchingPassword" path="matchingPassword" name="matchingPassword" value="" />

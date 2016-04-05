@@ -37,10 +37,17 @@ import com.kkolcz.exception.EmailExistsException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("/admin")
 @SessionAttributes("roles")
 public class AdminController extends BaseController{
+
+
+
+  private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AdminController.class);
 
   public static final String MODEL_ATTRIBUTE_USER_LIST = "userList";
   public static final String MODEL_ATTRIBUTE_USER_COMMAND = "userCommand";
@@ -134,11 +141,23 @@ public class AdminController extends BaseController{
       System.out.println(userCommand.getMatchingPassword());
       System.out.println("============================");
 
+
+      logger.info("============================");
+      logger.info("editUser Controller POST");
+      logger.info(userCommand.getPassword());
+      logger.info(userCommand.getMatchingPassword());
+      logger.info("============================");
+
       if(result.hasErrors()){
         System.out.println("============================");
         System.out.println("result.hasErrors()");
         System.out.println("============================");
         System.out.println("error list:");
+
+        logger.info("============================");
+        logger.info("result.hasErrors()");
+        logger.info("============================");
+        logger.info("error list:");
         /* if(userService.emailExist(userCommand.getEmail())) { */
         /*     result.rejectValue("email", "message.regError"); */
         /* } */
@@ -158,17 +177,25 @@ public class AdminController extends BaseController{
                 System.out.println(fieldError.getField());
                 System.out.println(fieldError.getCode());
                 System.out.println(fieldError);
+
+                logger.info(fieldError.getField());
+                logger.info(fieldError.getCode());
+                logger.info(fieldError.toString());
             }
 
             if(object instanceof ObjectError) {
                 ObjectError objectError = (ObjectError) object;
 
                 System.out.println(objectError.getCode());
+                logger.info(objectError.getCode());
             }
         }
 
         System.out.println("error list end");
         System.out.println("============================");
+
+        logger.info("error list end");
+        logger.info("============================");
         return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 

@@ -56,6 +56,8 @@ import org.junit.runner.RunWith;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.kkolcz.controller.*;
@@ -127,9 +129,12 @@ public class AdminControllerMvcMockWithContextTest{
         mockHttpSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
 
         Mockito.when(userService.findById(16)).thenReturn(createUser());
+        Mockito.when(userService.emailExistExceptId("email.exists@error.pl",16)).thenReturn(true);/* email exists error */
         Mockito.when(userProfileService.findById(5)).thenReturn(createUserProfileAdmin());
         Mockito.when(userProfileService.findById(6)).thenReturn(createUserProfileRegistered());
     } 
+
+
 
 
     /*
@@ -210,11 +215,36 @@ public class AdminControllerMvcMockWithContextTest{
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo(eLastName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("email", equalTo(eEmailName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("password", equalTo(ePassword)) ));
+    }
 
-      /* TODO - not matching passwords */
-      /* TODO - email existing */
+    @Test
+    public void adminUserEditPostEmailExistsErrorTest() throws Exception{
+      System.out.println("============================");
+      System.out.println("adminUserEditPostEmailExistsErrorTest");
+      System.out.println("============================");
 
-
+      String eFirstName = "Email";
+      String eLastName = "Exists";
+      String eEmailName = "email.exists@error.pl";
+      String ePassword = "Rower123";
+      String eMatchingPassword = "Rower123";
+      
+      mockMvc.perform(post("/admin/edit-user-16")
+      .session(mockHttpSession)
+      .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+      .param("firstName", eFirstName)
+      .param("lastName", eLastName)
+      .param("email", eEmailName)
+      .param("password", ePassword)
+      .param("matchingPassword", eMatchingPassword)
+      .param("userProfiles", "5"))
+      .andExpect(view().name(AdminController.VIEW_USER_ADD))
+      .andExpect(forwardedUrl(AdminController.VIEW_USER_ADD))
+      .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"email" ))
+      .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", equalTo(eFirstName)) ))
+      .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo(eLastName)) ))
+      .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("email", equalTo(eEmailName)) ))
+      .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("password", equalTo(ePassword)) ));
     }
 
     public User createUser(){
@@ -225,6 +255,7 @@ public class AdminControllerMvcMockWithContextTest{
       user.setEmail("def@wp.pl");
       return user;
     }
+
 
     public UserProfile createUserProfileAdmin(){
         UserProfile userProfile = new UserProfile();

@@ -80,6 +80,15 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+    public boolean emailExistExceptId(String email,int id) {
+        /* User user = userDao.findByEmail(email); */
+        List<User> users = userDao.findByEmailExpectId(email,id);
+        if (users != null && users.size()!=0) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean emailExist(String email) {
         User user = userDao.findByEmail(email);
         if (user != null) {
@@ -92,7 +101,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public User updateUser(UserCommand userCommand) throws EmailExistsException {
-        if (emailExist(userCommand.getEmail())) {  
+        if (emailExistExceptId(userCommand.getEmail(),userCommand.getId())) {  
             throw new EmailExistsException("There is an account with that email adress: " + userCommand.getEmail());
         }
         User user = userDao.findById(userCommand.getId());    
