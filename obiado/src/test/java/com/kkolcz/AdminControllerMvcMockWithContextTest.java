@@ -68,6 +68,8 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 
+import org.springframework.http.converter.HttpMessageConverter;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
 @WebAppConfiguration
@@ -75,6 +77,7 @@ public class AdminControllerMvcMockWithContextTest{
 
 
     @org.springframework.context.annotation.Configuration
+    @EnableWebMvc /* bez tej annotacji nie działał RoleToUserProvileConverter*/
     static class Configuration extends WebMvcConfigurerAdapter
     {
         @Bean(name="adminController")
@@ -106,30 +109,6 @@ public class AdminControllerMvcMockWithContextTest{
         public void addFormatters(FormatterRegistry registry) {
             registry.addConverter(roleToUserProfileConverter);
         }
-
-
-        /* @Override */
-        /* public void addFormatters(FormatterRegistry registry) { */
-        /*     registry.addConverter(roleToUserProfileConverter()); */
-        /* } */
-
-
-        /* @Bean */
-        /* public ConversionService getConversionService() */
-        /* { */
-        /*     ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean(); */
-        /*     bean.setConverters( getConverters() ); */
-        /*     bean.afterPropertiesSet(); */
-        /*     ConversionService object = bean.getObject(); */
-        /*     return object; */
-        /* } */
-        /*  */
-        /* private Set<Converter<?, ?>> getConverters() */
-        /* { */
-        /*     Set<Converter<?, ?>> converters = new HashSet<Converter<?, ?>>(); */
-        /*     converters.add(roleToUserProfileConverter()); */
-        /*     return converters; */
-        /* } */
 
     }
 

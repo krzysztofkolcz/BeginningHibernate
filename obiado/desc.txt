@@ -119,3 +119,7 @@ Wydaje mi się, że jest problem z przekonwertowaniem inta z selecta na UserProf
 http://docs.spring.io/autorepo/docs/spring/3.2.x/spring-framework-reference/html/validation.html
 Ciekawa stronka z przykładami:
 http://www.programcreek.com/java-api-examples/index.php?api=org.springframework.test.web.servlet.MockMvc
+
+
+Żesz fuckin shit, brakowało anotacji @EnableWebMvc w Configuration w AdminControllerMvcMockWithContextTest...
+Bez tego nie działał converter! 
