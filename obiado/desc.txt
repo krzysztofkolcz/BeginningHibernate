@@ -132,3 +132,11 @@ https://github.com/spring-projects/spring-integration-samples
 
 Żesz fuckin shit, brakowało anotacji @EnableWebMvc w Configuration w AdminControllerMvcMockWithContextTest...
 Bez tego nie działał converter! 
+
+Testy spring security - do przerobienia
+https://spring.io/blog/2014/05/23/preview-spring-security-test-web-security
+
+https://docs.spring.io/spring-security/site/docs/current/reference/html/mvc.html
+http://stackoverflow.com/questions/19291329/enablewebmvc-annotation-meaning
+http://stackoverflow.com/questions/14561235/spring-mvc-integration-tests-with-spring-security
+https://github.com/spring-projects/spring-test-mvc/blob/master/src/test/java/org/springframework/test/web/server/samples/context/SpringSecurityTests.java
