@@ -120,6 +120,15 @@ http://docs.spring.io/autorepo/docs/spring/3.2.x/spring-framework-reference/html
 Ciekawa stronka z przykładami:
 http://www.programcreek.com/java-api-examples/index.php?api=org.springframework.test.web.servlet.MockMvc
 
+Spring converters and formatters:
+formatterregistry converter spring test
+
+-jzC*XR1OE8Ihh@
+http://www.javabeat.net/introduction-to-spring-converters-and-formatters/
+
+Spring integration samples:
+https://github.com/spring-projects/spring-integration-samples
+
 
 Żesz fuckin shit, brakowało anotacji @EnableWebMvc w Configuration w AdminControllerMvcMockWithContextTest...
 Bez tego nie działał converter! 
