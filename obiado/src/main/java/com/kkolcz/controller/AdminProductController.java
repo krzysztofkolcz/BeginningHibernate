@@ -25,14 +25,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kkolcz.service.UserService;
-import com.kkolcz.service.UserServiceImpl;
-import com.kkolcz.service.UserProfileService;
-import com.kkolcz.service.UserProfileServiceImpl;
-import com.kkolcz.model.User;
-import com.kkolcz.model.UserProfile;
-import com.kkolcz.command.UserCommand;
-import com.kkolcz.exception.EmailExistsException;
+import com.kkolcz.service.ProductService; /* TODO */
+import com.kkolcz.service.ProductServiceImpl; /* TODO */
+import com.kkolcz.service.ProductCategoryService; /* TODO */
+import com.kkolcz.service.ProductCategoryServiceImpl; /* TODO */
+import com.kkolcz.model.Product; /* TODO */
+import com.kkolcz.model.ProductCategory; /* TODO */
+import com.kkolcz.command.ProductCommand;
+import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Constants;
 
 import javax.validation.ConstraintViolation;
@@ -43,155 +43,83 @@ import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/admin")
-@SessionAttributes("roles")
 public class AdminProductController extends BaseController{
   private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
   @Autowired private ProductService userService;
-  @Autowired private ProductProfileService userProfileService;
+  @Autowired private ProductCategoryService userCategoryService;
 
   @Autowired private MessageSource messageSource; /* na potrzeby wypisania binding errors */
 
   @RequestMapping(value = "/product-list", method = RequestMethod.GET)
   public String productListPage(ModelMap model){
     List<Product> productList = productService.findAllProducts();
-    model.addAttribute(MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
-    return VIEW_PRODUCT_LIST;
+    model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
+    return Const.A_VIEW_PRODUCT_LIST;
   }
 
-  @RequestMapping(value = "/add-user", method = RequestMethod.GET)
-  public String addUser(ModelMap model){
-    UserCommand userCommand = new UserCommand();
-    model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,userCommand);
-    model.addAttribute(MODEL_ATTRIBUTE_ADMIN,true);
-    return VIEW_USER_ADD;
+  @RequestMapping(value = "/add-product", method = RequestMethod.GET)
+  public String addProduct(ModelMap model){
+    ProductCommand productCommand = new ProductCommand();
+    model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
+    return Const.A_VIEW_PRODUCT_ADD;
   }
 
-
-  /* just like AppController.register */
-  @RequestMapping(value = "/add-user", method = RequestMethod.POST)
+  @RequestMapping(value = "/add-product", method = RequestMethod.POST)
   public ModelAndView register( 
-      @ModelAttribute("userCommand") @Valid UserCommand userCommand, 
+      @ModelAttribute("productCommand") @Valid ProductCommand productCommand, 
       BindingResult result, 
       WebRequest request) {
-      User registered = new User();
+      Product product = new Product();
       if (!result.hasErrors()) {
           try {
-              registered = userService.addUser(userCommand);
-          } catch (EmailExistsException e) {
-              result.rejectValue("email", "message.regError");
+              product = productService.addProduct(productCommand);
+          } catch (SkuExistsException e) {
+              result.rejectValue("sku", "message.skuError");
           }
       }
       if (result.hasErrors()) {
-          return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+          return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       } 
       else {
-          return new ModelAndView(VIEW_SUCCESS_USER_ADD,MODEL_ATTRIBUTE_USER_COMMAND , userCommand);
+          return new ModelAndView(Const.A_VIEW_SUCCESS_PRODUCT_ADD,Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , productCommand);
       }
   }
 
-  /**
-   * This method will provide UserProfile list to views
-   */
-  @ModelAttribute("roles")
-  public List<UserProfile> initializeProfiles() {
-      return userProfileService.findAll();
+  @RequestMapping(value = "/edit-product-{productId}", method = RequestMethod.GET)
+  public ModelAndView editProduct(@PathVariable String productId,ModelMap model) {
+      int id = Integer.parseInt(productId);
+      Product product = productService.findById(id);
+      ProductCommand productCommand = new ProductCommand(product);
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
+      return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
   }
 
-  @RequestMapping(value = "/edit-user-{userId}", method = RequestMethod.GET)
-  public ModelAndView editUser(@PathVariable String userId,ModelMap model) {
-      int id = Integer.parseInt(userId);
-      User user = userService.findById(id);
-      UserCommand userCommand = new UserCommand(user);
-
-      model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,userCommand);
-      model.addAttribute(MODEL_ATTRIBUTE_ADMIN,true);
-
-      return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
-  }
-
-  @RequestMapping(value = "/edit-user-{userId}", method = RequestMethod.POST)
-  public ModelAndView editUser(
-      @ModelAttribute("userCommand") @Valid UserCommand userCommand, 
+  @RequestMapping(value = "/edit-product-{productId}", method = RequestMethod.POST)
+  public ModelAndView editProduct(
+      @ModelAttribute("productCommand") @Valid ProductCommand productCommand, 
       BindingResult result, 
       WebRequest request,
-      @PathVariable String userId) {
+      @PathVariable String productId) {
 
-      System.out.println("============================");
-      System.out.println("editUser Controller POST");
-      System.out.println(userCommand.getPassword());
-      System.out.println(userCommand.getMatchingPassword());
-      System.out.println("============================");
+      productService.updateProduct(productCommand);
 
-
-      logger.info("============================");
-      logger.info("editUser Controller POST");
-      logger.info(userCommand.getPassword());
-      logger.info(userCommand.getMatchingPassword());
-      logger.info("============================");
-
+      result.rejectValue("sku", "message.skuNotUniqueError");
       if(result.hasErrors()){
-        System.out.println("============================");
-        System.out.println("result.hasErrors()");
-        System.out.println("============================");
-        System.out.println("error list:");
-
-        logger.info("============================");
-        logger.info("result.hasErrors()");
-        logger.info("============================");
-        logger.info("error list:");
-        /* if(userService.emailExist(userCommand.getEmail())) { */
-        /*     result.rejectValue("email", "message.regError"); */
-        /* } */
-        /* return VIEW_USER_ADD; */
-        for (Object object : result.getAllErrors()) {
-            /* if(object instanceof FieldError) { */
-            /*     FieldError fieldError = (FieldError) object; */
-            /*     String message = messageSource.getMessage(fieldError, null); */
-            /*     System.out.println(message); */
-            /* } */
-            /* else{ */
-            /*     System.out.println(object); */
-            /* } */
-           if(object instanceof FieldError) {
-                FieldError fieldError = (FieldError) object;
-
-                System.out.println(fieldError.getField());
-                System.out.println(fieldError.getCode());
-                System.out.println(fieldError);
-
-                logger.info(fieldError.getField());
-                logger.info(fieldError.getCode());
-                logger.info(fieldError.toString());
-            }
-
-            if(object instanceof ObjectError) {
-                ObjectError objectError = (ObjectError) object;
-
-                System.out.println(objectError.getCode());
-                logger.info(objectError.getCode());
-            }
-        }
-
-        System.out.println("error list end");
-        System.out.println("============================");
-
-        logger.info("error list end");
-        logger.info("============================");
-        return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+        return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }
 
       try {
-          userCommand.setId(Integer.parseInt(userId));
-          userService.updateUser(userCommand);
-      } catch (EmailExistsException e) {
+          productCommand.setId(Integer.parseInt(productId));
+          productService.updateProduct(productCommand);
+      } catch (SkuExistsException e) {
           /* nie powinno wystąpić - powyżej sprawdzenie maila */
           result.rejectValue("email", "message.regError");
-          /* return VIEW_USER_ADD; */
-          return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+          /* return VIEW_PRODUCT_ADD; */
+          return new ModelAndView(VIEW_PRODUCT_ADD, MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }
 
-      /* return VIEW_USER_LIST; */
-      return new ModelAndView(VIEW_USER_LIST);
+      /* return VIEW_PRODUCT_LIST; */
+      return new ModelAndView(VIEW_PRODUCT_LIST);
   }
 }
