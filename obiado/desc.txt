@@ -153,3 +153,7 @@ zamówienie i potwierdzenie zamówienia -
 Testy
 
 
+
+TODO:
+ModelAttribute("roles") w AdminController - jak to działa
+@Id @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -25,15 +25,15 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kkolcz.service.ProductService; /* TODO */
-import com.kkolcz.service.ProductServiceImpl; /* TODO */
-import com.kkolcz.service.ProductCategoryService; /* TODO */
-import com.kkolcz.service.ProductCategoryServiceImpl; /* TODO */
-import com.kkolcz.model.Product; /* TODO */
-import com.kkolcz.model.ProductCategory; /* TODO */
+import com.kkolcz.service.ProductService; 
+//import com.kkolcz.service.ProductServiceImpl; /* TODO */
+import com.kkolcz.service.ProductCategoryService; 
+//import com.kkolcz.service.ProductCategoryServiceImpl; /* TODO */
+import com.kkolcz.model.Product; 
+import com.kkolcz.model.ProductCategory; 
 import com.kkolcz.command.ProductCommand;
 import com.kkolcz.exception.SkuExistsException;
-import com.kkolcz.constants.Constants;
+import com.kkolcz.constants.Const;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -46,23 +46,29 @@ import org.slf4j.LoggerFactory;
 public class AdminProductController extends BaseController{
   private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
-  @Autowired private ProductService userService;
-  @Autowired private ProductCategoryService userCategoryService;
+  @Autowired private ProductService productService;
+  @Autowired private ProductCategoryService productCategoryService;
 
   @Autowired private MessageSource messageSource; /* na potrzeby wypisania binding errors */
 
+  /* TODO - jak to działa */
+  @ModelAttribute("categories")
+  public List<ProductCategory> initializeProfiles() {
+      return productCategoryService.findAllCategories();
+  }
+
   @RequestMapping(value = "/product-list", method = RequestMethod.GET)
   public String productListPage(ModelMap model){
-    List<Product> productList = productService.findAllProducts();
-    model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
-    return Const.A_VIEW_PRODUCT_LIST;
+      List<Product> productList = productService.findAllProducts();
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
+      return Const.A_VIEW_PRODUCT_LIST;
   }
 
   @RequestMapping(value = "/add-product", method = RequestMethod.GET)
   public String addProduct(ModelMap model){
-    ProductCommand productCommand = new ProductCommand();
-    model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
-    return Const.A_VIEW_PRODUCT_ADD;
+      ProductCommand productCommand = new ProductCommand();
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
+      return Const.A_VIEW_PRODUCT_ADD;
   }
 
   @RequestMapping(value = "/add-product", method = RequestMethod.POST)
@@ -71,19 +77,18 @@ public class AdminProductController extends BaseController{
       BindingResult result, 
       WebRequest request) {
       Product product = new Product();
-      if (!result.hasErrors()) {
-          try {
-              product = productService.addProduct(productCommand);
-          } catch (SkuExistsException e) {
-              result.rejectValue("sku", "message.skuError");
-          }
+
+      boolean skuUniqe = productService.checkSkuUnique(productCommand.getSku());
+      if(!skuUniqe){
+          result.rejectValue("sku", "message.skuError");
       }
+
       if (result.hasErrors()) {
           return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
-      } 
-      else {
+      }else{
+          product = productService.addProduct(productCommand);
           return new ModelAndView(Const.A_VIEW_SUCCESS_PRODUCT_ADD,Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , productCommand);
-      }
+      } 
   }
 
   @RequestMapping(value = "/edit-product-{productId}", method = RequestMethod.GET)
@@ -102,24 +107,19 @@ public class AdminProductController extends BaseController{
       WebRequest request,
       @PathVariable String productId) {
 
-      productService.updateProduct(productCommand);
+      int id = Integer.parseInt(productId);
 
-      result.rejectValue("sku", "message.skuNotUniqueError");
+      boolean skuUniqe = productService.checkSkuUniqueExceptId(productCommand.getSku(),id);
+      if(!skuUniqe){
+          result.rejectValue("sku", "message.skuError");
+      }
+
       if(result.hasErrors()){
-        return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
-      }
-
-      try {
-          productCommand.setId(Integer.parseInt(productId));
+          return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
+      }else{
+          productCommand.setId(id);
           productService.updateProduct(productCommand);
-      } catch (SkuExistsException e) {
-          /* nie powinno wystąpić - powyżej sprawdzenie maila */
-          result.rejectValue("email", "message.regError");
-          /* return VIEW_PRODUCT_ADD; */
-          return new ModelAndView(VIEW_PRODUCT_ADD, MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
+          return new ModelAndView(Const.A_VIEW_PRODUCT_LIST);
       }
-
-      /* return VIEW_PRODUCT_LIST; */
-      return new ModelAndView(VIEW_PRODUCT_LIST);
   }
 }

@@ -1,0 +1,18 @@
+Rodzaje testów:
+AdminControllerMvcMockWithContextTest:
+- konfiguracja w wewnętrznej klasie statycznej
+- services jako mock - więc nie ma potrzebe setupowania inmemorydao ani hsqldb, za to trzeba setupować mocki na funkcje i zwracane przez nie wartości
+- w tym teście działa webmvcresolver, bez definiowania beanu viewResolver, TODO - nie wiem, jeszcze na jakiej zasadzie to działa!
+
+AdminControllerTest
+- konfiguracja w InMemoryDaoAppContext
+- dao za pomocą inmemorydao, czyli testy obejmują również poziom service 
+
+
+
+
+AdminController001
+- na podstawie AdminControllerMvcMockWithContextTest
+- tylko testy kontrolera
+- services jako mock
+

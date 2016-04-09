@@ -1,7 +1,7 @@
 package com.kkolcz.constants;
 
 
-public class Constants{
+public class Const{
 
   public static final String A_MODEL_ATTRIBUTE_PRODUCT_LIST = "productList";
   public static final String A_MODEL_ATTRIBUTE_PRODUCT_COMMAND = "productCommand";

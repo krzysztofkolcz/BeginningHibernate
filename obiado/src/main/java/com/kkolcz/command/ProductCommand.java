@@ -5,15 +5,15 @@ import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.kkolcz.annotation.ValidPrice;/* TODO */
-import com.kkolcz.model.ProductCategory;/* TODO */
-import com.kkolcz.model.Product;/* TODO */
+import com.kkolcz.annotation.ValidSku;/* TODO */
+import com.kkolcz.model.ProductCategory;
+import com.kkolcz.model.Product;
 import com.kkolcz.validator.*;
 import java.math.BigDecimal;
 
-@PasswordMatches 
 public class ProductCommand implements Serializable{
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     private int id;
 
@@ -23,12 +23,20 @@ public class ProductCommand implements Serializable{
 
     @NotNull
     @NotEmpty
-    @ValidPrice
-    private BigDecimal price;
+    private String state;
 
     @NotNull
     @NotEmpty
+    @ValidPrice
+    private String price;
+
+    @NotNull
     private boolean active;
+
+    @NotNull
+    @NotEmpty
+    @ValidSku /* powiedzmy, że format xxx-xxx-xxx ,gdzie x jest cyfrą lub literą */
+    private String sku;
 
     @NotNull
     private Set<ProductCategory> productCategories; 
@@ -39,8 +47,9 @@ public class ProductCommand implements Serializable{
     public ProductCommand(Product product){
       this.id = product.getId();
       this.name = product.getName();
-      this.price = product.getPrice();
-      this.active= product.isActive();
+      this.price = product.getPrice().toString();
+      this.sku = product.getSku();
+      this.active = product.isActive();
       this.productCategories = product.getProductCategories(); 
     }
 
@@ -53,12 +62,12 @@ public class ProductCommand implements Serializable{
         this.name = name;
     }
 
-    public String getPice() {
-        return pice;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPice(String pice) {
-        this.pice = pice;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public boolean getActive() {
@@ -87,5 +96,21 @@ public class ProductCommand implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
