@@ -4,10 +4,14 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-<include file="db.1.xml" relativeToChangelogFile="true"/>
+
+<include file="db.1.create-user.xml" relativeToChangelogFile="true"/>
+<include file="db.1.create-user-profile.xml" relativeToChangelogFile="true"/>
+<include file="db.1.create-user-profile-profile.xml" relativeToChangelogFile="true"/>
 <include file="db.2.xml" relativeToChangelogFile="true"/>
-<include file="db.3.xml" relativeToChangelogFile="true"/>
-<include file="db.4.xml" relativeToChangelogFile="true"/>
-<include file="db.5.xml" relativeToChangelogFile="true"/>
-<include file="db.6.xml" relativeToChangelogFile="true"/>
+<include file="db.3.user-and-profile-ins.xml" relativeToChangelogFile="true"/>
+<include file="db.4.create-product.xml" relativeToChangelogFile="true"/>
+<include file="db.4.create-product-category.xml" relativeToChangelogFile="true"/>
+<include file="db.4.create-product-product-category.xml" relativeToChangelogFile="true"/>
+<include file="db.5.product-and-cat-ins.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

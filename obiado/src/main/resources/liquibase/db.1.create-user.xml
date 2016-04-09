@@ -32,24 +32,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
         <constraints nullable="true"/>
       </column>
     </createTable>
-
-    <createTable tableName="user_profile"   >
-      <column name="id" type="bigint" autoIncrement="true">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="type" type="varchar(30)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="user_profile_type_unique"/>
-      </column>
-    </createTable>
-
-    <createTable tableName="app_user_user_profile"   >
-      <column name="user_id" type="bigint">
-        <constraints primaryKey="true" nullable="false" references="app_user(id)" foreignKeyName="fk_app_user" />
-      </column>
-      <column name="user_profile_id" type="bigint">
-        <constraints primaryKey="true" nullable="false" references="user_profile(id)" foreignKeyName="fk_user_profile" />
-      </column>
-    </createTable>
+    <modifySql dbms="mysql">
+        <append value="ENGINE INNODB CHARSET UTF8 COLLATE utf8_general_ci"/>
+    </modifySql>
   </changeSet>
 
 </databaseChangeLog>

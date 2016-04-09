@@ -5,7 +5,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-  <changeSet id="products001" author="kkolcz">
+  <changeSet id="create-product" author="kkolcz">
     <createTable tableName="product"  >
       <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" />
@@ -19,25 +19,16 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       <column name="active" type="boolean" defaultValueBoolean="true">
         <constraints nullable="false"/>
       </column>
-    </createTable>
-
-    <createTable tableName="product_category"   >
-      <column name="id" type="bigint" autoIncrement="true">
-        <constraints primaryKey="true" nullable="false" />
+      <column name="sku" type="varchar(255)">
+        <constraints nullable="false" unique="true" uniqueConstraintName="product_sku_unique"/>
       </column>
-      <column name="name" type="varchar(255)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="product_category_name_unique"/>
+      <column name="state" type="varchar(30)">
+        <constraints nullable="false"/>
       </column>
     </createTable>
-
-    <createTable tableName="product_product_category"   >
-      <column name="product_id" type="bigint">
-        <constraints primaryKey="true" nullable="false" references="product(id)" foreignKeyName="fk_product" />
-      </column>
-      <column name="product_category_id" type="bigint">
-        <constraints primaryKey="true" nullable="false" references="product_category(id)" foreignKeyName="fk_product_category" />
-      </column>
-    </createTable>
+    <modifySql dbms="mysql">
+        <append value="ENGINE INNODB CHARSET UTF8 COLLATE utf8_general_ci"/>
+    </modifySql>
   </changeSet>
 
 </databaseChangeLog>
