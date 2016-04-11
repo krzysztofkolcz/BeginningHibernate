@@ -9,5 +9,7 @@ public class App
         ApplicationContext context = new ClassPathXmlApplicationContext( "springConfig.xml");
         HelloWorld obj = (HelloWorld) context.getBean("helloBean");
         obj.printHello();
+        MyMail myMail = (MyMail)context.getBean("myMail");
+        myMail.sendSimpleEmail("kkolcz@power.com.pl");
     }
 }

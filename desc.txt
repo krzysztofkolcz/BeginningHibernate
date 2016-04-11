@@ -1027,3 +1027,11 @@ Znalezione w websystiqueHibernate001Hello:
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.App
 
 Działa!
+Setupuje posftix jako lokalny smtp server
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-14-04
+sudo apt-get install mailutils
+sudo apt-get install postfix
+vim /etc/posftix/main.cf
+inet_interfaces = localhost
+sudo service postfix restart
+echo "This is the body of the email" | mail -s "This is the subject line" kkolcz@power.com.pl
