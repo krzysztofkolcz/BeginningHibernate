@@ -1007,3 +1007,23 @@ http://hibernate.org/validator/documentation/getting-started/
 
 Log4j:
 http://www.mkyong.com/logging/log4j-log4j-properties-examples/
+
+
+==mailingExample==
+Próba odtworzenia konfiguracji malingu w powerhosting
+Struktura projektu na podstawie mkyong:
+http://www.mkyong.com/spring/quick-start-maven-spring-example/
+
+dodaję katalog src/main/resources
+konfiguracja springa w src/main/resources/springConfig.xml
+W konfiguracji dodaję beana helloWorld
+
+W App tworzę kontekst aplikacji: 
+ApplicationContext context = new ClassPathXmlApplicationContext( "springConfig.xml");
+
+Dodaje maven dependencies do pom.xml (ściągam ze SpringInAction chapter02 - minimalny plik)
+
+Znalezione w websystiqueHibernate001Hello:
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.App
+
+Działa!
