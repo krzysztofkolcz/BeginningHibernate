@@ -1035,3 +1035,17 @@ vim /etc/posftix/main.cf
 inet_interfaces = localhost
 sudo service postfix restart
 echo "This is the body of the email" | mail -s "This is the subject line" kkolcz@power.com.pl
+
+Trochę nie działa, próbuję z FakeSMTP:
+https://nilhcem.github.io/FakeSMTP/
+http://blog.codeleak.pl/2014/09/testing-mail-code-in-spring-boot.html
+mail.protocol=smtp
+mail.host=localhost
+mail.port=25
+mail.smtp.auth=false
+mail.smtp.starttls.enable=false
+mail.from=me@localhost
+mail.username=
+mail.password=
+Przykładowa konfiguracja xml:
+http://howtodoinjava.com/spring/spring-core/send-email-with-spring-javamailsenderimpl-example/
