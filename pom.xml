@@ -19,8 +19,8 @@
     <module>websystiqueRest002</module>
     <module>obiadoxml</module>
     <module>websystiqueBasicMvc003FormValidation</module>
-    <module>validationExample001</module>
     <module>validationExample002</module>
+    <module>mailingExample</module>
   </modules>
 
     <name>hibernate-parent</name>
