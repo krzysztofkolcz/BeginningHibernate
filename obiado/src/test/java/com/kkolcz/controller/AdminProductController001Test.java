@@ -118,7 +118,7 @@ import java.math.BigDecimal;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
 @WebAppConfiguration
-public class AdminController001Test{
+public class AdminProductController001Test{
  
     @org.springframework.context.annotation.Configuration
     @EnableWebMvc /* bez tej annotacji nie działał RoleToUserProvileConverter*/
@@ -173,7 +173,17 @@ public class AdminController001Test{
       product.setActive(true);
       product.setState("Active");
       product.setSku("000-000-001");
+      HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
+      productCategories.add(createProductCategory()); 
+      product.setProductCategories(productCategories);
       return product;
+    }
+
+    private ProductCategory createProductCategory(){
+      ProductCategory productCategory = new ProductCategory();
+      productCategory.setId(1); 
+      productCategory.setName("4 jelenie"); 
+      return productCategory;
     }
 
 
@@ -188,20 +198,22 @@ public class AdminController001Test{
         .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST  , hasItem(
                               allOf(
                                       hasProperty("name", is("Schabowy zestaw")),
-                                      hasProperty("price", is("17.50")),
+                                      hasProperty("price", is(new BigDecimal("17.50"))),
                                       hasProperty("sku", is("000-000-001")),
                                       hasProperty("active", is(true)),
-                                      hasProperty("staet", is("Active"))
+                                      hasProperty("state", is("Active"))
                               )
                       )));
 
     }
 
-    /*
     @Test
-    public void adminAddProductGETTest(){
+    public void adminAddProductGETTest() throws Exception{
+        mockMvc.perform(get("/admin/add-product"))
+        .andExpect(view().name(Const.A_VIEW_PRODUCT_ADD));
     }
 
+    /*
     @Test
     public void adminAddProductPOSTInvalidFieldsTest(){
     }
