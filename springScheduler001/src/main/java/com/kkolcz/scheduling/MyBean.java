@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class MyBean {
  
     public void printMessage() {
-        System.out.println("I am called by Spring scheduler");
+        System.out.println("MyBean");
     }
 }
