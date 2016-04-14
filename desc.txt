@@ -1049,3 +1049,32 @@ mail.username=
 mail.password=
 Przykładowa konfiguracja xml:
 http://howtodoinjava.com/spring/spring-core/send-email-with-spring-javamailsenderimpl-example/
+
+
+==springIntegration014==
+mvn archetype:generate -DgroupId=siia.helloworld.channel -DartifactId=springIntegration014 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=siia.helloworld.channel -DinteractiveMode=false
+
+mvn compile exec:java -Dexec.mainClass=siia.helloworld.channel.HelloWorldExample
+
+==springScheduler001==
+chcę sprawdzic, czy nullPointerException wywala springowy scheduler
+
+mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springScheduler001 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.kkolcz -DinteractiveMode=false
+
+pierwszy tutorial - websystique:
+http://websystique.com/spring/spring-job-scheduling-using-xml-configuration/
+
+
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.App
+
+drugi tutorial - websystique:
+http://websystique.com/spring/spring-job-scheduling-with-scheduled-enablescheduling-annotations/
+
+dodanie do springConfig.xml:
+<task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
+<task:executor id="myExecutor" pool-size="5"/>
+
+umożliwiło odczytywanie annotacji @Scheduled w klasie PollWatcher
+
+https://spring.io/guides/gs/scheduling-tasks/
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/scheduling.html

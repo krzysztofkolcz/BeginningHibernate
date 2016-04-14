@@ -21,6 +21,8 @@
     <module>websystiqueBasicMvc003FormValidation</module>
     <module>validationExample002</module>
     <module>mailingExample</module>
+    <module>springIntegration014</module>
+    <module>springScheduler001</module>
   </modules>
 
     <name>hibernate-parent</name>
