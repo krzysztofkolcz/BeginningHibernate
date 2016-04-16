@@ -217,9 +217,22 @@ public class AdminProductController001Test{
       return productCategory;
     }
 
+            
+    private ResultActions postEditProductForm (String name, String price, String sku, String active, String state, String  productCat1, String  productCat2) throws Exception{
+        return mockMvc.perform(post("/admin/add-product")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param( NAME, name )
+            .param( PRICE, price )
+            .param( SKU, sku )
+            .param( ACTIVE, active )
+            .param( STATE, state )
+            .param( PRODUCTCATEGORIES , productCat1 )
+            .param( PRODUCTCATEGORIES , productCat2 )
+        );
+    }
+
     @Test
     public void adminProductListTest() throws Exception{
-      /* TODO */
 
       Mockito.when(productService.findAllProducts()).thenReturn(createProductList());
 
@@ -245,28 +258,20 @@ public class AdminProductController001Test{
     @Test
     public void adminAddProductPOSTValidTest() throws Exception{
 
-        String name ="Filet z kurczaka zestaw";
-        String price = new BigDecimal("19.50").toString();
-        String sku = "000-000-002";
-        boolean active = true;
-        String state ="Active";
-        int productCategories1 = 1;
-        int productCategories2 = 2;
+        String name     = "Filet z kurczaka zestaw";
+        String price    = new BigDecimal("19.50").toString();
+        String sku      = "000-000-002";
+        String active   = "true";
+        String state    = "Active";
+        String productCat1 = "1";
+        String productCat2 = "2";
 
-        mockMvc.perform(post("/admin/add-product")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .param( NAME, name )
-            .param( PRICE, price )
-            .param( SKU, sku )
-            .param( ACTIVE, "true")
-            .param( STATE, state )
-            .param( PRODUCTCATEGORIES , "1" )
-            .param( PRODUCTCATEGORIES , "2" )
-        ).andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
+        postEditProductForm (name, price, sku, active, state, productCat1, productCat2)
+         .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price)) ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( SKU, equalTo(sku)) ))
-         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(active)) ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(true)) ))
          
          /* http://www.marcphilipp.de/downloads/posts/2013-01-02-hamcrest-quick-reference/Hamcrest-1.3.pdf */
          /* http://stackoverflow.com/questions/18919983/interrogation-about-spring-mvc-test-apis-model-attribute-method */
@@ -287,20 +292,54 @@ public class AdminProductController001Test{
 
 
     @Test
-    public void adminAddProductPOSTInvalidFieldsTest(){
+    public void adminAddProductPOSTInvalidFieldsTest() throws Exception{
+        String name ="";
+        String price = new BigDecimal("19.50").toString();
+        String sku = "000-000-002";
+        String active = "true";
+        String state ="Active";
+        String productCat1 = "1";
+        String productCat2 = "2";
+
+        postEditProductForm (name, price, sku, active, state, productCat1, productCat2)
+        .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
+        .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , NAME ))
+        ;
     }
 
     @Test
-    public void adminAddProductPOSTInvalidSkuTest(){
+    public void adminAddProductPOSTInvalidSkuTest() throws Exception{
+
+        String name ="Filet z kurczaka zestaw";
+        String price = new BigDecimal("19.50").toString();
+        String sku = "000a9eih-000-002";
+        String active = "true";
+        String state ="Active";
+        String productCat1 = "1";
+        String productCat2 = "2";
+
+        postEditProductForm (name, price, sku, active, state, productCat1, productCat2)
+        .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
+        .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , SKU ))
+        ;
+
+    }
+    
+
+    @Test
+    public void adminEditProductGETTest() throws Exception{
+        mockMvc.perform(get("/admin/add-product"))
+        .andExpect(view().name(Const.A_VIEW_PRODUCT_ADD));
     }
 
     /*
-    @Test
-    public void adminEditProductGETTest(){
-    }
 
     @Test
     public void adminEditProductPOSTInvalidFieldsTest(){
+    }
+
+    @Test
+    public void adminEditProductPOSTValidTest(){
     }
 
     @Test
@@ -308,7 +347,8 @@ public class AdminProductController001Test{
     }
 
     @Test
-    public void adminEditProductPOSTValidTest(){
+    public void adminEditProductPOSTExistingSkuTest(){
     }
+
     */
 }

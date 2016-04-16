@@ -157,3 +157,8 @@ Testy
 TODO:
 ModelAttribute("roles") w AdminController - jak to działa
 @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+
+
+Converters and editors
+https://dzone.com/articles/property-editors
+TODO - jak zrobić, żeby price akceptował zarówno kropkę jak i przecinek.
