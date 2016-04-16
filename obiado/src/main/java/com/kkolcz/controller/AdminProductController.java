@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes("categories")
 public class AdminProductController extends BaseController{
   private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
@@ -72,7 +73,7 @@ public class AdminProductController extends BaseController{
   }
 
   @RequestMapping(value = "/add-product", method = RequestMethod.POST)
-  public ModelAndView register( 
+  public ModelAndView addProductPost( 
       @ModelAttribute("productCommand") @Valid ProductCommand productCommand, 
       BindingResult result, 
       WebRequest request) {

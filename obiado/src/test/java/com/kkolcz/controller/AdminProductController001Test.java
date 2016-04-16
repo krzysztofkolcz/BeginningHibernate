@@ -119,6 +119,14 @@ import java.math.BigDecimal;
 @ContextConfiguration()
 @WebAppConfiguration
 public class AdminProductController001Test{
+
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String STATE = "state";
+    public static final String PRICE = "price";
+    public static final String ACTIVE = "active";
+    public static final String SKU = "sku";
+    public static final String PRODUCTCATEGORIES = "productCategories";
  
     @org.springframework.context.annotation.Configuration
     @EnableWebMvc /* bez tej annotacji nie działał RoleToUserProvileConverter*/
@@ -140,6 +148,18 @@ public class AdminProductController001Test{
         public ProductCategoryService productCategoryService()
         {
             return Mockito.mock(ProductCategoryService.class);
+        }
+
+        @Bean
+        public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
+            return new CategoriesToProductCategoryConverter(); 
+        }
+
+        @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
+
+        @Override
+        public void addFormatters(FormatterRegistry registry) {
+            registry.addConverter(categoriesToProductCategoryConverter);
         }
     }
 
@@ -174,18 +194,25 @@ public class AdminProductController001Test{
       product.setState("Active");
       product.setSku("000-000-001");
       HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
-      productCategories.add(createProductCategory()); 
+      productCategories.add(createProductCategory1()); 
       product.setProductCategories(productCategories);
       return product;
     }
 
-    private ProductCategory createProductCategory(){
+
+    private ProductCategory createProductCategory1(){
       ProductCategory productCategory = new ProductCategory();
       productCategory.setId(1); 
       productCategory.setName("4 jelenie"); 
       return productCategory;
     }
 
+    private ProductCategory createProductCategory2(){
+      ProductCategory productCategory = new ProductCategory();
+      productCategory.setId(2); 
+      productCategory.setName("Samos"); 
+      return productCategory;
+    }
 
     @Test
     public void adminProductListTest() throws Exception{
@@ -196,15 +223,14 @@ public class AdminProductController001Test{
       mockMvc.perform(get("/admin/product-list"))
         .andExpect(view().name(Const.A_VIEW_PRODUCT_LIST))
         .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST  , hasItem(
-                              allOf(
-                                      hasProperty("name", is("Schabowy zestaw")),
-                                      hasProperty("price", is(new BigDecimal("17.50"))),
-                                      hasProperty("sku", is("000-000-001")),
-                                      hasProperty("active", is(true)),
-                                      hasProperty("state", is("Active"))
-                              )
-                      )));
-
+              allOf(
+                      hasProperty(NAME, is("Schabowy zestaw")),
+                      hasProperty(PRICE, is(new BigDecimal("17.50"))),
+                      hasProperty(SKU, is("000-000-001")),
+                      hasProperty(ACTIVE, is(true)),
+                      hasProperty(STATE, is("Active"))
+              )
+        )));
     }
 
     @Test
@@ -213,7 +239,52 @@ public class AdminProductController001Test{
         .andExpect(view().name(Const.A_VIEW_PRODUCT_ADD));
     }
 
-    /*
+    @Test
+    public void adminAddProductPOSTValidTest() throws Exception{
+        Mockito.when(productCategoryService.findById(1)).thenReturn(createProductCategory1());
+        Mockito.when(productCategoryService.findById(2)).thenReturn(createProductCategory2());
+
+        String name ="Filet z kurczaka zestaw";
+        BigDecimal price = new BigDecimal("19.50");
+        String sku = "000-000-002";
+        boolean active = true;
+        String state ="Active";
+        int productCategories1 = 1;
+        int productCategories2 = 2;
+
+        mockMvc.perform(post("/admin/add-product")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param( NAME, name )
+            .param( PRICE, price.toString() )
+            .param( SKU, sku )
+            .param( ACTIVE, "true")
+            .param( STATE, state )
+            .param( PRODUCTCATEGORIES , "1" )
+            .param( PRODUCTCATEGORIES , "2" )
+        ).andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price.toString())) ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( SKU, equalTo(sku)) ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(active)) ))
+         
+         /* http://www.marcphilipp.de/downloads/posts/2013-01-02-hamcrest-quick-reference/Hamcrest-1.3.pdf */
+         /* http://stackoverflow.com/questions/18919983/interrogation-about-spring-mvc-test-apis-model-attribute-method */
+         /* public <T> ResultMatcher attribute(final String name, final Matcher<T> matcher) */
+
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
+               hasProperty( PRODUCTCATEGORIES  ,
+                   hasItem(createProductCategory1())
+               )
+         ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
+               hasProperty( PRODUCTCATEGORIES  ,
+                   hasItem(createProductCategory2())
+               )
+         ))
+         ;
+    }
+
+
     @Test
     public void adminAddProductPOSTInvalidFieldsTest(){
     }
@@ -222,10 +293,7 @@ public class AdminProductController001Test{
     public void adminAddProductPOSTInvalidSkuTest(){
     }
 
-    @Test
-    public void adminAddProductPOSTValidTest(){
-    }
-
+    /*
     @Test
     public void adminEditProductGETTest(){
     }

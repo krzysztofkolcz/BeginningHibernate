@@ -134,9 +134,6 @@ public class AdminControllerMvcMockWithContextTest{
         Mockito.when(userProfileService.findById(6)).thenReturn(createUserProfileRegistered());
     } 
 
-
-
-
     /*
     @Test
     public void adminUserEditPageTest() throws Exception{
