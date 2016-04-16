@@ -9,8 +9,8 @@ public class Const{
   public static final String A_VIEW_DASHBOARD= "admin/dashboard";
 
   public static final String A_VIEW_USER_LIST = "admin/userList";
-  public static final String A_VIEW_USER_ADD= "admin/userEdit";
-  public static final String A_VIEW_SUCCESS_USER_ADD= "admin/userEdit";
+  public static final String A_VIEW_USER_ADD = "admin/userEdit";
+  /* public static final String A_VIEW_SUCCESS_USER_ADD = "admin/userEdit"; */
 
   public static final String A_VIEW_PRODUCT_LIST = "admin/productList";
   public static final String A_VIEW_PRODUCT_ADD= "admin/productEdit";

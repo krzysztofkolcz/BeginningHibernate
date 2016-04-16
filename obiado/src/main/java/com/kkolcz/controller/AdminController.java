@@ -33,6 +33,7 @@ import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.command.UserCommand;
 import com.kkolcz.exception.EmailExistsException;
+import com.kkolcz.constants.Const;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -57,8 +58,9 @@ public class AdminController extends BaseController{
   public static final String VIEW_USER_LIST = "admin/userList";
   public static final String VIEW_REGISTER = "register";
   public static final String VIEW_SUCCESS_REGISTER = "successRegister";
-  public static final String VIEW_USER_ADD= "admin/userEdit";
-  public static final String VIEW_SUCCESS_USER_ADD= "admin/userEdit";
+
+  /* public static final String VIEW_USER_ADD= "admin/userEdit"; */
+  /* public static final String VIEW_SUCCESS_USER_ADD= "admin/userEdit"; */
 
   @Autowired private UserService userService;
   @Autowired private UserProfileService userProfileService;
@@ -82,7 +84,8 @@ public class AdminController extends BaseController{
     UserCommand userCommand = new UserCommand();
     model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,userCommand);
     model.addAttribute(MODEL_ATTRIBUTE_ADMIN,true);
-    return VIEW_USER_ADD;
+    return Const.A_VIEW_USER_ADD; 
+    /* return VIEW_USER_ADD; */
   }
 
 
@@ -101,10 +104,10 @@ public class AdminController extends BaseController{
           }
       }
       if (result.hasErrors()) {
-          return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+          return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       } 
       else {
-          return new ModelAndView(VIEW_SUCCESS_USER_ADD,MODEL_ATTRIBUTE_USER_COMMAND , userCommand);
+          return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND , userCommand);
       }
   }
 
@@ -125,7 +128,7 @@ public class AdminController extends BaseController{
       model.addAttribute(MODEL_ATTRIBUTE_USER_COMMAND,userCommand);
       model.addAttribute(MODEL_ATTRIBUTE_ADMIN,true);
 
-      return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+      return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
   }
 
   @RequestMapping(value = "/edit-user-{userId}", method = RequestMethod.POST)
@@ -134,69 +137,24 @@ public class AdminController extends BaseController{
       BindingResult result, 
       WebRequest request,
       @PathVariable String userId) {
-
-      System.out.println("============================");
-      System.out.println("editUser Controller POST");
-      System.out.println(userCommand.getPassword());
-      System.out.println(userCommand.getMatchingPassword());
-      System.out.println("============================");
-
-
-      logger.info("============================");
-      logger.info("editUser Controller POST");
-      logger.info(userCommand.getPassword());
-      logger.info(userCommand.getMatchingPassword());
-      logger.info("============================");
-
-      if(result.hasErrors()){
-        System.out.println("============================");
-        System.out.println("result.hasErrors()");
-        System.out.println("============================");
-        System.out.println("error list:");
-
-        logger.info("============================");
-        logger.info("result.hasErrors()");
-        logger.info("============================");
-        logger.info("error list:");
-        /* if(userService.emailExist(userCommand.getEmail())) { */
-        /*     result.rejectValue("email", "message.regError"); */
-        /* } */
-        /* return VIEW_USER_ADD; */
+      if ( userService.emailExistExceptId( userCommand.getEmail(), userCommand.getId() ) ){
+          result.rejectValue("email", "message.regError");
+      }
+      if ( result.hasErrors() ){
         for (Object object : result.getAllErrors()) {
-            /* if(object instanceof FieldError) { */
-            /*     FieldError fieldError = (FieldError) object; */
-            /*     String message = messageSource.getMessage(fieldError, null); */
-            /*     System.out.println(message); */
-            /* } */
-            /* else{ */
-            /*     System.out.println(object); */
-            /* } */
            if(object instanceof FieldError) {
                 FieldError fieldError = (FieldError) object;
-
-                System.out.println(fieldError.getField());
-                System.out.println(fieldError.getCode());
-                System.out.println(fieldError);
-
-                logger.info(fieldError.getField());
-                logger.info(fieldError.getCode());
-                logger.info(fieldError.toString());
+                logger.info(fieldError.getField() + fieldError.getCode() + fieldError.toString());
             }
 
             if(object instanceof ObjectError) {
                 ObjectError objectError = (ObjectError) object;
-
-                System.out.println(objectError.getCode());
                 logger.info(objectError.getCode());
             }
+
+            return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
         }
-
-        System.out.println("error list end");
-        System.out.println("============================");
-
-        logger.info("error list end");
-        logger.info("============================");
-        return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+        return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 
       try {
@@ -206,7 +164,7 @@ public class AdminController extends BaseController{
           /* nie powinno wystąpić - powyżej sprawdzenie maila */
           result.rejectValue("email", "message.regError");
           /* return VIEW_USER_ADD; */
-          return new ModelAndView(VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
+          return new ModelAndView(Const.A_VIEW_USER_ADD, MODEL_ATTRIBUTE_USER_COMMAND, userCommand);
       }
 
       /* return VIEW_USER_LIST; */

@@ -65,6 +65,7 @@ import com.kkolcz.service.*;
 import com.kkolcz.model.*;
 
 import com.kkolcz.converter.*;
+import com.kkolcz.constants.Const;
 
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
@@ -150,10 +151,6 @@ public class AdminControllerMvcMockWithContextTest{
 
     @Test
     public void adminUserEditPostValidTest() throws Exception{
-      System.out.println("============================");
-      System.out.println("adminUserEditPostValidTest");
-      System.out.println("============================");
-
       String eFirstName = "Stef";
       String eLastName = "K";
       String eEmailName = "stef.k@wp.pl";
@@ -161,11 +158,11 @@ public class AdminControllerMvcMockWithContextTest{
       String eMatchingPassword = "Rower123";
       String eNotMatchingPassword = "agoirehapoiasg";
 
-
       /* Valid user edit form */
       mockMvc.perform(post("/admin/edit-user-16")
       .session(mockHttpSession)
       .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+      .param("id", "16")
       .param("firstName", eFirstName)
       .param("lastName", eLastName)
       .param("email", eEmailName)
@@ -183,10 +180,6 @@ public class AdminControllerMvcMockWithContextTest{
 
     @Test
     public void adminUserEditPostPasswordNotMatchingTest() throws Exception{
-      System.out.println("============================");
-      System.out.println("adminUserEditPostPasswordNotMatchingTest");
-      System.out.println("============================");
-
       String eFirstName = "Stef";
       String eLastName = "K";
       String eEmailName = "stef.k@wp.pl";
@@ -198,14 +191,15 @@ public class AdminControllerMvcMockWithContextTest{
       mockMvc.perform(post("/admin/edit-user-16")
       .session(mockHttpSession)
       .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+      .param("id", "16")
       .param("firstName", eFirstName)
       .param("lastName", eLastName)
       .param("email", eEmailName)
       .param("password", ePassword)
       .param("matchingPassword", eNotMatchingPassword)
       .param("userProfiles", "5"))
-      .andExpect(view().name(AdminController.VIEW_USER_ADD))
-      .andExpect(forwardedUrl(AdminController.VIEW_USER_ADD))
+      .andExpect(view().name(Const.A_VIEW_USER_ADD))
+      .andExpect(forwardedUrl(Const.A_VIEW_USER_ADD))
       /* .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"password" )) */
       .andExpect(model().hasErrors())
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", equalTo(eFirstName)) ))
@@ -229,14 +223,15 @@ public class AdminControllerMvcMockWithContextTest{
       mockMvc.perform(post("/admin/edit-user-16")
       .session(mockHttpSession)
       .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+      .param("id", "16")
       .param("firstName", eFirstName)
       .param("lastName", eLastName)
       .param("email", eEmailName)
       .param("password", ePassword)
       .param("matchingPassword", eMatchingPassword)
       .param("userProfiles", "5"))
-      .andExpect(view().name(AdminController.VIEW_USER_ADD))
-      .andExpect(forwardedUrl(AdminController.VIEW_USER_ADD))
+      .andExpect(view().name(Const.A_VIEW_USER_ADD))
+      .andExpect(forwardedUrl(Const.A_VIEW_USER_ADD))
       .andExpect(model().attributeHasFieldErrors(AppController.MODEL_ATTRIBUTE_USER_COMMAND,"email" ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("firstName", equalTo(eFirstName)) ))
       .andExpect(model().attribute(AppController.MODEL_ATTRIBUTE_USER_COMMAND, hasProperty("lastName", equalTo(eLastName)) ))

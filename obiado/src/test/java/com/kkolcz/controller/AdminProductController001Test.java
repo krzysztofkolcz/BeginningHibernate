@@ -176,6 +176,9 @@ public class AdminProductController001Test{
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         mockHttpSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
+
+        Mockito.when(productCategoryService.findById(1)).thenReturn(createProductCategory1());
+        Mockito.when(productCategoryService.findById(2)).thenReturn(createProductCategory2());
     } 
 
 
@@ -241,11 +244,9 @@ public class AdminProductController001Test{
 
     @Test
     public void adminAddProductPOSTValidTest() throws Exception{
-        Mockito.when(productCategoryService.findById(1)).thenReturn(createProductCategory1());
-        Mockito.when(productCategoryService.findById(2)).thenReturn(createProductCategory2());
 
         String name ="Filet z kurczaka zestaw";
-        BigDecimal price = new BigDecimal("19.50");
+        String price = new BigDecimal("19.50").toString();
         String sku = "000-000-002";
         boolean active = true;
         String state ="Active";
@@ -255,7 +256,7 @@ public class AdminProductController001Test{
         mockMvc.perform(post("/admin/add-product")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .param( NAME, name )
-            .param( PRICE, price.toString() )
+            .param( PRICE, price )
             .param( SKU, sku )
             .param( ACTIVE, "true")
             .param( STATE, state )
@@ -263,7 +264,7 @@ public class AdminProductController001Test{
             .param( PRODUCTCATEGORIES , "2" )
         ).andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ))
-         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price.toString())) ))
+         .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price)) ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( SKU, equalTo(sku)) ))
          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(active)) ))
          
