@@ -50,6 +50,7 @@ public class ProductCommand implements Serializable{
       this.price = product.getPrice().toString();
       this.sku = product.getSku();
       this.active = product.isActive();
+      this.state = product.getState();
       this.productCategories = product.getProductCategories(); 
     }
 

@@ -10,4 +10,12 @@ public interface ProductCategoryService{
     ProductCategory findById(int id);
     ProductCategory updateProduct(ProductCategoryCommand productCategoryCommand);
     ProductCategory addProductCategory(ProductCategoryCommand productCategoryCommand);
+
+
+    List<ProductCategory> findAllProductCategories();
+    boolean checkNameUnique(String name);
+    ProductCategory addProductCategory(ProductCategoryCommand productCategoryCommand);
+    ProductCategory findById(int id);
+    updateProductCategory(productCategoryCommand);
+
 }

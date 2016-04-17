@@ -69,7 +69,7 @@ public class AdminProductController extends BaseController{
   public String addProduct(ModelMap model){
       ProductCommand productCommand = new ProductCommand();
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
-      return Const.A_VIEW_PRODUCT_ADD;
+      return Const.A_VIEW_PRODUCT_EDIT;
   }
 
   @RequestMapping(value = "/add-product", method = RequestMethod.POST)
@@ -85,7 +85,7 @@ public class AdminProductController extends BaseController{
       }
 
       if (result.hasErrors()) {
-          return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
+          return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
           product = productService.addProduct(productCommand);
           return new ModelAndView(Const.A_VIEW_SUCCESS_PRODUCT_ADD,Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , productCommand);
@@ -98,7 +98,7 @@ public class AdminProductController extends BaseController{
       Product product = productService.findById(id);
       ProductCommand productCommand = new ProductCommand(product);
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
-      return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
+      return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
   }
 
   @RequestMapping(value = "/edit-product-{productId}", method = RequestMethod.POST)
@@ -116,11 +116,11 @@ public class AdminProductController extends BaseController{
       }
 
       if(result.hasErrors()){
-          return new ModelAndView(Const.A_VIEW_PRODUCT_ADD, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
+          return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
           productCommand.setId(id);
           productService.updateProduct(productCommand);
-          return new ModelAndView(Const.A_VIEW_PRODUCT_LIST);
+          return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }
   }
 }
