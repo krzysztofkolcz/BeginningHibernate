@@ -23,6 +23,7 @@
     <module>mailingExample</module>
     <module>springIntegration014</module>
     <module>springScheduler001</module>
+    <module>rabbitapp</module>
   </modules>
 
     <name>hibernate-parent</name>

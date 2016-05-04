@@ -1078,3 +1078,10 @@ umożliwiło odczytywanie annotacji @Scheduled w klasie PollWatcher
 
 https://spring.io/guides/gs/scheduling-tasks/
 http://docs.spring.io/spring/docs/current/spring-framework-reference/html/scheduling.html
+
+
+==rabbit==
+mvn -B archetype:generate -DarchetypeGroupId=com.kkolcz.rabbit -DgroupId=com.kkolcz.rabbit -DartifactId=rabbitapp
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.App
+
+https://www.rabbitmq.com/tutorials/tutorial-one-java.html
