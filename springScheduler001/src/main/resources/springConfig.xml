@@ -13,7 +13,7 @@
         <task:scheduled ref="myBean" method="printMessage" fixed-delay="5000" />
     </task:scheduled-tasks>
  
-    <task:scheduler id="myScheduler" pool-size="10"/><!-- 10 threads -->
+    <task:scheduler id="myScheduler" pool-size="2"/><!-- 10 threads -->
 
     <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
     <task:executor id="myExecutor" pool-size="5"/>

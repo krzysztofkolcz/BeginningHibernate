@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * Scheduler for handling jobs
  */
 @Service
-public class SchedulerService {
+public class SchedulerService2 {
 
     protected static Logger logger = LogManager.getLogger(SchedulerService.class);
 
@@ -22,15 +22,7 @@ public class SchedulerService {
     @Scheduled(cron = "*/5 * * * * *")
     public void doScheduleDaily() {
         logger.info("Start schedule");
-          System.out.println("Service 1");
-
-        Map<String, ScheduledDaily> scheduled = appCtx.getBeansOfType(ScheduledDaily.class);
-
-        for (Map.Entry<String, ScheduledDaily> entry : scheduled.entrySet() ) {
-            logger.info("Running " + entry.getKey());
-            entry.getValue().run();
-        }
-
+        System.out.println("Service 2");
         logger.info("End schedule");
     }
 }

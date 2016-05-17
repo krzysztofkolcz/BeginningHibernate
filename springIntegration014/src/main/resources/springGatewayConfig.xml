@@ -1,20 +1,18 @@
 <beans:beans
-xmlns:beans="http://www.springframework.org/schema/beans"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://www.springframework.org/schema/integration"
-xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/integration
-http://www.springframework.org/schema/integration/spring-integration.xsd">
+              xmlns:beans="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://www.springframework.org/schema/integration"
+              xmlns:context="http://www.springframework.org/schema/context"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                                  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                                  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-  <gateway id="helloGateway"
-      service-interface="siia.helloworld.gateway.HelloService"
-      default-request-channel="names"/>
+  <channel id="helloWorldWithReplyChannel"/>
 
-  <channel id="names"/>
+  <service-activator input-channel="helloWorldWithReplyChannel" ref="helloServiceImpl" method="getHelloMessage"/>
 
-  <service-activator input-channel="names" ref="helloService" method="sayHello"/>
+  <gateway id="helloWorldGateway" service-interface="siia.helloworld.gateway.HelloService" default-request-channel="helloWorldWithReplyChannel" /> 
 
-  <beans:bean id="helloService" class="siia.helloworld.gateway.MyHelloService"/>
+  <context:component-scan base-package="siia.helloworld.gateway" />
 
 </beans:beans>

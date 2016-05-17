@@ -1,6 +1,9 @@
 package siia.helloworld.channel;
 
-public class MyHelloService implements HelloService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class HelloServiceImpl implements HelloService {
 
   @Override
   public void sayHello(String name) {

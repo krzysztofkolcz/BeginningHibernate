@@ -2,6 +2,6 @@ package siia.helloworld.gateway;
 
 public interface HelloService {
 
-    String sayHello(String name);
+    public String getHelloMessage(String name); 
 
 }
