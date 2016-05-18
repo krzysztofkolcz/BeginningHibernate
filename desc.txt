@@ -1079,7 +1079,7 @@ https://www.javacodegeeks.com/2015/01/high-available-amqp-backed-message-channel
 
 mvn archetype:generate -DgroupId=com.onlinetechvision -DartifactId=sprintRabbit -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.onlinetechvision -DinteractiveMode=false
 
-==springScheduler001==
+## springScheduler001
 chcę sprawdzic, czy nullPointerException wywala springowy scheduler
 
 mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springScheduler001 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.kkolcz -DinteractiveMode=false
@@ -1102,8 +1102,68 @@ umożliwiło odczytywanie annotacji @Scheduled w klasie PollWatcher
 https://spring.io/guides/gs/scheduling-tasks/
 http://docs.spring.io/spring/docs/current/spring-framework-reference/html/scheduling.html
 
+Z tego co pamiętam problem był taki, że scheduler miał limit wątków ustawiony na 1, a zadanie downgreadowania hostingu wchodziło w oczekiwanie, co powodowało wyczerpanie limitu w schedulerze, przez co maile nie były wysyłane.
 
-Erlang
+TODO - potwierdzić to z null pointer exception, prawdopodobnie z tego co pamiętam nie miało to wpływu na schedulera.
+
+## springScheduler002
+Chcę sprawdzić, w jaki sposób traktowane są otwarte wątki (w stanie object.wait()) w schedulerze w momencie zamykania aplikacji.
+
+mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springScheduler002 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.kkolcz -DinteractiveMode=false
+
+dodanie w pakiecie conifg klasy AppConfig z annotacjami:
+    @Configuration
+    @EnableWebMvc
+    @ComponentScan(basePackages = "com.kkolcz")
+    oraz implementującą metody:
+    @Bean
+    public ViewResolver viewResolver()
+    @Bean
+    public MessageSource messageSource()
+
+ddodanie w pakiecie conifg klasy AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer 
+
+dodanie pakietu views w WEB-INF (konfiguracja viewResolver)
+
+dodanie controller/AppController.java - głownego kontroler aplikacji
+
+@Controller
+@RequestMapping("/")
+public class AppController {
+ 
+    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
+    public String home() {
+        return "index";
+    }
+}
+
+dodanie do pom.xml dependencies:
+  <artifactId>junit</artifactId>
+  <artifactId>spring-core</artifactId>
+  <artifactId>spring-web</artifactId>
+  <artifactId>spring-webmvc</artifactId>
+  <artifactId>javax.servlet-api</artifactId>
+  <artifactId>jstl</artifactId>
+  <artifactId>javax.servlet.jsp-api</artifactId>
+
+dodanie do pom.xml pluginów:
+  <artifactId>maven-war-plugin</artifactId>
+  <artifactId>maven-compiler-plugin</artifactId>
+
+
+mvn clean package
+root$ cp /target/springScheduler002 /opt/tomcat/webapps 
+root$ cd /opt/tomcat
+root$ ./bin/startup.sh
+
+aby zadziałał scheduler, dodać do AppConfig:
+@EnableScheduling
+
+
+
+
+
+## Erlang
 https://howistart.org/posts/erlang/1
 
 Zsh - przyjrzeć się konsolce
@@ -1111,7 +1171,7 @@ https://github.com/robbyrussell/oh-my-zsh
 http://www.zsh.org/
 
 
-==rabbit==
+## rabbit
 mvn -B archetype:generate -DarchetypeGroupId=com.kkolcz.rabbit -DgroupId=com.kkolcz.rabbit -DartifactId=rabbitapp
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.App
 

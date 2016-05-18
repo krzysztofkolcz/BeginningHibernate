@@ -24,6 +24,7 @@
     <module>springIntegration014</module>
     <module>springScheduler001</module>
     <module>rabbitapp</module>
+    <module>springScheduler002</module>
   </modules>
 
     <name>hibernate-parent</name>
