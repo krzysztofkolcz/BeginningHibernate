@@ -1083,5 +1083,9 @@ http://docs.spring.io/spring/docs/current/spring-framework-reference/html/schedu
 ==rabbit==
 mvn -B archetype:generate -DarchetypeGroupId=com.kkolcz.rabbit -DgroupId=com.kkolcz.rabbit -DartifactId=rabbitapp
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.App
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.Send
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.Recv
 
 https://www.rabbitmq.com/tutorials/tutorial-one-java.html
+
+http://localhost:15672/#/
