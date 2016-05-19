@@ -19,7 +19,7 @@ public class SchedulerService {
     @Autowired
     private ApplicationContext appCtx;
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "*/50 * * * * *")
     public void doScheduleDaily() {
         logger.error("start schedule service");
 

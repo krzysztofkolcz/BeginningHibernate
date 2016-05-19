@@ -14,12 +14,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.kkolcz.scheduling.TicketRegister;
  
 @Controller
 @RequestMapping("/")
 public class AppController {
 
     protected static Logger logger = LogManager.getLogger(AppController.class);
+    @Autowired TicketRegister ticketRegister;
  
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
     public String home() {
@@ -28,10 +31,16 @@ public class AppController {
 
     @RequestMapping(value = { "/blabla" }, method = RequestMethod.GET)
     public String blabla() {
-        logger.info("blabla request");
         logger.error("blabla request");
-        logger.debug("blabla request debug");
         return "blabla";
+    }
+
+    @RequestMapping(value = { "/setstatus/{ticketId}/{status}" }, method = RequestMethod.GET)
+    public String setStatus(@PathVariable String ticketId,@PathVariable String status) {
+        logger.error("set status, ticketid:" + ticketId + "; status:" + status);
+        Long ticketIdL = Long.parseLong(ticketId);
+        ticketRegister.setStatus(ticketIdL,status);
+        return "index";
     }
 
 }

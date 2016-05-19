@@ -1160,7 +1160,32 @@ aby zadziałał scheduler, dodać do AppConfig:
 @EnableScheduling
 
 
+Przprowadzenie testów:
+Uruchomić aplikację - powinien zostać uruchomiony scheduler, który zapisuje loga do catalina.out
+11:35:50.000 [pool-2-thread-1] ERROR com.kkolcz.scheduling.TicketRegisterAction - ticket register action constructor
+11:35:50.000 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket register; ticketId=3
 
+Teraz można albo zatrzymać aplikację za pomocą managera, co skutkuje rzuceniem wyjątku, oraz zwróceniem nulla jako statusu:
+
+19-May-2016 11:37:23.036 INFO [http-nio-8080-exec-9] org.springframework.web.context.support.AnnotationConfigWebApplicationContext.doClose Closing Root WebApplicationContext: startup date [Thu May 19 11:32:16 CEST 2016]; root of context hierarchy
+java.lang.InterruptedException
+  at java.lang.Object.wait(Native Method)
+  at java.lang.Object.wait(Object.java:502)
+  at com.kkolcz.scheduling.TicketRegisterAction.getStatus(TicketRegisterAction.java:31)
+...
+11:37:23.040 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket change status: status=null
+11:37:23.040 [pool-2-thread-1] ERROR com.kkolcz.scheduling.SchedulerService - end schedule service
+
+
+Lub można ustawić status dla danego ticketa wywołując url:
+http://localhost:8080/springScheduler002/setstatus/{ticketId}/{status}
+http://localhost:8080/springScheduler002/setstatus/3/xvf
+
+11:35:15.770 [http-nio-8080-exec-2] ERROR com.kkolcz.controller.AppController - set status, ticketid:2; status:xvf
+11:35:15.771 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket change status: status=xvf
+11:35:15.771 [pool-2-thread-1] ERROR com.kkolcz.scheduling.SchedulerService - end schedule service
+
+aha, loguje ERROR, bo nie chce mi się zmieniać już konfiguracji log4j ;)
 
 
 ## Erlang
@@ -1176,3 +1201,13 @@ mvn -B archetype:generate -DarchetypeGroupId=com.kkolcz.rabbit -DgroupId=com.kko
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.App
 
 https://www.rabbitmq.com/tutorials/tutorial-one-java.html
+
+## tomcat
+Dodanie managera:
+dodanie pliku manager.xml w ścieżce:
+$CATALINA_BASE/conf/[enginename]/[hostname]
+
+Niepotrzebnie wywaliłem katalog manager z webapps , przywróciłem backup. Działa pod linkime localhost:8080/manager/html
+
+
+
