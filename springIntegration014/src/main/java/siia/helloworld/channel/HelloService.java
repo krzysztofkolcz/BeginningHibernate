@@ -2,6 +2,6 @@ package siia.helloworld.channel;
 
 public interface HelloService {
 
-    void sayHello(String name);
+    public void sayHello(String name);
 
 }

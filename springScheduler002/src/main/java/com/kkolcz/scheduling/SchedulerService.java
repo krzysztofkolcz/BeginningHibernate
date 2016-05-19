@@ -19,10 +19,9 @@ public class SchedulerService {
     @Autowired
     private ApplicationContext appCtx;
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "*/50 * * * * *")
     public void doScheduleDaily() {
-        logger.info("Start schedule");
-          System.out.println("Service 1");
+        logger.error("start schedule service");
 
         Map<String, ScheduledDaily> scheduled = appCtx.getBeansOfType(ScheduledDaily.class);
 
@@ -31,7 +30,7 @@ public class SchedulerService {
             entry.getValue().run();
         }
 
-        logger.info("End schedule");
+        logger.error("end schedule service");
     }
 }
 

@@ -1051,12 +1051,35 @@ Przykładowa konfiguracja xml:
 http://howtodoinjava.com/spring/spring-core/send-email-with-spring-javamailsenderimpl-example/
 
 
-==springIntegration014==
+## springIntegration014
 mvn archetype:generate -DgroupId=siia.helloworld.channel -DartifactId=springIntegration014 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=siia.helloworld.channel -DinteractiveMode=false
 
 mvn compile exec:java -Dexec.mainClass=siia.helloworld.channel.HelloWorldExample
 
-==springScheduler001==
+Korzystam również z tutoriala:
+http://www.javaworld.com/article/2142107/spring-framework/open-source-java-projects-spring-integration.html
+
+### odpalenie z jara
+Potrzebne pluginy:
+<artifactId>maven-compiler-plugin</artifactId>
+<artifactId>maven-jar-plugin</artifactId>
+<artifactId>maven-dependency-plugin</artifactId>
+
+mvn clean install
+
+uruchomienie z mvn:
+mvn compile exec:java -Dexec.mainClass=siia.helloworld.channel.HelloWorldExample
+
+uruchomienie z java -jar:
+cd target
+java -jar hello-spring-integration.jar
+
+## springRabbit
+https://www.javacodegeeks.com/2015/01/high-available-amqp-backed-message-channels-via-spring-integration-and-rabbitmq.html
+
+mvn archetype:generate -DgroupId=com.onlinetechvision -DartifactId=sprintRabbit -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.onlinetechvision -DinteractiveMode=false
+
+## springScheduler001
 chcę sprawdzic, czy nullPointerException wywala springowy scheduler
 
 mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springScheduler001 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.kkolcz -DinteractiveMode=false
@@ -1079,8 +1102,101 @@ umożliwiło odczytywanie annotacji @Scheduled w klasie PollWatcher
 https://spring.io/guides/gs/scheduling-tasks/
 http://docs.spring.io/spring/docs/current/spring-framework-reference/html/scheduling.html
 
+Z tego co pamiętam problem był taki, że scheduler miał limit wątków ustawiony na 1, a zadanie downgreadowania hostingu wchodziło w oczekiwanie, co powodowało wyczerpanie limitu w schedulerze, przez co maile nie były wysyłane.
 
-==rabbit==
+TODO - potwierdzić to z null pointer exception, prawdopodobnie z tego co pamiętam nie miało to wpływu na schedulera.
+
+## springScheduler002
+Chcę sprawdzić, w jaki sposób traktowane są otwarte wątki (w stanie object.wait()) w schedulerze w momencie zamykania aplikacji.
+
+mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springScheduler002 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=com.kkolcz -DinteractiveMode=false
+
+dodanie w pakiecie conifg klasy AppConfig z annotacjami:
+    @Configuration
+    @EnableWebMvc
+    @ComponentScan(basePackages = "com.kkolcz")
+    oraz implementującą metody:
+    @Bean
+    public ViewResolver viewResolver()
+    @Bean
+    public MessageSource messageSource()
+
+ddodanie w pakiecie conifg klasy AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer 
+
+dodanie pakietu views w WEB-INF (konfiguracja viewResolver)
+
+dodanie controller/AppController.java - głownego kontroler aplikacji
+
+@Controller
+@RequestMapping("/")
+public class AppController {
+ 
+    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
+    public String home() {
+        return "index";
+    }
+}
+
+dodanie do pom.xml dependencies:
+  <artifactId>junit</artifactId>
+  <artifactId>spring-core</artifactId>
+  <artifactId>spring-web</artifactId>
+  <artifactId>spring-webmvc</artifactId>
+  <artifactId>javax.servlet-api</artifactId>
+  <artifactId>jstl</artifactId>
+  <artifactId>javax.servlet.jsp-api</artifactId>
+
+dodanie do pom.xml pluginów:
+  <artifactId>maven-war-plugin</artifactId>
+  <artifactId>maven-compiler-plugin</artifactId>
+
+
+mvn clean package
+root$ cp /target/springScheduler002 /opt/tomcat/webapps 
+root$ cd /opt/tomcat
+root$ ./bin/startup.sh
+
+aby zadziałał scheduler, dodać do AppConfig:
+@EnableScheduling
+
+
+Przprowadzenie testów:
+Uruchomić aplikację - powinien zostać uruchomiony scheduler, który zapisuje loga do catalina.out
+11:35:50.000 [pool-2-thread-1] ERROR com.kkolcz.scheduling.TicketRegisterAction - ticket register action constructor
+11:35:50.000 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket register; ticketId=3
+
+Teraz można albo zatrzymać aplikację za pomocą managera, co skutkuje rzuceniem wyjątku, oraz zwróceniem nulla jako statusu:
+
+19-May-2016 11:37:23.036 INFO [http-nio-8080-exec-9] org.springframework.web.context.support.AnnotationConfigWebApplicationContext.doClose Closing Root WebApplicationContext: startup date [Thu May 19 11:32:16 CEST 2016]; root of context hierarchy
+java.lang.InterruptedException
+  at java.lang.Object.wait(Native Method)
+  at java.lang.Object.wait(Object.java:502)
+  at com.kkolcz.scheduling.TicketRegisterAction.getStatus(TicketRegisterAction.java:31)
+...
+11:37:23.040 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket change status: status=null
+11:37:23.040 [pool-2-thread-1] ERROR com.kkolcz.scheduling.SchedulerService - end schedule service
+
+
+Lub można ustawić status dla danego ticketa wywołując url:
+http://localhost:8080/springScheduler002/setstatus/{ticketId}/{status}
+http://localhost:8080/springScheduler002/setstatus/3/xvf
+
+11:35:15.770 [http-nio-8080-exec-2] ERROR com.kkolcz.controller.AppController - set status, ticketid:2; status:xvf
+11:35:15.771 [pool-2-thread-1] ERROR com.kkolcz.scheduling.ScheduledDailyImpl - ticket change status: status=xvf
+11:35:15.771 [pool-2-thread-1] ERROR com.kkolcz.scheduling.SchedulerService - end schedule service
+
+aha, loguje ERROR, bo nie chce mi się zmieniać już konfiguracji log4j ;)
+
+
+## Erlang
+https://howistart.org/posts/erlang/1
+
+Zsh - przyjrzeć się konsolce
+https://github.com/robbyrussell/oh-my-zsh
+http://www.zsh.org/
+
+
+## rabbit
 mvn -B archetype:generate -DarchetypeGroupId=com.kkolcz.rabbit -DgroupId=com.kkolcz.rabbit -DartifactId=rabbitapp
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.App
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.Send
@@ -1089,3 +1205,9 @@ mvn compile exec:java -Dexec.mainClass=com.kkolcz.rabbit.Recv
 https://www.rabbitmq.com/tutorials/tutorial-one-java.html
 
 http://localhost:15672/#/
+## tomcat
+Dodanie managera:
+dodanie pliku manager.xml w ścieżce:
+$CATALINA_BASE/conf/[enginename]/[hostname]
+
+Niepotrzebnie wywaliłem katalog manager z webapps , przywróciłem backup. Działa pod linkime localhost:8080/manager/html
