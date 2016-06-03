@@ -55,7 +55,7 @@ public class AdminProductController extends BaseController{
   /* TODO - jak to działa */
   @ModelAttribute("categories")
   public List<ProductCategory> initializeProfiles() {
-      return productCategoryService.findAllCategories();
+      return productCategoryService.findAllProductCategories();
   }
 
   @RequestMapping(value = "/product-list", method = RequestMethod.GET)

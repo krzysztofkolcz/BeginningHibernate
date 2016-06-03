@@ -6,15 +6,11 @@ import com.kkolcz.command.ProductCategoryCommand;
 import java.util.List;
 
 public interface ProductCategoryService{
-    List<ProductCategory> findAllCategories();
     ProductCategory findById(int id);
-    ProductCategory updateProduct(ProductCategoryCommand productCategoryCommand);
-    ProductCategory addProductCategory(ProductCategoryCommand productCategoryCommand);
-
+    ProductCategory findByName(String name);
     List<ProductCategory> findAllProductCategories();
-    boolean checkNameUnique(String name);
-    boolean checkNameUniqueExceptId(String name,int id);
-
+    boolean nameExist(String name);
+    boolean nameExistExceptId(String name,int id);
+    void addProductCategory(ProductCategoryCommand productCategoryCommand);
     void updateProductCategory(ProductCategoryCommand productCategoryCommand);
-
 }

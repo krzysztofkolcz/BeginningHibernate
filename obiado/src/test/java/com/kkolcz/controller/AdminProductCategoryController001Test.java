@@ -292,7 +292,7 @@ public class AdminProductCategoryController001Test{
       String id = "16";
       String name = P_CAT_NAME;
 
-      Mockito.when(productCategoryService.checkNameUniqueExceptId(name,Integer.parseInt(id))).thenReturn(false);
+      Mockito.when(productCategoryService.nameExistExceptId(name,Integer.parseInt(id))).thenReturn(true);
 
       postEditProductCategoryForm ( id, name )
       .andExpect(view().name(Const.A_VIEW_PRODUCT_CAT_EDIT))

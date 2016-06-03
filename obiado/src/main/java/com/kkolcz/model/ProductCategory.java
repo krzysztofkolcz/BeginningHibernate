@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.kkolcz.command.ProductCategoryCommand;
  
 @Entity
 @Table(name="product_category")
@@ -24,6 +26,13 @@ public class ProductCategory implements Model {
  
     @Column(name="name", nullable=false)
     private String name;
+
+    public ProductCategory(){
+    }
+
+    public ProductCategory(ProductCategoryCommand productCategoryCommand){
+       name = productCategoryCommand.getName();
+    }
 
     public int getId() {
         return id;

@@ -26,9 +26,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kkolcz.service.ProductService; 
-//import com.kkolcz.service.ProductServiceImpl; /* TODO */
+/* import com.kkolcz.service.ProductServiceImpl; #<{(| TODO |)}># */
 import com.kkolcz.service.ProductCategoryService; 
-//import com.kkolcz.service.ProductCategoryServiceImpl; /* TODO */
+import com.kkolcz.service.ProductCategoryServiceImpl; /* TODO */
 import com.kkolcz.model.Product; 
 import com.kkolcz.model.ProductCategory; 
 import com.kkolcz.command.ProductCommand;
@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
 public class AdminProductCategoryController extends BaseController{
   private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AdminProductCategoryController.class);
 
-  @Autowired private ProductService productService;
   @Autowired private ProductCategoryService productCategoryService;
 
   @Autowired private MessageSource messageSource; /* na potrzeby wypisania binding errors */
@@ -74,13 +73,13 @@ public class AdminProductCategoryController extends BaseController{
       WebRequest request) {
       ProductCategory productCategory = new ProductCategory();
 
-      boolean nameUnique = productCategoryService.checkNameUnique(productCategoryCommand.getName());
-      if(!nameUnique){
+      boolean nameExist = productCategoryService.nameExist(productCategoryCommand.getName());
+      if(nameExist){
           result.rejectValue("name", "message.categoryNameError");
       }
 
       if (!result.hasErrors()) {
-          productCategory = productCategoryService.addProductCategory(productCategoryCommand);
+           productCategoryService.addProductCategory(productCategoryCommand);
       }
       return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT,Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND , productCategoryCommand);
   }
@@ -103,8 +102,8 @@ public class AdminProductCategoryController extends BaseController{
 
       int id = Integer.parseInt(productCategoryId);
 
-      boolean nameUnique = productCategoryService.checkNameUnique(productCategoryCommand.getName());
-      if(!nameUnique){
+      boolean nameExist = productCategoryService.nameExistExceptId(productCategoryCommand.getName(),productCategoryCommand.getId());
+      if(nameExist){
           result.rejectValue("name", "message.categoryNameError");
       }
 

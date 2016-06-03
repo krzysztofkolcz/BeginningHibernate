@@ -952,6 +952,72 @@ Testy @Mock, @InjectMocks, @Spy,
 log4j:
 http://www.mkyong.com/logging/log4j-log4j-properties-examples/
 
+## obiado 
+### No tests were executed
+Przy uruchomieniu pojedyńczego testu:
+```
+mvn -Dtest=AdminProductCategoryController002TestInMemoryDao test
+```
+Pojawia się błąd:
+```
+No tests were executed!
+```
+Prawdopodobnie jakaś zależność łapie starego junita (w wersji 3) który nie rozpoznaje anotacji @Test
+
+Dodaję do pliku pom.xml do sekcji build:
+```
+  <build>
+    ...
+      <pluginManagement>
+          <plugins>
+            ...
+
+            <!-- dzięki temu surefire odpala testy junita otagowane za pmocą annotacji @Test. Bez tego korzysta z junita w wersji 3.8, ktory nie rozpoznaje annotacji -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>2.18.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+          </plugins>
+      </pluginManagement>
+      ...
+  </build>
+```
+
+Nadal nie działa.
+```
+mvn dependency:tree | grep 'junit'
+```
+```
+[INFO] +- junit:junit:jar:4.11:test
+[INFO] |  +- junit-addons:junit-addons:jar:1.4:test
+```
+testng zakomentowane w pom.xml, można zamiast tego dodać exclusion? np. dla selenium. Czy można tak zrobić dla testng i tylko junita?:
+```
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium</artifactId>
+  <version>2.0b1</version>
+  <exclusions>
+    <exclusion>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+```
+
+ODP.: Zła nazwa odpalanego testu, powinno być....:
+```
+mvn -Dtest=AdminProductCategoryController002InMemoryDaoTest test
+```
 == obiadoxml ==
 projekt z konfiguracją w xmlu w lokacji src/main/webapp/WEB-INF/config
 chce sprawdzić, czy można dodać katalog do ścieżki classpath w mavenie, oraz, czy możliwe jest trzymanie konfiguracji xmlowych w różnych lokalizacjacha, oraz jak je zaczytywać do testów
@@ -1211,3 +1277,21 @@ dodanie pliku manager.xml w ścieżce:
 $CATALINA_BASE/conf/[enginename]/[hostname]
 
 Niepotrzebnie wywaliłem katalog manager z webapps , przywróciłem backup. Działa pod linkime localhost:8080/manager/html
+
+## Spring roo
+[Spring Roo Download](http://projects.spring.io/spring-roo/#running-from-shell)
+```shell
+ln -s /opt/spring-roo-1.3.2.RELEASE/bin/roo.sh /usr/bin/roo
+roo
+```
+wygenerowanie nowego projektu (konsolka roo):
+```
+project --topLevelPackage com.kkolcz --projectName roo001
+help logging
+```
+
+
+
+
+
+
