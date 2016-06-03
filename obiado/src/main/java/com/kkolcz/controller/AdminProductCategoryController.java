@@ -32,7 +32,7 @@ import com.kkolcz.service.ProductCategoryService;
 import com.kkolcz.model.Product; 
 import com.kkolcz.model.ProductCategory; 
 import com.kkolcz.command.ProductCommand;
-import com.kkolcz.command.ProductCommand;
+import com.kkolcz.command.ProductCategoryCommand;
 import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Const;
 
@@ -56,14 +56,14 @@ public class AdminProductCategoryController extends BaseController{
   @RequestMapping(value = "/product-category-list", method = RequestMethod.GET)
   public String productCategoryListPage(ModelMap model){
       List<ProductCategory> productCategoryList = productCategoryService.findAllProductCategories();
-      model.addAttribute(Const.A_MODEL_PRODUCT_CAT_LIST,productCategoryList);
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_LIST,productCategoryList);
       return Const.A_VIEW_PRODUCT_CAT_LIST;
   }
 
   @RequestMapping(value = "/add-product-category", method = RequestMethod.GET)
   public String addProductCategory(ModelMap model){
       ProductCategoryCommand productCategoryCommand = new ProductCategoryCommand();
-      model.addAttribute(Const.A_MODEL_PRODUCT_CAT_COMMAND,productCategoryCommand);
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND,productCategoryCommand);
       return Const.A_VIEW_PRODUCT_CAT_EDIT;
   }
 
@@ -82,7 +82,7 @@ public class AdminProductCategoryController extends BaseController{
       if (!result.hasErrors()) {
           productCategory = productCategoryService.addProductCategory(productCategoryCommand);
       }
-      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT,Const.A_MODEL_PRODUCT_CAT_COMMAND , productCategoryCommand);
+      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT,Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND , productCategoryCommand);
   }
 
   @RequestMapping(value = "/edit-product-category-{productCategoryId}", method = RequestMethod.GET)
@@ -90,8 +90,8 @@ public class AdminProductCategoryController extends BaseController{
       int id = Integer.parseInt(productCategoryId);
       ProductCategory productCategory = productCategoryService.findById(id);
       ProductCategoryCommand productCategoryCommand = new ProductCategoryCommand(productCategory);
-      model.addAttribute(Const.A_MODEL_PRODUCT_CAT_COMMAND,productCategoryCommand);
-      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT, Const.A_MODEL_PRODUCT_CAT_COMMAND, productCategoryCommand);
+      model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND,productCategoryCommand);
+      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND, productCategoryCommand);
   }
 
   @RequestMapping(value = "/edit-product-category-{productCategoryId}", method = RequestMethod.POST)
@@ -112,6 +112,6 @@ public class AdminProductCategoryController extends BaseController{
           productCategoryCommand.setId(id);
           productCategoryService.updateProductCategory(productCategoryCommand);
       }
-      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT, Const.A_MODEL_PRODUCT_CAT_COMMAND, productCategoryCommand);
+      return new ModelAndView(Const.A_VIEW_PRODUCT_CAT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND, productCategoryCommand);
   }
 }

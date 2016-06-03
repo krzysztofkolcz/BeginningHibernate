@@ -11,11 +11,10 @@ public interface ProductCategoryService{
     ProductCategory updateProduct(ProductCategoryCommand productCategoryCommand);
     ProductCategory addProductCategory(ProductCategoryCommand productCategoryCommand);
 
-
     List<ProductCategory> findAllProductCategories();
     boolean checkNameUnique(String name);
-    ProductCategory addProductCategory(ProductCategoryCommand productCategoryCommand);
-    ProductCategory findById(int id);
-    updateProductCategory(productCategoryCommand);
+    boolean checkNameUniqueExceptId(String name,int id);
+
+    void updateProductCategory(ProductCategoryCommand productCategoryCommand);
 
 }
