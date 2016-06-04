@@ -16,10 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import java.math.BigDecimal;
+
+import com.kkolcz.command.ProductCommand;
  
 @Entity
 @Table(name="product")
-public class Product implements Model {
+public class Product extends AbstractModel<ProductCommand> implements Model {
  
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
@@ -44,6 +46,17 @@ public class Product implements Model {
              joinColumns = { @JoinColumn(name = "product_id") }, 
              inverseJoinColumns = { @JoinColumn(name = "product_category_id") })
     private Set<ProductCategory> productCategories = new HashSet<ProductCategory>();
+
+    @Override
+    public void fillDataFromCommandObject(ProductCommand command){
+        this.id = command.getId();
+        this.name = command.getName();
+        this.price = new BigDecimal(command.getPrice());
+        this.sku = command.getSku();
+        this.active = command.isActive();
+        this.state = command.getState();
+        this.productCategories = command.getProductCategories(); 
+    }
  
     public int getId() {
         return id;

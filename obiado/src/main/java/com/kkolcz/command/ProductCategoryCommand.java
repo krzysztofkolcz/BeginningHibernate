@@ -11,11 +11,11 @@ import com.kkolcz.model.Product;
 import com.kkolcz.validator.*;
 import java.math.BigDecimal;
 
-public class ProductCategoryCommand implements Serializable{
+public class ProductCategoryCommand extends AbstractCommand implements Serializable{
 
     private static final long serialVersionUID = 4L;
 
-    private int id;
+    /* private int id; */
 
     @NotNull
     @NotEmpty
@@ -30,13 +30,13 @@ public class ProductCategoryCommand implements Serializable{
     }
 
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    /* public int getId() { */
+    /*     return id; */
+    /* } */
+    /*  */
+    /* public void setId(int id) { */
+    /*     this.id = id; */
+    /* } */
 
     public String getName() {
         return name;

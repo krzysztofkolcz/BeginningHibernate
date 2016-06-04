@@ -12,6 +12,7 @@ import com.kkolcz.model.ProductCategory;
  
 @Repository("productCategoryDao")
 public class ProductCategoryDaoImpl extends AbstractDao<Integer, ProductCategory> implements ProductCategoryDao {
+
     public ProductCategory findById(int id) {
         ProductCategory productCategory = getByKey(id);
         return productCategory;

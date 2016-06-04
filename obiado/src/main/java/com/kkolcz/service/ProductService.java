@@ -5,10 +5,10 @@ import com.kkolcz.command.ProductCommand;
 import java.util.List;
 
 public interface ProductService{
-    List<Product> findAllProducts();
+    List<Product> findAll();
     Product findById(int id);
-    boolean checkSkuUnique(String sku);
-    boolean checkSkuUniqueExceptId(String sku,int productId);
-    Product updateProduct(ProductCommand productCommand);
-    Product addProduct(ProductCommand productCommand);
+    boolean skuExists(String sku);
+    boolean skuExistsExceptId(String sku,int productId);
+    void update(ProductCommand productCommand);
+    void add(ProductCommand productCommand,Product product);
 }

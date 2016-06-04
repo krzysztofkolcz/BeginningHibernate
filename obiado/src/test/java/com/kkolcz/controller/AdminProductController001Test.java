@@ -264,7 +264,7 @@ public class AdminProductController001Test{
     @Test
     public void adminProductListTest() throws Exception{
 
-        Mockito.when(productService.findAllProducts()).thenReturn(createProductList());
+        Mockito.when(productService.findAll()).thenReturn(createProductList());
 
         mockMvc.perform(get("/admin/product-list"))
           .andExpect(view().name(Const.A_VIEW_PRODUCT_LIST))
@@ -438,7 +438,7 @@ public class AdminProductController001Test{
       String productCat1 = "1";
       String productCat2 = "2";
 
-      Mockito.when(productService.checkSkuUniqueExceptId(sku,Integer.parseInt(id))).thenReturn(false);
+      Mockito.when(productService.skuExistsExceptId(sku,Integer.parseInt(id))).thenReturn(true);
 
       postEditProductForm ( id, name,  price,  sku,  active,  state,   productCat1,   productCat2)
       .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
