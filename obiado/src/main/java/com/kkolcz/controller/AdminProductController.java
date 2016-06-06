@@ -55,12 +55,12 @@ public class AdminProductController extends BaseController{
   /* TODO - jak to działa */
   @ModelAttribute("categories")
   public List<ProductCategory> initializeProfiles() {
-      return productCategoryService.findAllCategories();
+      return productCategoryService.findAllProductCategories();
   }
 
   @RequestMapping(value = "/product-list", method = RequestMethod.GET)
   public String productListPage(ModelMap model){
-      List<Product> productList = productService.findAllProducts();
+      List<Product> productList = productService.findAll();
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
       return Const.A_VIEW_PRODUCT_LIST;
   }
@@ -79,15 +79,15 @@ public class AdminProductController extends BaseController{
       WebRequest request) {
       Product product = new Product();
 
-      boolean skuUniqe = productService.checkSkuUnique(productCommand.getSku());
-      if(!skuUniqe){
+      boolean skuExists = !productService.skuExists(productCommand.getSku());
+      if(skuExists){
           result.rejectValue("sku", "message.skuError");
       }
 
       if (result.hasErrors()) {
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
-          product = productService.addProduct(productCommand);
+          productService.add(productCommand,product);
           return new ModelAndView(Const.A_VIEW_SUCCESS_PRODUCT_ADD,Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , productCommand);
       } 
   }
@@ -110,8 +110,8 @@ public class AdminProductController extends BaseController{
 
       int id = Integer.parseInt(productId);
 
-      boolean skuUniqe = productService.checkSkuUniqueExceptId(productCommand.getSku(),id);
-      if(!skuUniqe){
+      boolean skuExistsExceptId = productService.skuExistsExceptId(productCommand.getSku(),id);
+      if(skuExistsExceptId){
           result.rejectValue("sku", "message.skuError");
       }
 
@@ -119,7 +119,7 @@ public class AdminProductController extends BaseController{
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
           productCommand.setId(id);
-          productService.updateProduct(productCommand);
+          productService.update(productCommand);
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }
   }
