@@ -19,3 +19,20 @@ INSERT INTO app_user_user_profile (user_id, user_profile_id) VALUES
 (12, 6),
 (13, 6),
 (14, 6);
+
+
+
+INSERT INTO product (id, name, price, active, sku, state) VALUES
+(1, 'Schabowy zestaw', '18.00', 1, '000-000-001', 'Active'),
+(2, 'Polędwiczki grillowane', '16.00', 1, '000-000-002', 'Active'),
+(3, 'Zupa z jelenia', '6.00', 1, '000-000-003', 'Active');
+
+INSERT INTO product_category (id, name) VALUES
+(2, 'Zacne żarcie'),
+(1, 'Gastrofaza');
+
+
+INSERT INTO product_product_category (product_id, product_category_id) VALUES
+(1, 1),
+(2, 1),
+(3, 2);
