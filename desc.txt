@@ -1290,8 +1290,12 @@ project --topLevelPackage com.kkolcz --projectName roo001
 help logging
 ```
 
+## Bean instantiation
+Test how spring can instantiate two beans of the same class with different parameters.
+The reason of this test is connection pool - I have two login data. 
 
-
+mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=beanInstantiation -Dpackage=com.kkolcz -Dversion=1.0
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.App
 
 
 

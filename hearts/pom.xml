@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.kkolcz.hibernate</groupId>
+    <artifactId>hibernate-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>com.hearts</groupId>
+  <artifactId>hearts</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>hearts</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>net.java.dev.swing-layout</groupId>
+        <artifactId>swing-layout</artifactId>
+        <version>1.0.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+      <plugins>
+          <plugin>
+              <!-- maven-compiler-plugin tells Spring to build -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.3.2</version>
+              <configuration>
+                  <source>${java.version}</source>
+                  <target>${java.version}</target>
+              </configuration>
+          </plugin>
+          <plugin>
+            <!-- maven-jar-plugin tells Spring to include all files in the lib directory in the resultant JAR file's classpath. 
+            It also instructs Spring to make the siia.helloworld.channel.HelloWorldExample the main-class for this JAR file 
+            (meaning that if you execute the file as java -jar then this class will be executed. -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                  <archive>
+                      <manifest>
+                          <addClasspath>true</addClasspath>
+                          <classpathPrefix>lib/</classpathPrefix>
+                          <mainClass>com.hearts.MyJDialog</mainClass>
+                      </manifest>
+                  </archive>
+              </configuration>
+          </plugin>
+          <plugin>
+              <!-- maven-dependency-plugin tells Maven to copy all of the project's dependencies to the target/lib directory. -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-dependency-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>copy</id>
+                      <phase>install</phase>
+                      <goals>
+                          <goal>copy-dependencies</goal>
+                      </goals>
+                      <configuration>
+                          <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+      </plugins>
+      <finalName>hearts</finalName>
+    </build>
+</project>

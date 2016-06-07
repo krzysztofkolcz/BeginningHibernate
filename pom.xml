@@ -25,6 +25,7 @@
     <module>springScheduler001</module>
     <module>rabbitapp</module>
     <module>springScheduler002</module>
+    <module>beanInstantiation</module>
   </modules>
 
     <name>hibernate-parent</name>
