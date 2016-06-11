@@ -162,3 +162,7 @@ ModelAttribute("roles") w AdminController - jak to działa
 Converters and editors
 https://dzone.com/articles/property-editors
 TODO - jak zrobić, żeby price akceptował zarówno kropkę jak i przecinek.
+
+
+Problem - dla każdego testu korzystającego z DbUnitHibernateConfig odpalane są skrypty tworzące bazę, jednak baza nie jest niszczona przy zakończeniu testu.
+http://forum.spring.io/forum/spring-projects/data/71251-embedded-datasources-are-not-dropped-when-context-is-destroyed
