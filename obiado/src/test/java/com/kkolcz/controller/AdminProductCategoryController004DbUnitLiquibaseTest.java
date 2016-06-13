@@ -1,10 +1,8 @@
-package com.kkolcz;
+package com.kkolcz.controller;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-/* import org.springframework.web.servlet.view.InternalResourceView; */
-
-/* import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*; */
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import org.springframework.http.MediaType;
@@ -26,34 +24,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-/* import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*; */
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-/* import org.springframework.test.web.servlet.MockMvc; */
-/* import org.testng.annotations.Test; */
-/* import org.springframework.http.MediaType; */
-/* import static org.mockito.Mockito.*; */
-/* import static org.junit.matchers.JUnitMatchers.*; // for hasItem() */
-/* import static org.junit.Assert.*; */
-/* import org.junit.Test; */
-/* import org.junit.runner.RunWith; */
 
 import com.kkolcz.controller.*;
-import com.kkolcz.dao.UserProfileDao;
-import com.kkolcz.dao.UserDao;
+import com.kkolcz.constants.Const;
+import com.kkolcz.dao.ProductCategoryDao;
 import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.UserProfileType;
-import com.kkolcz.config.DbUnitAppContext;
+import com.kkolcz.config.AdminProductCategoryController003Context;
 import com.kkolcz.config.DbUnitHibernateConfig;
 import com.kkolcz.config.AppConfig;
+import com.kkolcz.config.DbUnitAppContext;
+import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
 
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-/* import com.github.springtestdbunit.annotation.DatabaseSetup; */
-/* import com.github.springtestdbunit.annotation.ExpectedDatabase; */
-/* import com.github.springtestdbunit.assertion.DatabaseAssertionMode; */
-
 
 import javax.annotation.Resource;
 
@@ -79,26 +66,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashSet;
 import javax.sql.DataSource;
 
+import liquibase.Liquibase;
+import liquibase.resource.FileSystemResourceAccessor;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.integration.spring.SpringLiquibase;
+import liquibase.changelog.DatabaseChangeLog;
+import liquibase.database.jvm.HsqlConnection;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DbUnitAppContext.class,DbUnitHibernateConfig.class})
+@ContextConfiguration(classes = {AdminProductCategoryController003Context.class, DbUnitHibernateLiquibaseConfig.class})
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
 @WebAppConfiguration
-public class DbUnitAdminControllerTest {
+public class AdminProductCategoryController004DbUnitLiquibaseTest{
 
-    @Autowired UserDao userDao;
-    @Autowired UserProfileDao userProfileDao;
 
-    public static final String FIRST_NAME         = "firstName";
-    public static final String LAST_NAME          = "lastName";
-    public static final String EMAIL              = "email";
-    public static final String PASSWORD           = "password";
-    public static final String MATCHING_PASSWORD  = "matchingPassword";
+    public static final String NAME               = "name";
+    public static final String ID                 = "id";
 
     @Resource
     private WebApplicationContext webApplicationContext;
+
+    @Autowired ApplicationContext context;
 
     private MockMvc mockMvc;
 
@@ -107,25 +101,36 @@ public class DbUnitAdminControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     } 
 
+    @Before
+    public void setUpDatabase() throws Exception{
+      FileSystemResourceAccessor fsra = new FileSystemResourceAccessor();
+      DatabaseChangeLog changelog = new DatabaseChangeLog("src/main/resources/liquibase/changelog.xml");
+      DataSource dataSource = (DataSource)context.getBean("dataSource");
+      HsqlConnection hsqlConnection = new HsqlConnection(dataSource.getConnection());
+      Liquibase liquibase;
+      liquibase = new Liquibase("src/main/resources/liquibase/changelog.xml",
+              fsra,
+              hsqlConnection
+      );
+      liquibase.update("");
+    }
 
     @Test
     public void adminUserListPageTest() throws Exception{
+
       System.out.println("++++++++++++++++++++++++++++++++=");
-      System.out.println(AdminController.VIEW_USER_LIST);
+      System.out.println("TEST");
       System.out.println("++++++++++++++++++++++++++++++++=");
 
-      mockMvc.perform(get("/admin/user-list"))
-      .andExpect(view().name(AdminController.VIEW_USER_LIST))
-      .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp"))
-      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasSize(6)))
-      .andExpect(model().attribute(AdminController.MODEL_ATTRIBUTE_USER_LIST , hasItem(
+
+      mockMvc.perform(get("/admin/product-category-list"))
+      .andExpect(view().name(Const.A_VIEW_PRODUCT_CAT_LIST))
+      .andExpect(forwardedUrl("/WEB-INF/views/admin/productCategoryList.jsp"))
+      .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_LIST , hasSize(2)))
+      .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_LIST, hasItem(
                               allOf(
-                                      hasProperty(FIRST_NAME, is("Marian")),
-                                      hasProperty(LAST_NAME, is("Zenoniusz")),
-                                      hasProperty(EMAIL, is("marian.zenoniusz@gmail.com"))
+                                      hasProperty(NAME, is("4 jelenie"))
                               )
                       )));
     }
-
-
 }

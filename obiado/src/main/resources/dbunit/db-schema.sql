@@ -1,5 +1,3 @@
- SET DATABASE TEXT TABLE DEFAULTS 'encoding=UTF-8';
-
 CREATE TABLE app_user (
   id bigint NOT NULL IDENTITY,
   password varchar(100) NOT NULL,

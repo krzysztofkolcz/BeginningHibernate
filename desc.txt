@@ -1018,6 +1018,9 @@ ODP.: Zła nazwa odpalanego testu, powinno być....:
 ```
 mvn -Dtest=AdminProductCategoryController002InMemoryDaoTest test
 ```
+
+Kolejny problem - zła nazwa pakietu, powinno być com.kkolcz.controller; zamiast com.kkolcz;
+Nie było informacji o tym problemie, jedynie informacja o braku testu.
 == obiadoxml ==
 projekt z konfiguracją w xmlu w lokacji src/main/webapp/WEB-INF/config
 chce sprawdzić, czy można dodać katalog do ścieżki classpath w mavenie, oraz, czy możliwe jest trzymanie konfiguracji xmlowych w różnych lokalizacjacha, oraz jak je zaczytywać do testów
