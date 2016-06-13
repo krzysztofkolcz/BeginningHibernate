@@ -21,6 +21,14 @@ public abstract class AbstractInMemoryDao<T extends Model> {
     }
  
     public void persist(T entity) {
+      /* if(entity.getId() == null){ */
+      /*   int size = dao.size(); */
+      /*   int id = size++; */
+      /*   entity.setId(id); */
+      /* } */
+      System.out.println("========================");
+      System.out.println(entity.getId());
+      System.out.println("========================");
       dao.add(entity);
     }
 

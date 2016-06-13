@@ -15,7 +15,7 @@ import com.kkolcz.command.ProductCommand;
  
 @Service("productService")
 @Transactional
-public class ProductServiceImpl extends AbstractService<Product,ProductCommand,AbstractDao> implements ProductService{
+public class ProductServiceImpl extends AbstractService<Product,ProductCommand,ProductDao> implements ProductService{
      
     @Autowired ProductDao dao;
      
@@ -27,8 +27,8 @@ public class ProductServiceImpl extends AbstractService<Product,ProductCommand,A
 
 
     public boolean skuExists(String sku){
-        Product element = (Product)dao.findBySku(sku);
-        if (element != null) {
+        List<Product> elements = (List<Product>)dao.findBySku(sku);
+        if (elements != null && elements.size() > 0) {
             return true;
         }
         return false;

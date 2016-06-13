@@ -18,11 +18,12 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
         return product;
     }
  
-    public Product findBySku(String sku) {
+    public List<Product> findBySku(String sku) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("sku", sku));
-        Product product = (Product) crit.uniqueResult();
-        return product;
+        List<Product> products = (List<Product>)crit.list();
+        /* Product product = (Product) crit.uniqueResult(); */
+        return products;
     }
 
     public List<Product> findBySkuExceptId(String sku,int id){

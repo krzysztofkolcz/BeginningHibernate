@@ -1,39 +1,5 @@
 package com.kkolcz.controller;
 
-/*
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import org.junit.Before;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.kkolcz.service.ProductService; 
-import com.kkolcz.service.ProductCategoryService; 
-import com.kkolcz.model.Product; 
-import com.kkolcz.model.ProductCategory; 
-import com.kkolcz.command.ProductCommand;
-import com.kkolcz.exception.SkuExistsException;
-import com.kkolcz.constants.Const;
-
-import java.util.List;
-import java.util.ArrayList;
-*/
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -106,6 +72,7 @@ import com.kkolcz.model.ProductCategory;
 import com.kkolcz.command.ProductCommand;
 import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Const;
+import com.kkolcz.fixture.Create;
 
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
@@ -118,16 +85,8 @@ import java.math.BigDecimal;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
 @WebAppConfiguration
-public class AdminProductController001Test{
+public class AdminProductController001Test extends AdminProductController000General{
 
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String STATE = "state";
-    public static final String PRICE = "price";
-    public static final String ACTIVE = "active";
-    public static final String SKU = "sku";
-    public static final String PRODUCTCATEGORIES = "productCategories";
- 
     @org.springframework.context.annotation.Configuration
     @EnableWebMvc /* bez tej annotacji nie działał RoleToUserProvileConverter*/
     static class Configuration extends WebMvcConfigurerAdapter
@@ -163,287 +122,141 @@ public class AdminProductController001Test{
         }
     }
 
-    @Resource private WebApplicationContext wac;
-
-    private MockMvc mockMvc;
-    private MockHttpSession mockHttpSession;
-
-    @Autowired ProductService productService;
-    @Autowired ProductCategoryService productCategoryService;
+    private Create create; 
 
     @Before
     public void setUp() {
+        this.create = new Create();
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         mockHttpSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
 
-        Mockito.when(productCategoryService.findById(1)).thenReturn(createProductCategory1());
-        Mockito.when(productCategoryService.findById(2)).thenReturn(createProductCategory2());
+        Mockito.when(productCategoryService.findById(1)).thenReturn(getProductCategory1());
+        Mockito.when(productCategoryService.findById(2)).thenReturn(getProductCategory2());
 
-        Mockito.when(productService.findById(16)).thenReturn(createProduct16());
+        Mockito.when(productService.findById(1)).thenReturn(getProduct1());
+        Mockito.when(productService.findById(2)).thenReturn(getProduct2());
+
+        Mockito.when(productService.skuExistsExceptId("000-000-001",Integer.parseInt("2"))).thenReturn(true);
     } 
 
-
-    private List<Product> createProductList(){
-        List<Product> productList = new ArrayList<Product>();
-        productList.add(createProduct());
-        return productList;
+    protected ProductCategory getProductCategory1(){
+        return create.getProductCategory1();
     }
 
-    private Product createProduct16(){
-        Product product = new Product();
-        product.setId(16);
-        product.setName("Product 16");
-        product.setPrice(new BigDecimal("16.50"));
-        product.setActive(true);
-        product.setState("Active");
-        product.setSku("000-000-016");
-        HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
-        productCategories.add(createProductCategory1()); 
-        product.setProductCategories(productCategories);
-        return product;
+    protected ProductCategory getProductCategory2(){
+        return create.getProductCategory2();
     }
 
-    private Product createProduct(){
-        Product product = new Product();
-        product.setId(1);
-        product.setName("Schabowy zestaw");
-        product.setPrice(new BigDecimal("17.50"));
-        product.setActive(true);
-        product.setState("Active");
-        product.setSku("000-000-001");
-        HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
-        productCategories.add(createProductCategory1()); 
-        product.setProductCategories(productCategories);
-        return product;
+    protected Product getProduct1(){
+        return create.getProduct1();
     }
 
 
-    private ProductCategory createProductCategory1(){
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(1); 
-        productCategory.setName("4 jelenie"); 
-        return productCategory;
+    protected Product getProduct2(){
+        return create.getProduct2();
     }
 
-    private ProductCategory createProductCategory2(){
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(2); 
-        productCategory.setName("Samos"); 
-        return productCategory;
-    }
 
-            
-    private ResultActions postEditProductForm (String id,String name, String price, String sku, String active, String state, String  productCat1, String  productCat2) throws Exception{
-        return mockMvc.perform(post("/admin/edit-product-"+id)
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .param( ID , id)
-            .param( NAME, name )
-            .param( PRICE, price )
-            .param( SKU, sku )
-            .param( ACTIVE, active )
-            .param( STATE, state )
-            .param( PRODUCTCATEGORIES , productCat1 )
-            .param( PRODUCTCATEGORIES , productCat2 )
-        );
-    }
+    /* protected ProductCategory getProductCategory1(){ */
+    /*     ProductCategory productCategory = new ProductCategory(); */
+    /*     productCategory.setId(1);  */
+    /*     productCategory.setName("4 jelenie");  */
+    /*     return productCategory; */
+    /* } */
+    /*  */
+    /* protected ProductCategory getProductCategory2(){ */
+    /*     ProductCategory productCategory = new ProductCategory(); */
+    /*     productCategory.setId(2);  */
+    /*     productCategory.setName("Samos");  */
+    /*     return productCategory; */
+    /* } */
+    /*  */
+    /* protected Product getProduct1(){ */
+    /*     Product product = new Product(); */
+    /*     product.setId(1); */
+    /*     product.setName("Schabowy zestaw"); */
+    /*     product.setPrice(new BigDecimal("17.50")); */
+    /*     product.setActive(true); */
+    /*     product.setState("Active"); */
+    /*     product.setSku("000-000-001"); */
+    /*     HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>(); */
+    /*     productCategories.add(getProductCategory2());  */
+    /*     product.setProductCategories(productCategories); */
+    /*     return product; */
+    /* } */
+    /*  */
+    /*  */
+    /* protected Product getProduct2(){ */
+    /*     Product product = new Product(); */
+    /*     product.setId(2); */
+    /*     product.setName("Polędwiczki grillowane"); */
+    /*     product.setPrice(new BigDecimal("16.00")); */
+    /*     product.setActive(true); */
+    /*     product.setState("Active"); */
+    /*     product.setSku("000-000-002"); */
+    /*     HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>(); */
+    /*     productCategories.add(getProductCategory2());  */
+    /*     product.setProductCategories(productCategories); */
+    /*     return product; */
+    /* } */
 
-    private ResultActions postAddProductForm (String name, String price, String sku, String active, String state, String  productCat1, String  productCat2) throws Exception{
-        return mockMvc.perform(post("/admin/add-product")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .param( NAME, name )
-            .param( PRICE, price )
-            .param( SKU, sku )
-            .param( ACTIVE, active )
-            .param( STATE, state )
-            .param( PRODUCTCATEGORIES , productCat1 )
-            .param( PRODUCTCATEGORIES , productCat2 )
-        );
-    }
 
     @Test
     public void adminProductListTest() throws Exception{
+        super.adminProductListTest();
 
-        Mockito.when(productService.findAll()).thenReturn(createProductList());
-
-        mockMvc.perform(get("/admin/product-list"))
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_LIST))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST  , hasItem(
-                allOf(
-                        hasProperty(NAME, is("Schabowy zestaw")),
-                        hasProperty(PRICE, is(new BigDecimal("17.50"))),
-                        hasProperty(SKU, is("000-000-001")),
-                        hasProperty(ACTIVE, is(true)),
-                        hasProperty(STATE, is("Active"))
-                )
-          )));
     }
 
     @Test
     public void adminAddProductGETTest() throws Exception{
-          mockMvc.perform(get("/admin/add-product"))
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT));
+        super.adminAddProductGETTest();
+
     }
 
     @Test
     public void adminAddProductPOSTValidTest() throws Exception{
+        super.adminAddProductPOSTValidTest();
 
-          String name     = "Filet z kurczaka zestaw";
-          String price    = new BigDecimal("19.50").toString();
-          String sku      = "000-000-002";
-          String active   = "true";
-          String state    = "Active";
-          String productCat1 = "1";
-          String productCat2 = "2";
-
-          postAddProductForm (name, price, sku, active, state, productCat1, productCat2)
-           .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price)) ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( SKU, equalTo(sku)) ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(true)) ))
-           
-           /* http://www.marcphilipp.de/downloads/posts/2013-01-02-hamcrest-quick-reference/Hamcrest-1.3.pdf */
-           /* http://stackoverflow.com/questions/18919983/interrogation-about-spring-mvc-test-apis-model-attribute-method */
-           /* public <T> ResultMatcher attribute(final String name, final Matcher<T> matcher) */
-
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
-                 hasProperty( PRODUCTCATEGORIES  ,
-                     hasItem(createProductCategory1())
-                 )
-           ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
-                 hasProperty( PRODUCTCATEGORIES  ,
-                     hasItem(createProductCategory2())
-                 )
-           ))
-           ;
     }
 
 
     @Test
     public void adminAddProductPOSTInvalidFieldsTest() throws Exception{
-          String name ="";
-          String price = new BigDecimal("19.50").toString();
-          String sku = "000-000-002";
-          String active = "true";
-          String state ="Active";
-          String productCat1 = "1";
-          String productCat2 = "2";
+        super.adminAddProductPOSTInvalidFieldsTest();
 
-          postAddProductForm (name, price, sku, active, state, productCat1, productCat2)
-          .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
-          .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , NAME ))
-          ;
     }
 
     @Test
     public void adminAddProductPOSTInvalidSkuTest() throws Exception{
-
-          String name ="Filet z kurczaka zestaw";
-          String price = new BigDecimal("19.50").toString();
-          String sku = "000a9eih-000-002";
-          String active = "true";
-          String state ="Active";
-          String productCat1 = "1";
-          String productCat2 = "2";
-
-          postAddProductForm (name, price, sku, active, state, productCat1, productCat2)
-          .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
-          .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , SKU ))
-          ;
+        super.adminAddProductPOSTInvalidSkuTest();
 
     }
     
 
     @Test
     public void adminEditProductGETTest() throws Exception{
-          mockMvc.perform(get("/admin/edit-product-16"))
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ID , equalTo(16)) ))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo("Product 16")) ))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo("16.50")) ))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( SKU, equalTo("000-000-016")) ))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( ACTIVE, equalTo(true)) ))
-          .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( STATE , equalTo("Active")) ));
+        super.adminEditProductGETTest();
+
     }
 
     @Test
     public void adminEditProductPOSTValidTest() throws Exception{
+        super.adminEditProductPOSTValidTest();
 
-          String name ="Filet z kurczaka zestaw";
-          String price = new BigDecimal("19.50").toString();
-          String sku = "000-000-002";
-          String active = "true";
-          boolean activeB = true;
-          String state ="Active";
-          String productCat1 = "1";
-          String productCat2 = "2";
-          String id = "16";
-          postEditProductForm ( id, name,  price,  sku,  active,  state,   productCat1,   productCat2)
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty(NAME, equalTo(name)) ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty(PRICE, equalTo(price)) ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty(SKU, equalTo(sku)) ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty(ACTIVE, equalTo(activeB)) ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty(STATE, equalTo(state)) ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
-                 hasProperty( PRODUCTCATEGORIES  ,
-                     hasItem(createProductCategory1())
-                 )
-                  
-          ))
-          .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, 
-                 hasProperty( PRODUCTCATEGORIES  ,
-                     hasItem(createProductCategory2())
-                 )
-          ));
     }
 
-    /*
-
-    @Test
-    public void adminEditProductPOSTInvalidFieldsTest(){
-    }
-
-    */
 
     @Test
     public void adminEditProductPOSTInvalidSkuTest() throws Exception {
+        super.adminEditProductPOSTInvalidSkuTest();
 
-          String name ="Filet z kurczaka zestaw";
-          String price = new BigDecimal("19.50").toString();
-          String sku = "000-000-002agoiugh";
-          String active = "true";
-          boolean activeB = true;
-          String state ="Active";
-          String productCat1 = "1";
-          String productCat2 = "2";
-          String id = "16";
-          postEditProductForm ( id, name,  price,  sku,  active,  state,   productCat1,   productCat2)
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
-          .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , SKU ))
-          ;
     }
 
     @Test
     public void adminEditProductPOSTExistingSkuTest() throws Exception {
-      String id = "16";
-      String sku = "000-000-002";
-      String name ="Filet z kurczaka zestaw";
-      String price = new BigDecimal("19.50").toString();
-      String active = "true";
-      boolean activeB = true;
-      String state ="Active";
-      String productCat1 = "1";
-      String productCat2 = "2";
+        super.adminEditProductPOSTExistingSkuTest();
 
-      Mockito.when(productService.skuExistsExceptId(sku,Integer.parseInt(id))).thenReturn(true);
-
-      postEditProductForm ( id, name,  price,  sku,  active,  state,   productCat1,   productCat2)
-      .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
-      .andExpect(model().attributeHasFieldErrors( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , SKU ))
-      ;
     }
 
 }
