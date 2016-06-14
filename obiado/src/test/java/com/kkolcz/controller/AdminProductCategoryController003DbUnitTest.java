@@ -98,7 +98,7 @@ public class AdminProductCategoryController003DbUnitTest{
       .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_LIST , hasSize(2)))
       .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_LIST, hasItem(
                               allOf(
-                                      hasProperty(NAME, is("Gastrofaza")),
+                                      hasProperty(NAME, is("4 jelenie")),
                                       hasProperty(ID, is(1))
                               )
                       )));

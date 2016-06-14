@@ -1,5 +1,11 @@
 package com.kkolcz.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -26,10 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.kkolcz.controller.*;
+import com.kkolcz.service.*;
 import com.kkolcz.dao.ProductCategoryDao;
+import com.kkolcz.dao.ProductDao;
 import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.ProductCategory;
-import com.kkolcz.config.AdminProductCategoryController002InMemoryDaoTestContext ;
+import com.kkolcz.model.Product;
+import com.kkolcz.config.AdminProductController002InMemoryDaoTestContext;
 import com.kkolcz.constants.Const;
 
 import javax.annotation.Resource;
@@ -57,13 +66,19 @@ mvn -Dtest=AdminProductCategoryController002TestInMemoryDao test
 */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AdminProductCategoryController002InMemoryDaoTestContext.class})
+@ContextConfiguration(classes = {AdminProductController002InMemoryDaoTestContext.class})
 @WebAppConfiguration
-public class  AdminProductCategoryController002InMemoryDaoTest{
+public class  AdminProductController002InMemoryDaoTestDelete{
     public static final String ID = "id";
     public static final String NAME = "name";
+    public static final String PRICE = "price";
+    public static final String ACTIVE = "active";
+    public static final String SKU = "sku";
+    public static final String PRODUCTCATEGORY = "productCategory";
 
     @Autowired ProductCategoryDao productCategoryDao; 
+    @Autowired ProductDao productDao; 
+    @Autowired ProductCategoryService productCategoryService;
 
     @Resource
     private WebApplicationContext webApplicationContext;
@@ -74,30 +89,63 @@ public class  AdminProductCategoryController002InMemoryDaoTest{
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     } 
 
-    private ResultActions postEditProductCategoryForm (String id,String name) throws Exception{
-        return mockMvc.perform(post("/admin/edit-product-category-"+id)
+    @Before
+    public void setUpProductCategories() {
+        ProductCategory pc1 = new ProductCategory();
+        ProductCategory pc2 = new ProductCategory();
+        pc1.setId(1);
+        pc1.setName("Category 1");
+        pc2.setId(2);
+        pc2.setName("Category 2");
+        productCategoryDao.saveProductCategory(pc1);
+        productCategoryDao.saveProductCategory(pc2);
+    } 
+
+    @Before
+    public void setUpProducts() {
+        Product p1 = new Product();
+        p1.setName("kotlet");
+        p1.setSku("aaa-aaa-aaa");
+        p1.setPrice(new BigDecimal("180.20"));
+        p1.setActive(true);
+        Set<ProductCategory> set = new HashSet<ProductCategory>();
+        set.add(productCategoryService.findById(1));
+        p1.setProductCategories(set);
+        productDao.save(p1);
+    } 
+
+    private ResultActions postEditProductForm (String id,String name,String price,String sku,String productCategoryId) throws Exception{
+        return mockMvc.perform(post("/admin/edit-product-"+id)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .param( ID , id)
             .param( NAME, name )
+            .param( PRICE, price)
+            .param( SKU, sku)
+            .param( PRODUCTCATEGORY, productCategoryId)
         );
     }
 
-    private ResultActions postAddProductCategoryForm (String name) throws Exception{
-        return mockMvc.perform(post("/admin/add-product-category")
+    private ResultActions postAddProductForm (String name,String price, String sku,String productCategoryId) throws Exception{
+        return mockMvc.perform(post("/admin/add-product")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .param( NAME, name )
+            .param( PRICE, price)
+            .param( SKU, sku)
+            .param( PRODUCTCATEGORY, productCategoryId)
         );
     }
 
-
-
     @Test
-    public void adminAddProductCategoryPOSTValidTest() throws Exception{
-          String name     = "Category XX";
-          postAddProductCategoryForm (name)
-           .andExpect(view().name( Const.A_VIEW_PRODUCT_CAT_EDIT ))
-           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND, hasProperty( NAME, equalTo(name)) ));
-          ProductCategory productCategory = productCategoryDao.findByName(name);
-          assertThat(productCategory.getName(),equalTo(name));
+    public void adminAddProductPOSTValidTest() throws Exception{
+          String name     = "kotlet";
+          postAddProductForm (name,"290","aaa-aaa-aaa","1")
+           .andExpect(view().name( Const.A_VIEW_PRODUCT_EDIT ))
+           .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ));
+          List<Product> products = productDao.findAll();
+          for(Product p: products) {
+            System.out.println(p.getName());
+          }
+          Product product = productDao.findByName(name);
+          assertThat(product.getName(),equalTo(name));
     }
 }

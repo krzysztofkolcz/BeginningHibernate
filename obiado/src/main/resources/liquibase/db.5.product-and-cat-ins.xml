@@ -6,12 +6,15 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
   <changeSet id="product_and_category_inserts" author="kkolcz">
     <insert tableName="product_category"  >
-        <column name="name" value="Samos"/>
-    </insert>
-    <insert tableName="product_category"  >
+        <column name="id" value="1"/>
         <column name="name" value="4 jelenie"/>
     </insert>
+    <insert tableName="product_category"  >
+        <column name="id" value="2"/>
+        <column name="name" value="Samos"/>
+    </insert>
     <insert tableName="product"  >
+      <column name="id" value="1"/>
       <column name="name" value="Schabowy zestaw"/>
       <column name="price" value="17.50"/>
       <column name="active" valueBoolean="true"/>
@@ -19,6 +22,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       <column name="sku" value="000-000-001"/>
     </insert>
     <insert tableName="product"  >
+      <column name="id" value="2"/>
       <column name="name" value="Polędwiczki grillowane"/>
       <column name="price" value="15.90"/>
       <column name="active" valueBoolean="true"/>
@@ -26,6 +30,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       <column name="sku" value="000-000-002"/>
     </insert>
     <insert tableName="product"  >
+      <column name="id" value="3"/>
       <column name="name" value="Zupa z jelenia"/>
       <column name="price" value="5.90"/>
       <column name="active" valueBoolean="true"/>

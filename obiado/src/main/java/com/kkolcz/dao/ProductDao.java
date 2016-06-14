@@ -5,5 +5,5 @@ import com.kkolcz.model.Product;
  
 public interface ProductDao extends Dao<Product>{
     public List<Product> findBySkuExceptId(String sku,int id);
-    public Product findBySku(String sku);
+    public List<Product> findBySku(String sku);
 }

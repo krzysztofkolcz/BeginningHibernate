@@ -28,11 +28,11 @@ INSERT INTO product (id, name, price, active, sku, state) VALUES
 (3, 'Zupa z jelenia', '6.00', 1, '000-000-003', 'Active');
 
 INSERT INTO product_category (id, name) VALUES
-(2, 'Zacne żarcie'),
-(1, 'Gastrofaza');
+(1, '4 jelenie'),
+(2, 'Samos');
 
 
 INSERT INTO product_product_category (product_id, product_category_id) VALUES
-(1, 1),
-(2, 1),
-(3, 2);
+(1, 2),
+(2, 2),
+(3, 1);

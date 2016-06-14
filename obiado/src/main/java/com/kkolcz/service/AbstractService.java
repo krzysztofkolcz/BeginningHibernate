@@ -7,7 +7,8 @@ import com.kkolcz.service.AbstractService;
 import com.kkolcz.command.AbstractCommand;
 import com.kkolcz.model.AbstractModel;
  
-public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends AbstractDao> {
+/* public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends AbstractDao> { */
+public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends Dao<T>> {
      
     private DAO dao;
 
