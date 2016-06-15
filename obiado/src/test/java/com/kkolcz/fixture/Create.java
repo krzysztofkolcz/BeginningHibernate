@@ -10,7 +10,7 @@ import com.kkolcz.model.Product;
 
 public class Create{
 
-    public static ProductCommand createProductCommand(int id, String name, String price, String sku, boolean active, String state ){
+    public ProductCommand createProductCommand(int id, String name, String price, String sku, boolean active, String state ){
         ProductCommand product = new ProductCommand();
         product.setId(id);
         product.setName(name);
@@ -20,16 +20,14 @@ public class Create{
         product.setActive(active);
 
         HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(1);
-        productCategory.setName("4 jelenie");
+        ProductCategory productCategory = getProductCategory1();
         productCategories.add(productCategory);
         product.setProductCategories(productCategories);
 
         return product;
     }
 
-    public static ProductCommand createFilledProductCommand(){
+    public ProductCommand createFilledProductCommand(){
         ProductCommand product = new ProductCommand();
         product.setId(1);
         product.setName("name");
@@ -39,9 +37,7 @@ public class Create{
         product.setActive(true);
 
         HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(1);
-        productCategory.setName("4 jelenie");
+        ProductCategory productCategory = getProductCategory1();
         productCategories.add(productCategory);
         product.setProductCategories(productCategories);
 
@@ -89,6 +85,20 @@ public class Create{
         product.setActive(true);
         product.setState("Active");
         product.setSku("000-000-002");
+        HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
+        productCategories.add(getProductCategory2()); 
+        product.setProductCategories(productCategories);
+        return product;
+    }
+
+    public Product getProduct3(){
+        Product product = new Product();
+        product.setId(3);
+        product.setName("Filet z kurczaka zestaw");
+        product.setPrice(new BigDecimal("19.50"));
+        product.setActive(true);
+        product.setState("Active");
+        product.setSku("000-000-003");
         HashSet<ProductCategory> productCategories = new HashSet<ProductCategory>();
         productCategories.add(getProductCategory2()); 
         product.setProductCategories(productCategories);

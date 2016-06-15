@@ -97,7 +97,9 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
         productCategoryDao.saveProductCategory(pc1);
         productCategoryDao.saveProductCategory(pc2);
         Product p1 = getProduct1();
+        System.out.println(p1.getName());
         Product p2 = getProduct2();
+        System.out.println(p2.getName());
         productDao.save(p1);
         productDao.save(p2);
         System.out.println("--------------------setUp--------------------");
@@ -118,7 +120,7 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
     }
 
     protected Product getProduct1(){
-        return create.getProduct2();
+        return create.getProduct1();
     }
 
 
@@ -126,46 +128,27 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
         return create.getProduct2();
     }
 
-    /* private ResultActions postEditProductForm (String id,String name,String price,String sku,String productCategoryId) throws Exception{ */
-    /*     return mockMvc.perform(post("/admin/edit-product-"+id) */
-    /*         .contentType(MediaType.APPLICATION_FORM_URLENCODED) */
-    /*         .param( ID , id) */
-    /*         .param( NAME, name ) */
-    /*         .param( PRICE, price) */
-    /*         .param( SKU, sku) */
-    /*         .param( PRODUCTCATEGORY, productCategoryId) */
-    /*     ); */
-    /* } */
-
-    /* private ResultActions postAddProductForm (String name,String price, String sku,String productCategoryId) throws Exception{ */
-    /*     return mockMvc.perform(post("/admin/add-product") */
-    /*         .contentType(MediaType.APPLICATION_FORM_URLENCODED) */
-    /*         .param( NAME, name ) */
-    /*         .param( PRICE, price) */
-    /*         .param( SKU, sku) */
-    /*         .param( PRODUCTCATEGORY, productCategoryId) */
-    /*     ); */
-    /* } */
 
     @Test
     public void adminAddProductPOSTValidTest() throws Exception{
-          /* String name     = "kotlet"; */
-          /* postAddProductForm (name,"290","aaa-aaa-aaa","1") */
-          /*  .andExpect(view().name( Const.A_VIEW_PRODUCT_EDIT )) */
-          /*  .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) )); */
-          /* List<Product> products = productDao.findAll(); */
-          /* for(Product p: products) { */
-          /*   System.out.println(p.getName()); */
-          /* } */
           String name = "Filet z kurczaka zestaw";
           String sku      = "000-000-003";
           super.adminAddProductPOSTValidTest();
+          System.out.println("--------------------test--------------------");
           List<Product> prds = productDao.findAll();
           for(Product p : prds){
             System.out.println(p.getName());
           }
+          System.out.println("--------------------test--------------------");
           List<Product> products = productDao.findBySku(sku);
           System.out.println(products.size());
+
+          System.out.println("--------------------test--------------------");
+          prds = productDao.findAll();
+          for(Product p : prds){
+            System.out.println(p.getName());
+          }
+          System.out.println("--------------------test--------------------");
           assertEquals(products.size(),1);
           Product product = products.get(0);
           assertThat(product.getName(),equalTo(name));

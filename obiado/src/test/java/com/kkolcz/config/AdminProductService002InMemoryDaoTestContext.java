@@ -23,8 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 @Configuration
-@EnableWebMvc
-public class AdminProductController002InMemoryDaoTestContext extends WebMvcConfigurerAdapter{
+public class AdminProductService002InMemoryDaoTestContext extends WebMvcConfigurerAdapter{
 
     @Bean 
     public ProductCategoryDao productCategoryDao(){
@@ -37,42 +36,22 @@ public class AdminProductController002InMemoryDaoTestContext extends WebMvcConfi
     }
 
     @Bean 
-    public AdminProductCategoryController adminProductCategoryController(){
-      return new  AdminProductCategoryController();
-    }
-
-    @Bean 
     public ProductDao productDao(){
       return new ProductInMemoryDao();
     }
 
+    /* @Bean  */
+    /* public ProductService productService(){ */
+    /*   return new ProductServiceImpl(); */
+    /* } */
+
     @Bean 
-    public ProductService productService(){
+    public AbstractService productService(){
       return new ProductServiceImpl(productDao());
     }
 
-    @Bean 
-    public AdminProductController adminProductController(){
-      return new  AdminProductController();
-    }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
-
-
+    /*
     @Bean
     public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
         return new CategoriesToProductCategoryConverter(); 
@@ -84,4 +63,5 @@ public class AdminProductController002InMemoryDaoTestContext extends WebMvcConfi
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(categoriesToProductCategoryConverter);
     }
+    */
 }
