@@ -84,16 +84,28 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
 
     @Resource
     private WebApplicationContext webApplicationContext;
-    private MockMvc mockMvc;
 
     private Create create; 
-    public AdminProductController002InMemoryDaoTest (){
-        this.create = new Create();
-    }
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        this.create = new Create();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        ProductCategory pc1 = getProductCategory1();
+        ProductCategory pc2 = getProductCategory2();
+        productCategoryDao.saveProductCategory(pc1);
+        productCategoryDao.saveProductCategory(pc2);
+        Product p1 = getProduct1();
+        Product p2 = getProduct2();
+        productDao.save(p1);
+        productDao.save(p2);
+        System.out.println("--------------------setUp--------------------");
+        List<Product> prds = productDao.findAll();
+        for(Product p : prds){
+          System.out.println(p.getName());
+        }
+        System.out.println("--------------------setUp--------------------");
     } 
 
 
@@ -113,33 +125,6 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
     protected Product getProduct2(){
         return create.getProduct2();
     }
-
-    @Before
-    public void setUpProductCategories() {
-        ProductCategory pc1 = getProductCategory1();
-        ProductCategory pc2 = getProductCategory2();
-        /* pc1.setId(1); */
-        /* pc1.setName("Category 1"); */
-        /* pc2.setId(2); */
-        /* pc2.setName("Category 2"); */
-        productCategoryDao.saveProductCategory(pc1);
-        productCategoryDao.saveProductCategory(pc2);
-    } 
-
-    @Before
-    public void setUpProducts() {
-        Product p1 = getProduct1();
-        Product p2 = getProduct2();
-        /* p1.setName("kotlet"); */
-        /* p1.setSku("aaa-aaa-aaa"); */
-        /* p1.setPrice(new BigDecimal("180.20")); */
-        /* p1.setActive(true); */
-        /* Set<ProductCategory> set = new HashSet<ProductCategory>(); */
-        /* set.add(productCategoryService.findById(1)); */
-        /* p1.setProductCategories(set); */
-        productDao.save(p1);
-        productDao.save(p2);
-    } 
 
     /* private ResultActions postEditProductForm (String id,String name,String price,String sku,String productCategoryId) throws Exception{ */
     /*     return mockMvc.perform(post("/admin/edit-product-"+id) */
@@ -175,7 +160,12 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
           String name = "Filet z kurczaka zestaw";
           String sku      = "000-000-003";
           super.adminAddProductPOSTValidTest();
+          List<Product> prds = productDao.findAll();
+          for(Product p : prds){
+            System.out.println(p.getName());
+          }
           List<Product> products = productDao.findBySku(sku);
+          System.out.println(products.size());
           assertEquals(products.size(),1);
           Product product = products.get(0);
           assertThat(product.getName(),equalTo(name));

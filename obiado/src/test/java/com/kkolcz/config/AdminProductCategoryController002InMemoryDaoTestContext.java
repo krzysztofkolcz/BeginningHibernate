@@ -10,13 +10,15 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import com.kkolcz.dao.*;
 import com.kkolcz.service.*;
 import com.kkolcz.controller.*;
-
+import com.kkolcz.converter.CategoriesToProductCategoryConverter;
 
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Configuration
@@ -40,6 +42,7 @@ public class AdminProductCategoryController002InMemoryDaoTestContext extends Web
       return new  AdminProductCategoryController();
     }
 
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -54,5 +57,17 @@ public class AdminProductCategoryController002InMemoryDaoTestContext extends Web
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         return messageSource;
+    }
+
+    @Bean
+    public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
+        return new CategoriesToProductCategoryConverter(); 
+    }
+
+    @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(categoriesToProductCategoryConverter);
     }
 }
