@@ -99,11 +99,7 @@ public abstract class AdminProductController000General{
     @Autowired 
     protected ProductCategoryService productCategoryService;
 
-    protected List<Product> createProductList(){
-        List<Product> productList = new ArrayList<Product>();
-        productList.add(getProduct1());
-        return productList;
-    }
+    protected abstract List<Product> createProductList();
 
     protected abstract ProductCategory getProductCategory1();
     protected abstract ProductCategory getProductCategory2();

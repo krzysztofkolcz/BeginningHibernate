@@ -1,6 +1,7 @@
 **/db2.*
 **/target
 *.swp
+*.swo
 */util.log
 */util.properties
 */util.script

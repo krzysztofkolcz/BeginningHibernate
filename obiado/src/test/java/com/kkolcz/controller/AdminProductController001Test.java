@@ -137,6 +137,9 @@ public class AdminProductController001Test extends AdminProductController000Gene
         Mockito.when(productService.findById(1)).thenReturn(getProduct1());
         Mockito.when(productService.findById(2)).thenReturn(getProduct2());
 
+
+        Mockito.when(productService.findAll()).thenReturn(createProductList());
+
         Mockito.when(productService.skuExistsExceptId("000-000-001",Integer.parseInt("2"))).thenReturn(true);
     } 
 
@@ -155,6 +158,13 @@ public class AdminProductController001Test extends AdminProductController000Gene
 
     protected Product getProduct2(){
         return create.getProduct2();
+    }
+
+
+    protected List<Product> createProductList(){
+        List<Product> productList = new ArrayList<Product>();
+        productList.add(getProduct1());
+        return productList;
     }
 
 

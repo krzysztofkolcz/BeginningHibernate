@@ -128,6 +128,12 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
         return create.getProduct2();
     }
 
+    protected List<Product> createProductList(){
+        List<Product> productList = new ArrayList<Product>();
+        productList.add(getProduct1());
+        return productList;
+    }
+
 
     @Test
     public void adminAddProductPOSTValidTest() throws Exception{
@@ -137,7 +143,7 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
           System.out.println("--------------------test--------------------");
           List<Product> prds = productDao.findAll();
           for(Product p : prds){
-            System.out.println(p.getName());
+            System.out.println(p);
           }
           System.out.println("--------------------test--------------------");
           List<Product> products = productDao.findBySku(sku);
@@ -146,7 +152,7 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
           System.out.println("--------------------test--------------------");
           prds = productDao.findAll();
           for(Product p : prds){
-            System.out.println(p.getName());
+            System.out.println(p);
           }
           System.out.println("--------------------test--------------------");
           assertEquals(products.size(),1);

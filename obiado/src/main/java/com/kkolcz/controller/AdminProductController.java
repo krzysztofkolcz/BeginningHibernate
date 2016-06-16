@@ -80,7 +80,7 @@ public class AdminProductController extends BaseController{
       Product product = new Product();
       System.out.println("============add product================");
 
-      boolean skuExists = !productService.skuExists(productCommand.getSku());
+      boolean skuExists = productService.skuExists(productCommand.getSku());
       if(skuExists){
           System.out.println("============skuExists================");
           result.rejectValue("sku", "message.skuError");
