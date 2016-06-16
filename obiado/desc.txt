@@ -170,3 +170,7 @@ http://forum.spring.io/forum/spring-projects/data/71251-embedded-datasources-are
 
 Custom tag:
 http://www.tutorialspoint.com/jsp/jsp_custom_tags.htm
+
+
+Generic types and classes:
+https://www.jayway.com/2013/11/03/spring-and-autowiring-of-generic-types/

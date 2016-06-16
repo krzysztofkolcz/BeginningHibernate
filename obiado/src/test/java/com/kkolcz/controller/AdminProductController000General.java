@@ -142,7 +142,7 @@ public abstract class AdminProductController000General{
     /* test */
     protected void adminProductListTest() throws Exception{
 
-        Mockito.when(productService.findAll()).thenReturn(createProductList());
+        /* Mockito.when(productService.findAll()).thenReturn(createProductList()); */
 
         mockMvc.perform(get("/admin/product-list"))
           .andExpect(view().name(Const.A_VIEW_PRODUCT_LIST))
@@ -171,10 +171,11 @@ public abstract class AdminProductController000General{
           String sku      = "000-000-003";
           String active   = "true";
           String state    = "Active";
-          String productCat1 = "2";
-          /* String productCat2 = "2"; */
+          String productCat1 = "1";
+          String productCat2 = "2";
 
-          postAddProductForm (name, price, sku, active, state, productCat1/* productCat2 */)
+          System.out.println("General000");
+          postAddProductForm (name, price, sku, active, state, productCat2/* productCat1 */)
            .andExpect(view().name( Const.A_VIEW_SUCCESS_PRODUCT_ADD ))
            .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( NAME, equalTo(name)) ))
            .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, hasProperty( PRICE, equalTo(price)) ))
@@ -198,6 +199,7 @@ public abstract class AdminProductController000General{
            ))
            */
            ;
+          System.out.println("General000");
     }
 
 

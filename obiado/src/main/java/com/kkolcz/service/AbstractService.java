@@ -1,6 +1,14 @@
 package com.kkolcz.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
  
 import java.util.List;
+
+import java.lang.reflect.ParameterizedType;
+
 import com.kkolcz.dao.Dao;
 import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.service.AbstractService;
@@ -8,9 +16,14 @@ import com.kkolcz.command.AbstractCommand;
 import com.kkolcz.model.AbstractModel;
  
 /* public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends AbstractDao> { */
-public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends Dao<T>> {
+public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,D extends Dao<T>> {
      
-    private DAO dao;
+    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractService.class);
+    protected D dao;
+
+    AbstractService(D dao){
+       this.dao = dao;
+    }
 
     public T findById(int id){
         return (T)dao.findById(id);
@@ -41,7 +54,11 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     }
 
     public void add(C command,T element) {
+        logger.info("logger abstract service add");
+        System.out.println("abstract service add");
         element.fillDataFromCommandObject(command);
+        System.out.println(element);
+        System.out.println(dao.getClass().getSimpleName());
         dao.save(element);
     }
 

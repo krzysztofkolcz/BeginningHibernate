@@ -78,15 +78,19 @@ public class AdminProductController extends BaseController{
       BindingResult result, 
       WebRequest request) {
       Product product = new Product();
+      System.out.println("============add product================");
 
       boolean skuExists = !productService.skuExists(productCommand.getSku());
       if(skuExists){
+          System.out.println("============skuExists================");
           result.rejectValue("sku", "message.skuError");
       }
+      System.out.println("============skuOk================");
 
       if (result.hasErrors()) {
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
+          System.out.println("============No errors================");
           productService.add(productCommand,product);
           return new ModelAndView(Const.A_VIEW_SUCCESS_PRODUCT_ADD,Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND , productCommand);
       } 
