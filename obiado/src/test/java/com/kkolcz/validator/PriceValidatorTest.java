@@ -42,8 +42,8 @@ public class PriceValidatorTest {
     @Test
     public void validPriceTest()
     {
-
-        ProductCommand product = Create.createFilledProductCommand();
+        Create create = new Create();
+        ProductCommand product = create.createFilledProductCommand();
         Set<ConstraintViolation<ProductCommand>> violations = validator.validate(product);
         String message = "";
         for(ConstraintViolation<ProductCommand> violation : violations) {
@@ -56,7 +56,8 @@ public class PriceValidatorTest {
     @Test
     public void invalidPriceTest()
     {
-        ProductCommand product = Create.createFilledProductCommand();
+        Create create = new Create();
+        ProductCommand product = create.createFilledProductCommand();
         product.setPrice("ag9"); 
         Set<ConstraintViolation<ProductCommand>> violations = validator.validate(product);
         String message = "";

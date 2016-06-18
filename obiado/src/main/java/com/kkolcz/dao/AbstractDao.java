@@ -11,8 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
  
+import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
      
     private final Class<T> persistentClass;
@@ -21,13 +21,14 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
     public AbstractDao(){
         this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
-     
+
     @Autowired
-    private SessionFactory sessionFactory;
- 
+    protected SessionFactory sessionFactory;
+     
     protected Session getSession(){
         return sessionFactory.getCurrentSession();
     }
+
  
     @SuppressWarnings("unchecked")
     public T getByKey(PK key) {

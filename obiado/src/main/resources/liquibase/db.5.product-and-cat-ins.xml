@@ -24,7 +24,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <insert tableName="product"  >
       <column name="id" value="2"/>
       <column name="name" value="Polędwiczki grillowane"/>
-      <column name="price" value="15.90"/>
+      <column name="price" value="16.00"/>
       <column name="active" valueBoolean="true"/>
       <column name="state" value="Active"/>
       <column name="sku" value="000-000-002"/>

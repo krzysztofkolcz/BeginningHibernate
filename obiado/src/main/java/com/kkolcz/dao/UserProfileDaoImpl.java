@@ -6,11 +6,14 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
  
 import com.kkolcz.model.UserProfile;
  
 @Repository("userProfileDao")
 public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao{
+
  
     public UserProfile findById(int id) {
         return getByKey(id);

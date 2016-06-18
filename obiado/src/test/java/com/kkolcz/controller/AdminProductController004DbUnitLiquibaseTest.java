@@ -1,12 +1,16 @@
 package com.kkolcz.controller;
 
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.UUID;
+import java.math.BigDecimal;
 
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,13 +20,8 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.context.annotation.Bean;
-import org.springframework.format.FormatterRegistry;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,6 +30,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.mock.web.MockHttpSession;
+
+import com.kkolcz.controller.*;
+import com.kkolcz.service.*;
+import com.kkolcz.dao.ProductCategoryDao;
+import com.kkolcz.dao.ProductDao;
+import com.kkolcz.dao.AbstractDao;
+import com.kkolcz.dao.UserDao;
+import com.kkolcz.model.ProductCategory;
+import com.kkolcz.model.Product;
+import com.kkolcz.model.User;
+import com.kkolcz.config.AdminProductController003Context;
+import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
+import com.kkolcz.config.ViewResolverContext;
+import com.kkolcz.constants.Const;
+import com.kkolcz.fixture.Create;
+
+import javax.annotation.Resource;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasItem;
@@ -38,140 +56,94 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import javax.annotation.Resource;
-
 import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
+import org.springframework.context.ApplicationContext;
+import javax.sql.DataSource;
+import liquibase.Liquibase;
+import liquibase.resource.FileSystemResourceAccessor;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.integration.spring.SpringLiquibase;
+import liquibase.changelog.DatabaseChangeLog;
+import liquibase.database.jvm.HsqlConnection;
 
-import com.kkolcz.controller.*;
-import com.kkolcz.service.*;
-import com.kkolcz.model.*;
-import com.kkolcz.converter.*;
-
-import com.kkolcz.service.ProductService; 
-import com.kkolcz.service.ProductCategoryService; 
-import com.kkolcz.model.Product; 
-import com.kkolcz.model.ProductCategory; 
-import com.kkolcz.command.ProductCommand;
-import com.kkolcz.exception.SkuExistsException;
-import com.kkolcz.constants.Const;
-import com.kkolcz.fixture.Create;
-
-import org.springframework.context.support.ConversionServiceFactoryBean;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
-
-import java.math.BigDecimal;
-
-
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration()
+@ContextConfiguration(classes = {AdminProductController003Context.class, DbUnitHibernateLiquibaseConfig.class, ViewResolverContext.class})
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class })
 @WebAppConfiguration
-public class AdminProductController001Test extends AdminProductController000General{
+public class  AdminProductController004DbUnitLiquibaseTest extends AdminProductController000General{
+    /* public static final String ID = "id"; */
+    /* public static final String NAME = "name"; */
+    /* public static final String PRICE = "price"; */
+    /* public static final String ACTIVE = "active"; */
+    /* public static final String SKU = "sku"; */
+    /* public static final String PRODUCTCATEGORY = "productCategory"; */
 
-    @org.springframework.context.annotation.Configuration
-    @EnableWebMvc /* bez tej annotacji nie działał RoleToUserProvileConverter*/
-    static class Configuration extends WebMvcConfigurerAdapter
-    {
-        @Bean(name="adminProductController")
-        public AdminProductController controller()
-        {
-            return new AdminProductController();
-        }
+    @Autowired ApplicationContext context;
+    @Autowired ProductCategoryService productCategoryService; 
+    @Autowired ProductService productService; 
 
-        @Bean
-        public ProductService productService()
-        {
-            return Mockito.mock(ProductService.class);
-        }
-
-        @Bean
-        public ProductCategoryService productCategoryService()
-        {
-            return Mockito.mock(ProductCategoryService.class);
-        }
-
-        @Bean
-        public Create createCreate()
-        {
-            return new Create();
-        }
-
-        @Bean
-        public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
-            return new CategoriesToProductCategoryConverter(); 
-        }
-
-        @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
-
-        @Override
-        public void addFormatters(FormatterRegistry registry) {
-            registry.addConverter(categoriesToProductCategoryConverter);
-        }
-    }
-
-
-    @Autowired
-    private Create create; 
+    @Resource
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        /* mockMvc = MockMvcBuilders.webAppContextSetup(wac).build(); */
         mockHttpSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
-
-        Mockito.when(productCategoryService.findById(1)).thenReturn(getProductCategory1());
-        Mockito.when(productCategoryService.findById(2)).thenReturn(getProductCategory2());
-
-        Mockito.when(productService.findById(1)).thenReturn(getProduct1());
-        Mockito.when(productService.findById(2)).thenReturn(getProduct2());
-
-
-        Mockito.when(productService.findAll()).thenReturn(createProductList());
-
-        Mockito.when(productService.skuExistsExceptId("000-000-001",Integer.parseInt("2"))).thenReturn(true);
     } 
 
+    @Before
+    public void setUpDatabase() throws Exception{
+      FileSystemResourceAccessor fsra = new FileSystemResourceAccessor();
+      DatabaseChangeLog changelog = new DatabaseChangeLog("src/main/resources/liquibase/changelog.xml");
+      DataSource dataSource = (DataSource)context.getBean("dataSource");
+      HsqlConnection hsqlConnection = new HsqlConnection(dataSource.getConnection());
+      Liquibase liquibase;
+      liquibase = new Liquibase("src/main/resources/liquibase/changelog.xml",
+              fsra,
+              hsqlConnection
+      );
+      liquibase.update("");
+    }
+
+
     protected ProductCategory getProductCategory1(){
-        return create.getProductCategory1();
+        return productCategoryService.findById(1);
     }
 
     protected ProductCategory getProductCategory2(){
-        return create.getProductCategory2();
+        return productCategoryService.findById(2);
     }
 
     protected Product getProduct1(){
-        return create.getProduct1();
+        return productService.findById(1);
     }
-
 
     protected Product getProduct2(){
-        return create.getProduct2();
+        return productService.findById(2);
     }
 
-
     protected List<Product> createProductList(){
-        List<Product> productList = new ArrayList<Product>();
-        productList.add(getProduct1());
-        return productList;
+        return productService.findAll();
     }
 
 
@@ -231,5 +203,6 @@ public class AdminProductController001Test extends AdminProductController000Gene
         super.adminEditProductPOSTExistingSkuTest();
 
     }
+
 
 }

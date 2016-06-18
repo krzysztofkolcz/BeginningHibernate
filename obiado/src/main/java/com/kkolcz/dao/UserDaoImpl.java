@@ -7,11 +7,14 @@ import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
  
 import com.kkolcz.model.User;
  
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
+
     public User findById(int id) {
         /* websystique - hibernate many-to-many */
         User user = getByKey(id);

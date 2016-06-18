@@ -1,6 +1,7 @@
 package com.kkolcz.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import com.kkolcz.command.AbstractCommand;
 import com.kkolcz.model.AbstractModel;
  
 /* public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,DAO extends AbstractDao> { */
+@Transactional
 public abstract class AbstractService<T extends AbstractModel,C extends AbstractCommand,D extends Dao<T>> {
      
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractService.class);

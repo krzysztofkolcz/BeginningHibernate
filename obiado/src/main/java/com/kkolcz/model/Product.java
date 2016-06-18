@@ -29,7 +29,7 @@ public class Product extends AbstractModel<ProductCommand> implements Model {
     @Column(name="name", nullable=false)
     private String name;
 
-    @Column(name="price", nullable=false)
+    @Column(name="price", nullable=false, precision = 8,scale = 2)
     private BigDecimal price;
 
     @Column(name="active", nullable=false)

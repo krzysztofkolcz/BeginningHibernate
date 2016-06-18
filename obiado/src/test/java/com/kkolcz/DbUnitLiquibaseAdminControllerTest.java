@@ -182,7 +182,6 @@ public class DbUnitLiquibaseAdminControllerTest {
       System.out.println(AdminController.VIEW_USER_LIST);
       System.out.println("++++++++++++++++++++++++++++++++=");
 
-
       mockMvc.perform(get("/admin/user-list"))
       .andExpect(view().name(AdminController.VIEW_USER_LIST))
       .andExpect(forwardedUrl("/WEB-INF/views/admin/userList.jsp"))
