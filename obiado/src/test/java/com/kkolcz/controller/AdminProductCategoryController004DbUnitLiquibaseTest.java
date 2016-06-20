@@ -36,7 +36,6 @@ import com.kkolcz.model.UserProfileType;
 import com.kkolcz.config.AdminProductCategoryController003Context;
 import com.kkolcz.config.DbUnitHibernateConfig;
 import com.kkolcz.config.AppConfig;
-import com.kkolcz.config.DbUnitAppContext;
 import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
 
 

@@ -20,15 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 @Configuration
-@EnableWebMvc
-public class InMemoryDaoAppContext extends WebMvcConfigurerAdapter{
-
-    /*
-        @Bean
-        public TodoService todoService() {
-            return Mockito.mock(TodoService.class);
-        }   
-    */
+public class AdminUserController002InMemoryDaoContext {
 
     @Bean 
     public UserDao userDao(){
@@ -39,7 +31,6 @@ public class InMemoryDaoAppContext extends WebMvcConfigurerAdapter{
     public UserProfileDao userProfileDao(){
       return new UserProfileInMemoryDao();
     }
-
 
     @Bean 
     public UserService userService(){
@@ -62,19 +53,4 @@ public class InMemoryDaoAppContext extends WebMvcConfigurerAdapter{
       return new  AdminController();
     }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
 }

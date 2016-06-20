@@ -51,25 +51,4 @@ public class AdminProductCategoryController002InMemoryDaoTestContext extends Web
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-    /*
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
-
-    @Bean
-    public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
-        return new CategoriesToProductCategoryConverter(); 
-    }
-
-    @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(categoriesToProductCategoryConverter);
-    }
-    */
 }

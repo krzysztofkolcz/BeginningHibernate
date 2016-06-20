@@ -44,7 +44,8 @@ import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.UserProfileType;
-import com.kkolcz.config.DbUnitAppContext;
+import com.kkolcz.config.AdminUserController003Context;
+import com.kkolcz.config.ViewResolverContext;
 import com.kkolcz.config.DbUnitHibernateConfig;
 import com.kkolcz.config.AppConfig;
 
@@ -80,13 +81,13 @@ import java.util.HashSet;
 import javax.sql.DataSource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DbUnitAppContext.class,DbUnitHibernateConfig.class})
+@ContextConfiguration(classes = {AdminUserController003Context.class,DbUnitHibernateConfig.class,ViewResolverContext.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
 @WebAppConfiguration
-public class DbUnitAdminControllerTest {
+public class AdminUserController003DbUnitTest{
 
     @Autowired UserDao userDao;
     @Autowired UserProfileDao userProfileDao;

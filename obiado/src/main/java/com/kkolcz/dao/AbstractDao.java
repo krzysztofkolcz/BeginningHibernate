@@ -2,6 +2,8 @@ package com.kkolcz.dao;
  
 import java.io.Serializable;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
  
 import java.lang.reflect.ParameterizedType;
  
@@ -89,6 +91,37 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
         List<T> elements = (List<T>)crit.list();
         return elements;
     }
+
+/*
+    public T findByFields(HashMap map) {
+        Criteria crit = createEntityCriteria();
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = (String)entry.getValue();
+            crit.add(Restrictions.eq(key, value));
+        }
+
+        T element = (T) crit.uniqueResult();
+        return element;
+    }
+
+
+    public List<T> findByFieldsExceptId(HashMap map,int id){
+        Criteria crit = createEntityCriteria();
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = (String)entry.getValue();
+            crit.add(Restrictions.eq(key, value));
+        }
+
+        crit.add(Restrictions.ne("id", id));
+        List<T> elements = (List<T>)crit.list();
+        return elements;
+    }
+*/
+
  
 }
 
