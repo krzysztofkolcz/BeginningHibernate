@@ -1,6 +1,5 @@
 package com.kkolcz.config;
 
-
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,7 @@ import com.kkolcz.dao.*;
 import com.kkolcz.service.*;
 import com.kkolcz.controller.*;
 
+import org.hibernate.SessionFactory;
 
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,24 +18,20 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.hibernate.SessionFactory;
-
 @Configuration
-@EnableWebMvc
-public class AdminProductCategoryController003Context extends WebMvcConfigurerAdapter{
+public class AdminProductController003Context{
 
     @Bean 
     public ProductCategoryDao productCategoryDao(){
       return new ProductCategoryDaoImpl();
     }
-
 
     @Bean 
     public ProductCategoryService productCategoryService(){
@@ -43,24 +39,18 @@ public class AdminProductCategoryController003Context extends WebMvcConfigurerAd
     }
 
     @Bean 
-    public AdminProductCategoryController adminProductCategoryController(){
-      return new  AdminProductCategoryController();
+    public ProductDao productDao(){
+      return new ProductDaoImpl();
     }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
+    @Bean 
+    public ProductService productService(){
+      return new ProductServiceImpl(productDao());
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
+    @Bean 
+    public AdminProductController adminProductController(){
+      return new  AdminProductController();
     }
 
 }

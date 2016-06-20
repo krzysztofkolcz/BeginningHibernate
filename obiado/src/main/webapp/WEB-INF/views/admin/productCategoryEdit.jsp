@@ -16,7 +16,7 @@
           <h1 class="page-header">Dashboard</h1> 
           <h2 class="sub-header">Product Edit</h2> 
 
-                <form:form modelAttribute="productCommand"  method="post" class="form-horizontal">
+                <form:form modelAttribute="productCategoryCommand"  method="post" class="form-horizontal">
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="firstName">Name</label>

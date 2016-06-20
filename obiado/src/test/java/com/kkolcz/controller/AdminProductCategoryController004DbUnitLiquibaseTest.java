@@ -123,7 +123,6 @@ public class AdminProductCategoryController004DbUnitLiquibaseTest{
       System.out.println("++++++++++++++++++++++++++++++++=");
 
 
-      /*
       mockMvc.perform(get("/admin/product-category-list"))
       .andExpect(view().name(Const.A_VIEW_PRODUCT_CAT_LIST))
       .andExpect(forwardedUrl("/WEB-INF/views/admin/productCategoryList.jsp"))
@@ -133,7 +132,6 @@ public class AdminProductCategoryController004DbUnitLiquibaseTest{
                                       hasProperty(NAME, is("4 jelenie"))
                               )
                       )));
-      */
-      assert(true);
+      /* assert(true); */
     }
 }

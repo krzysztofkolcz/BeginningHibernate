@@ -8,6 +8,9 @@ import com.kkolcz.model.ProductCategory;
 import com.kkolcz.model.State;
 import com.kkolcz.model.Product;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Create{
 
     public ProductCommand createProductCommand(int id, String name, String price, String sku, boolean active, String state ){

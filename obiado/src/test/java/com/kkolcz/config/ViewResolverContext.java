@@ -1,47 +1,24 @@
 package com.kkolcz.config;
 
-
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
-
-import com.kkolcz.dao.*;
-import com.kkolcz.service.*;
-import com.kkolcz.controller.*;
-import com.kkolcz.converter.CategoriesToProductCategoryConverter;
+import org.springframework.format.FormatterRegistry;
 
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kkolcz.converter.CategoriesToProductCategoryConverter;
 
 @Configuration
 @EnableWebMvc
-public class AdminProductCategoryController002InMemoryDaoTestContext extends WebMvcConfigurerAdapter{
-
-
-    @Bean 
-    public ProductCategoryDao productCategoryDao(){
-      return new ProductCategoryInMemoryDao();
-    }
-
-
-    @Bean 
-    public ProductCategoryService productCategoryService(){
-      return new ProductCategoryServiceImpl();
-    }
-
-    @Bean 
-    public AdminProductCategoryController adminProductCategoryController(){
-      return new  AdminProductCategoryController();
-    }
-
+public class ViewResolverContext extends WebMvcConfigurerAdapter{
 
     @Bean
     public ViewResolver viewResolver() {
@@ -51,7 +28,6 @@ public class AdminProductCategoryController002InMemoryDaoTestContext extends Web
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-    /*
 
     @Bean
     public MessageSource messageSource() {
@@ -71,5 +47,5 @@ public class AdminProductCategoryController002InMemoryDaoTestContext extends Web
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(categoriesToProductCategoryConverter);
     }
-    */
+
 }

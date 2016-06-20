@@ -43,6 +43,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -94,10 +95,8 @@ public abstract class AdminProductController000General{
     protected MockMvc mockMvc;
     protected MockHttpSession mockHttpSession;
 
-    @Autowired 
-    protected ProductService productService;
-    @Autowired 
-    protected ProductCategoryService productCategoryService;
+    @Autowired protected ProductService productService;
+    @Autowired protected ProductCategoryService productCategoryService;
 
     protected abstract List<Product> createProductList();
 
@@ -140,6 +139,12 @@ public abstract class AdminProductController000General{
 
         /* Mockito.when(productService.findAll()).thenReturn(createProductList()); */
 
+        System.out.println("---------------------adminProductListTest---------------------");
+        List<Product> products= productService.findAll();
+        for(Product p : products){
+          System.out.println(p);
+        }
+        System.out.println("---------------------adminProductListTest---------------------");
         mockMvc.perform(get("/admin/product-list"))
           .andExpect(view().name(Const.A_VIEW_PRODUCT_LIST))
           .andExpect(model().attribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST  , hasItem(
@@ -151,12 +156,15 @@ public abstract class AdminProductController000General{
                         hasProperty(STATE, is("Active"))
                 )
           )));
+
+        
     }
 
     /* test */
     public void adminAddProductGETTest() throws Exception{
           mockMvc.perform(get("/admin/add-product"))
-          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT));
+          .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
+          .andExpect(request().sessionAttribute("categories", notNullValue()));
     }
 
     /* test */

@@ -62,6 +62,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 /*  
 Run this test as single test: 
 mvn -Dtest=AdminProductCategoryController002TestInMemoryDao test 

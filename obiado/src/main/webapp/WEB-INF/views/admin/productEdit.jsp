@@ -44,7 +44,7 @@
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="productCategories">Product Categories</label>
-                        <form:select path="productCategories" items="${productCategories}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
+                        <form:select path="productCategories" items="${categories}" multiple="true" itemValue="id" itemLabel="name" class="form-control input-sm" />
                         <div class="has-error">
                             <form:errors path="productCategories" class="help-inline"/>
                         </div>
