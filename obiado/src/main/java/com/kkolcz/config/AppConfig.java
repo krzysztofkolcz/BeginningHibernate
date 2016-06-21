@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.format.FormatterRegistry;
 
 import com.kkolcz.converter.RoleToUserProfileConverter;
+import com.kkolcz.converter.CategoriesToProductCategoryConverter;
  
 @Configuration
 @EnableWebMvc
@@ -24,6 +25,8 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 
     @Autowired
     RoleToUserProfileConverter roleToUserProfileConverter;
+    @Autowired
+    CategoriesToProductCategoryConverter categoriesToProductCategoryConverter; 
        
     @Bean
     public ViewResolver viewResolver() {
@@ -53,6 +56,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleToUserProfileConverter);
+        registry.addConverter(categoriesToProductCategoryConverter);
     }
 
     @Override

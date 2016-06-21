@@ -46,7 +46,8 @@ import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.UserProfileType;
-import com.kkolcz.config.DbUnitAppContext;
+import com.kkolcz.config.AdminUserController003Context;
+import com.kkolcz.config.ViewResolverContext;
 import com.kkolcz.config.DbUnitHibernateConfig;
 import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
 import com.kkolcz.config.AppConfig;
@@ -94,13 +95,13 @@ import liquibase.integration.spring.SpringLiquibase;
 import liquibase.changelog.DatabaseChangeLog;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DbUnitAppContext.class, DbUnitHibernateLiquibaseConfig.class})
+@ContextConfiguration(classes = {AdminUserController003Context.class, DbUnitHibernateLiquibaseConfig.class,ViewResolverContext.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
 @WebAppConfiguration
-public class DbUnitLiquibaseAdminControllerTest {
+public class AdminUserController004DbUnitLiquibaseTest{
 
     @Autowired UserDao userDao;
     @Autowired UserProfileDao userProfileDao;

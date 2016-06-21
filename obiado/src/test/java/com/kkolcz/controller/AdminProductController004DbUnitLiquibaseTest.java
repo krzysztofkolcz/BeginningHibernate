@@ -45,6 +45,7 @@ import com.kkolcz.model.User;
 import com.kkolcz.config.AdminProductController003Context;
 import com.kkolcz.config.DbUnitHibernateLiquibaseConfig;
 import com.kkolcz.config.ViewResolverContext;
+import com.kkolcz.config.ConverterCategoryContext;
 import com.kkolcz.constants.Const;
 import com.kkolcz.fixture.Create;
 
@@ -83,7 +84,7 @@ import liquibase.database.jvm.HsqlConnection;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AdminProductController003Context.class, DbUnitHibernateLiquibaseConfig.class, ViewResolverContext.class})
+@ContextConfiguration(classes = {AdminProductController003Context.class, DbUnitHibernateLiquibaseConfig.class, ViewResolverContext.class , ConverterCategoryContext.class})
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,

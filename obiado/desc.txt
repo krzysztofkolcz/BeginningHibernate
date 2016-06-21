@@ -174,3 +174,60 @@ http://www.tutorialspoint.com/jsp/jsp_custom_tags.htm
 
 Generic types and classes:
 https://www.jayway.com/2013/11/03/spring-and-autowiring-of-generic-types/
+
+TODO
+http://localhost:8080/obiado/admin/add-product
+access_denied zamiast przekierowania na stronę logowania a następnie na żądaną strone
+
+### No Session found for current thread
+product_list - exception - org.hibernate.HibernateException: No Session found for current thread
+Dlaczego nie wykryły tego testy?
+Odp. bo nie miałem testów DbUnit i Liquibase dla tego przypadku.
+
+chyba powinieniem zmienić te pliki kontesktu do testów - wydzielić część odpowiedzialną za DAO i za Service
+
+Rozwiązanie problemu:
+W teście pobierałem kategorię za pomocą funkcji
+
+    protected ProductCategory getProductCategory1(){
+        return productCategoryDao.findById(1);
+    }
+
+Tymczasem klasa ProductCategoryDao nie jest oznaczona jako transactional
+http://stackoverflow.com/questions/10459922/org-hibernate-hibernateexception-no-session-found-for-current-thread
+http://docs.spring.io/spring/docs/3.1.0.M2/spring-framework-reference/html/transaction.html
+
+Zmiana na service, którego klasa jest oznaczona jako @Transactional naprawiła błąd.
+
+    protected ProductCategory getProductCategory1(){
+        return productCategoryService.findById(1);
+    }
+
+Kolejnym problemem był brak annotacji @Transactional przy definicji klasy AbstractService (w tym momencie tylko ProductService z niej korzysta, więc dla innych klas nie było tego problemu)
+
+
+### Problem z pobieraniem danych - zamiast 17.50 pobiera 17.
+http://docs.oracle.com/javase/1.5.0/docs/guide/jdbc/getstart/mapping.html
+Pomogła zmiana w liquibase:
+      <column name="price" type="decimal(8,2)">
+
+Oraz w modelu Product
+    @Column(name="price", nullable=false, precision = 8,scale = 2)
+    private BigDecimal price;
+
+### Problem z session attributes - nie wyświetla kategorii na widoku add i edit produktu, brak testu
+https://github.com/spring-projects/spring-test-mvc/blob/master/src/test/java/org/springframework/test/web/server/samples/standalone/resultmatchers/SessionAttributeAssertionTests.java
+dla usera:
+Controler:
+  /**
+   * This method will provide UserProfile list to views
+   */
+  @ModelAttribute("roles")
+  public List<UserProfile> initializeProfiles() {
+      return userProfileService.findAll();
+  }
+
+View:
+<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
+
+path odnosi się do zmiennej usera

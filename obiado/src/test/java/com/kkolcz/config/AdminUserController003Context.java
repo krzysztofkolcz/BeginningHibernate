@@ -26,7 +26,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
 @EnableWebMvc
-public class DbUnitAppContext extends WebMvcConfigurerAdapter{
+public class AdminUserController003Context extends WebMvcConfigurerAdapter{
 
     /* private static final String JDBC_DRIVER = org.h2.Driver.class.getName(); */
     /* private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"; */
@@ -65,22 +65,22 @@ public class DbUnitAppContext extends WebMvcConfigurerAdapter{
       return new  AdminController();
     }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
-
+    /* @Bean */
+    /* public ViewResolver viewResolver() { */
+    /*     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver(); */
+    /*     viewResolver.setViewClass(JstlView.class); */
+    /*     viewResolver.setPrefix("/WEB-INF/views/"); */
+    /*     viewResolver.setSuffix(".jsp"); */
+    /*     return viewResolver; */
+    /* } */
+    /*  */
+    /* @Bean */
+    /* public MessageSource messageSource() { */
+    /*     ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource(); */
+    /*     messageSource.setBasename("messages"); */
+    /*     return messageSource; */
+    /* } */
+    /*  */
 
     /* http://www.marcphilipp.de/blog/2012/03/13/database-tests-with-dbunit-part-1/ */
     /* http://www.petrikainulainen.net/programming/spring-framework/integration-testing-of-spring-mvc-applications-controllers/ */

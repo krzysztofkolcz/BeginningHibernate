@@ -18,22 +18,18 @@ import com.kkolcz.converter.CategoriesToProductCategoryConverter;
 
 @Configuration
 @EnableWebMvc
-public class ViewResolverContext extends WebMvcConfigurerAdapter{
+public class ConverterCategoryContext extends WebMvcConfigurerAdapter{
 
     @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
+    public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
+        return new CategoriesToProductCategoryConverter(); 
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
+    @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(categoriesToProductCategoryConverter);
     }
 
 }

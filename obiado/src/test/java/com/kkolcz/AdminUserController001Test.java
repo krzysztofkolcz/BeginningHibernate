@@ -76,7 +76,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
 @WebAppConfiguration
-public class AdminControllerMvcMockWithContextTest{
+public class AdminUserController001Test{
 
 
     @org.springframework.context.annotation.Configuration
