@@ -26,6 +26,7 @@
     <module>rabbitapp</module>
     <module>springScheduler002</module>
     <module>beanInstantiation</module>
+    <module>jsonExample</module>
   </modules>
 
     <name>hibernate-parent</name>
