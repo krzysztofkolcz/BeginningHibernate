@@ -45,6 +45,14 @@ public class ProductCategory implements Model {
     public String getName() {
         return name;
     }
+
+    public String getNaturalKey() {
+        return name;
+    }
+
+    public static String getNaturalKeyName() {
+        return "name";
+    }
  
     public void setName(String name) {
         this.name = name;

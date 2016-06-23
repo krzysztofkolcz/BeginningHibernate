@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService{
     */
 
     public List<User> findAllUsers(){
-        return userDao.findAllUsers();
+        /* return userDao.findAllUsers(); */
+        return userDao.findAll();
     }
 
     /* for user registration - user has only REGISTERED profile */

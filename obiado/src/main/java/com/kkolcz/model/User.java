@@ -79,6 +79,14 @@ public class User implements Model {
     public String getEmail() {
         return email;
     }
+
+    public String getNaturalKey() {
+        return email;
+    }
+
+    public static String getNaturalKeyName() {
+        return "email";
+    }
  
     public void setEmail(String email) {
         this.email = email;

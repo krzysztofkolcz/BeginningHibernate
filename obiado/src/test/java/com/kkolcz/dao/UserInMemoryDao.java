@@ -10,23 +10,10 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
     public User findById(int id){
       return this.getByKey(id);
     }
-     
 
-    public User findByEmail(String email){
-        for(User u : dao){
-           if(u.getEmail()==email){
-             return u;
-           } 
-        }
-        return null;
-    }
 
-    public List<User> findAllUsers(){
+    public List<User> findAll(){
         return this.dao;
-    }
-
-    public void persistUser(User user){
-      this.persist(user);
     }
 
     public void saveUser(User user){
@@ -38,7 +25,17 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
       dao.removeAll(dao);
     }
 
-    public List<User> findByEmailExpectId(String email,int id){
+
+    /* TODO - można będzie zastąpić funkcjią findByNaturalKey i findByNaturalKeyExceptId */
+    public User findByEmail(String email){
+        for(User u : dao){
+           if(u.getEmail()==email){
+             return u;
+           } 
+        }
+        return null;
+    }
+    public List<User> findByEmailExceptId(String email,int id){
         List<User> found = new ArrayList<User>();
         for(User u : dao){
            if(u.getEmail()==email && u.getId()!=id){
@@ -46,5 +43,14 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
            } 
         }
         return found;
+    }
+
+    /* TODO - ta funkcja tutaj nie ma sensu, jest potrzebna do implementacji UserDao. Zastąpić wszystkie te funkcje przez findByNaturalKey */
+    public User findByName(String name){
+      return null;
+    }
+    /* TODO - j.w. */
+    public List<User> findByNameExceptId(String name,int id){
+      return null;
     }
 }

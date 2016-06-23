@@ -100,10 +100,6 @@ public class InMemoryDaoControllerTest {
 
     @Before
     public void setUpUserProfile() {
-      System.out.println("=======================================");
-      System.out.println("list size:");
-      System.out.println(userDao.findAllUsers().size());
-      System.out.println("=======================================");
       UserProfile userProfileReg = new UserProfile();
       userProfileReg.setType(UserProfileType.REGISTERED.getUserProfileType());
       userProfileDao.save(userProfileReg);

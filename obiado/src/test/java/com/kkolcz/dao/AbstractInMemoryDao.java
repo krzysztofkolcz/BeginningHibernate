@@ -21,14 +21,6 @@ public abstract class AbstractInMemoryDao<T extends Model> {
     }
  
     public void persist(T entity) {
-      /* if(entity.getId() == null){ */
-      /*   int size = dao.size(); */
-      /*   int id = size++; */
-      /*   entity.setId(id); */
-      /* } */
-      System.out.println("========================");
-      System.out.println(entity.getId());
-      System.out.println("========================");
       dao.add(entity);
     }
 
@@ -44,5 +36,23 @@ public abstract class AbstractInMemoryDao<T extends Model> {
       return null;
     }
 
- 
+    public T findByNaturalKey(String naturalKeyValue){
+        for(T t : dao){
+           if(t.getNaturalKey()==naturalKeyValue){
+             return t;
+           } 
+        }
+        return null;
+    }
+
+    public List<T> findByNaturalKeyExceptId(String naturalKeyValue,int id){
+        List<T> found = new ArrayList<T>();
+        for(T t : dao){
+           if(t.getNaturalKey() == naturalKeyValue && t.getId()!=id){
+             found.add(t);
+           } 
+        }
+        return found;
+    }
+
 }
