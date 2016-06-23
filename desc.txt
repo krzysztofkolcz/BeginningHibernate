@@ -30,6 +30,17 @@ http://stackoverflow.com/questions/29878937/how-to-properly-close-hibernate-sess
 -Dexec.cleanupDaemonThreads=false
 
 
+## jsonExample
+https://spring.io/guides/gs/rest-service/
+
+Problem z generowaniem jsona:
+http://www.mkyong.com/spring-mvc/spring-3-mvc-and-json-example/
+brakowało:
+<mvc:annotation-driven />
+
+Problem z utf-8
+spring mvc test conentType text plain
+http://stackoverflow.com/questions/5649329/utf-8-encoding-problem-in-spring-mvc
 
 ==websystiqueHibernate001Hello:==
 Problem z manifest file, przy odpaleniu
