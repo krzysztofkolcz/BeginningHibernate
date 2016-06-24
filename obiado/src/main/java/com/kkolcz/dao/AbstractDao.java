@@ -13,9 +13,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
+import com.kkolcz.model.Model;
  
 import org.springframework.beans.factory.annotation.Autowired;
-public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
+public abstract class AbstractDao<PK extends Serializable, T extends Model> implements Dao<T>{
      
     private final Class<T> persistentClass;
      
@@ -78,6 +80,21 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
         /* TODO */
     }
 
+    public T findByNaturalKey(String naturalKeyValue) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq(T.getNaturalKeyName(), naturalKeyValue));
+        T element = (T) crit.uniqueResult();
+        return element;
+    }
+    public List<T> findByNaturalKeyExceptId(String naturalKeyValue,int id){
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq(T.getNaturalKeyName(), naturalKeyValue));
+        crit.add(Restrictions.ne("id", id));
+        List<T> elements = (List<T>)crit.list();
+        return elements;
+    }
+
+    /* TODO - change to findByNaturalKey */
     public T findByName(String name) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("name", name));
@@ -92,11 +109,32 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
         return elements;
     }
 
-/*
-    public T findByFields(HashMap map) {
+    public T findByFieldUnique(String fieldName, String fieldValue) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq(fieldName, fieldValue));
+        T element = (T) crit.uniqueResult();
+        return element;
+    }
+
+    public List<T> findByField(String fieldName, String fieldValue) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq(fieldName, fieldValue));
+        List<T> elements = (List<T>)crit.list();
+        return elements;
+    }
+
+    public List<T> findByFieldExceptId(String fieldName, String fieldValue,int id){
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq(fieldName, fieldValue));
+        crit.add(Restrictions.ne("id", id));
+        List<T> elements = (List<T>)crit.list();
+        return elements;
+    }
+
+    public T findByFields(HashMap<String,String> map) {
         Criteria crit = createEntityCriteria();
 
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = (String)entry.getValue();
             crit.add(Restrictions.eq(key, value));
@@ -107,10 +145,10 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
     }
 
 
-    public List<T> findByFieldsExceptId(HashMap map,int id){
+    public List<T> findByFieldsExceptId(HashMap<String,String> map,int id){
         Criteria crit = createEntityCriteria();
 
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = (String)entry.getValue();
             crit.add(Restrictions.eq(key, value));
@@ -120,7 +158,6 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Dao<T>{
         List<T> elements = (List<T>)crit.list();
         return elements;
     }
-*/
 
  
 }

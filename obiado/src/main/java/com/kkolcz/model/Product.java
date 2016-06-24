@@ -86,6 +86,14 @@ public class Product extends AbstractModel<ProductCommand> implements Model {
     public String getSku() {
         return sku;
     }
+
+    public String getNaturalKey() {
+        return sku;
+    }
+
+    public static String getNaturalKeyName() {
+        return "sku";
+    }
  
     public void setSku(String sku) {
         this.sku = sku;

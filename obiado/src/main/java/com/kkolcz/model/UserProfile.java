@@ -28,7 +28,15 @@ public class UserProfile implements Model {
     public String getType() {
         return type;
     }
+
+    public String getNaturalKey() {
+        return type;
+    }
  
+    public static String getNaturalKeyName() {
+        return "type";
+    }
+
     public void setType(String type) {
         this.type = type;
     }
