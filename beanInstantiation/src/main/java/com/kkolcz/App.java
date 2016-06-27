@@ -12,20 +12,21 @@ public class App
         ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
 
         Proxy proxy = (Proxy) context.getBean("proxy");
-        System.out.println("App - proxy.pringLogin()");
+        System.out.println("App - proxy.printLogin()");
         proxy.printLogin();
         System.out.println();
 
-        System.out.println("App proxy2.pringLogin()");
+        System.out.println("App proxy2.printLogin()");
         Proxy proxy2 = (Proxy) context.getBean("proxy2");
         proxy2.printLogin();
         System.out.println();
 
-        System.out.println("App domainService.pringLogin()");
+        System.out.println("App domainService.printLogin()");
         DomainService domainService = (DomainService) context.getBean("domainService");
         domainService.printLogin();
+        System.out.println();
 
-        System.out.println("App domainService2.pringLogin()");
+        System.out.println("App domainService2.printLogin()");
         DomainService domainService2 = (DomainService) context.getBean("domainService2");
         domainService2.printLogin();
         System.out.println();

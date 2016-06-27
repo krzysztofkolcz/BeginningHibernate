@@ -11,7 +11,7 @@ public class DomainService{
   @Value("${prefix}") private String prefix;
 
   public void printLogin(){
-    System.out.println("DomainService - prefix in pringLogin():"+prefix);
+    System.out.println("DomainService - prefix in printLogin():"+prefix);
     proxy.printLogin();
   }
 
