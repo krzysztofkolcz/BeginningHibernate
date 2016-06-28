@@ -15,43 +15,9 @@ import com.kkolcz.model.ProductCategory;
 @Repository("productCategoryDao")
 public class ProductCategoryDaoImpl extends AbstractDao<Integer, ProductCategory> implements ProductCategoryDao {
 
-    public ProductCategory findById(int id) {
-        ProductCategory productCategory = getByKey(id);
-        return productCategory;
+    @SuppressWarnings("unchecked")
+    public List<ProductCategory> findAll() {
+      return super.findAll("name");
     }
  
-   @SuppressWarnings("unchecked")
-    public List<ProductCategory> findAllProductCategories() {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("name"));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
-        List<ProductCategory> productCategories = (List<ProductCategory>) criteria.list();
-        return productCategories;
-    }
-
-    public ProductCategory findByName(String name) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("name", name));
-        ProductCategory productCategory = (ProductCategory) crit.uniqueResult();
-        return productCategory;
-    }
-
-    public List<ProductCategory> findByNameExceptId(String name,int id){
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("name", name));
-        crit.add(Restrictions.ne("id", id));
-        List<ProductCategory> productCategories = (List<ProductCategory>)crit.list();
-        return productCategories;
-    }
-
-    public void persistProductCategory(ProductCategory productCategory) {
-        persist(productCategory);
-    }
-
-    public void saveProductCategory(ProductCategory productCategory) {
-        save(productCategory);
-    }
- 
-    public void removeAll(){
-      //TODO
-    }
 }

@@ -127,7 +127,7 @@ public class AdminUserController002InMemoryDaoTest{
       userProfiles.add(userProfileAdm);
       user.setUserProfiles(userProfiles);
 
-      userDao.saveUser(user);
+      userDao.save(user);
     } 
 
     @After

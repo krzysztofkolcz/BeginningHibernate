@@ -50,7 +50,7 @@ public class ProductCategory implements Model {
         return name;
     }
 
-    public static String getNaturalKeyName() {
+    public String getNaturalKeyName() {
         return "name";
     }
  

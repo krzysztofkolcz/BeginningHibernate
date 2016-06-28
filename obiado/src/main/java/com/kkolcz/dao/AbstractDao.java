@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
  
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Method;
  
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -80,18 +81,25 @@ public abstract class AbstractDao<PK extends Serializable, T extends Model> impl
         /* TODO */
     }
 
+    /* TODO */
     public T findByNaturalKey(String naturalKeyValue) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq(T.getNaturalKeyName(), naturalKeyValue));
-        T element = (T) crit.uniqueResult();
-        return element;
+        /* Method method = persistentClass.getClass().getMethod("getNaturalKeyName",null); */
+        /* String naturalKey = (String)method.invoke(persistentClass,null); */
+        /* crit.add(Restrictions.eq(naturalKey, naturalKeyValue)); */
+        /* T element = (T) crit.uniqueResult(); */
+        /* return element; */
+        return null;
     }
     public List<T> findByNaturalKeyExceptId(String naturalKeyValue,int id){
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq(T.getNaturalKeyName(), naturalKeyValue));
-        crit.add(Restrictions.ne("id", id));
-        List<T> elements = (List<T>)crit.list();
-        return elements;
+        /* Criteria crit = createEntityCriteria(); */
+        /* Method method = persistentClass.getClass().getMethod("getNaturalKeyName",null); */
+        /* String naturalKey = (String)method.invoke(persistentClass,null); */
+        /* crit.add(Restrictions.eq(naturalKey, naturalKeyValue)); */
+        /* crit.add(Restrictions.ne("id", id)); */
+        /* List<T> elements = (List<T>)crit.list(); */
+        /* return elements; */
+        return null;
     }
 
     /* TODO - change to findByNaturalKey */
@@ -161,10 +169,3 @@ public abstract class AbstractDao<PK extends Serializable, T extends Model> impl
 
  
 }
-
-/*
-findById(id);
-findByName(name);
-findByNameExceptId(name,id);
-save(element);
-*/

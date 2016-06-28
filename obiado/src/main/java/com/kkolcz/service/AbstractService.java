@@ -28,11 +28,12 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     }
 
     public T findById(int id){
-        return (T)dao.findById(id);
+        return (T)dao.findById(Integer.valueOf(id));
     }
 
     public T findByName(String name){
-        return (T)dao.findByName(name);
+        /* return (T)dao.findByName(name); */
+        return (T)dao.findByNaturalKey(name);
     }
 
     public List<T> findAll(){
@@ -40,7 +41,8 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     }
 
     public boolean nameExist(String name){
-        T element = (T)dao.findByName(name);
+        /* T element = (T)dao.findByName(name); */
+        T element = (T)dao.findByNaturalKey(name);
         if (element != null) {
             return true;
         }
@@ -48,7 +50,8 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     }
 
     public boolean nameExistExceptId(String name,int id){
-        List<T> elements = dao.findByNameExceptId(name,id);
+        /* List<T> elements = dao.findByNameExceptId(name,id); */
+        List<T> elements = dao.findByNaturalKeyExceptId(name,id);
         if(elements != null && elements.size()>0){
           return true;
         }

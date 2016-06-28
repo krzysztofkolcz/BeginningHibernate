@@ -97,7 +97,8 @@ public class  AdminProductCategoryController002InMemoryDaoTest{
           postAddProductCategoryForm (name)
            .andExpect(view().name( Const.A_VIEW_PRODUCT_CAT_EDIT ))
            .andExpect(model().attribute( Const.A_MODEL_ATTRIBUTE_PRODUCT_CAT_COMMAND, hasProperty( NAME, equalTo(name)) ));
-          ProductCategory productCategory = productCategoryDao.findByName(name);
+          /* ProductCategory productCategory = productCategoryDao.findByName(name); */
+          ProductCategory productCategory = productCategoryDao.findByNaturalKey(name);
           assertThat(productCategory.getName(),equalTo(name));
     }
 }

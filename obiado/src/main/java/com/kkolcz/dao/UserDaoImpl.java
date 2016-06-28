@@ -40,22 +40,5 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         List<User> users = (List<User>)super.findByFieldExceptId("email",email,id);
         return users;
     }
-
-    public void saveUser(User user) {
-        save(user);
-    }
  
-    /* websystique - hibernate many-to-many */
-    /*
-    public void deleteBySSO(String sso) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("ssoId", sso));
-        User user = (User)crit.uniqueResult();
-        delete(user);
-    }
-    */
-
-    public void removeAll(){
-      //TODO
-    }
 }
