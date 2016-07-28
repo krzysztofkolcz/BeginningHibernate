@@ -2,7 +2,7 @@ package com.kkolcz.dao;
 import java.util.List;
  
 public interface Dao<P>{
-    public P findById(int id);
+    public P findById(Integer id);
     public List<P> findAll();
     public List<P> findAll(String orderBy);
     public void persist(P p);

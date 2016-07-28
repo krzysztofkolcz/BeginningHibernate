@@ -15,11 +15,6 @@ import com.kkolcz.model.Product;
 @Repository("productDao")
 public class ProductDaoImpl extends AbstractDao<Integer, Product> implements ProductDao {
 
-    public Product findById(int id) {
-        Product product = getByKey(id);
-        return product;
-    }
-
     public List<Product> findBySku(String sku) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("sku", sku));

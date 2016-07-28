@@ -33,7 +33,7 @@ public class UserProfile implements Model {
         return type;
     }
  
-    public static String getNaturalKeyName() {
+    public String getNaturalKeyName() {
         return "type";
     }
 

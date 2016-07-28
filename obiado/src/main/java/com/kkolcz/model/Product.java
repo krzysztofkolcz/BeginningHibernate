@@ -91,7 +91,7 @@ public class Product extends AbstractModel<ProductCommand> implements Model {
         return sku;
     }
 
-    public static String getNaturalKeyName() {
+    public String getNaturalKeyName() {
         return "sku";
     }
  

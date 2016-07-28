@@ -7,7 +7,7 @@ import java.util.ArrayList;
  
 public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDao {
 
-    public User findById(int id){
+    public User findById(Integer id){
       return this.getByKey(id);
     }
 
@@ -16,7 +16,12 @@ public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDa
         return this.dao;
     }
 
-    public void saveUser(User user){
+    /* TODO - implement comparison */
+    public List<User> findAll(String order){
+        return this.dao;
+    }
+
+    public void save(User user){
       this.save(user);
     }
 

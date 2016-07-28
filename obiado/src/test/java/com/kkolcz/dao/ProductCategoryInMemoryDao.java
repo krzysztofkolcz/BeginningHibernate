@@ -7,7 +7,7 @@ import java.util.ArrayList;
  
 public class ProductCategoryInMemoryDao extends AbstractInMemoryDao<ProductCategory> implements ProductCategoryDao {
 
-    public ProductCategory findById(int id){
+    public ProductCategory findById(Integer id){
       return this.getByKey(id);
     }
      
@@ -21,16 +21,17 @@ public class ProductCategoryInMemoryDao extends AbstractInMemoryDao<ProductCateg
         return null;
     }
 
-    public List<ProductCategory> findAllProductCategories(){
+    public List<ProductCategory> findAll(){
+        return this.dao;
+    }
+
+    /* TODO - implement comparicon */
+    public List<ProductCategory> findAll(String order){
         return this.dao;
     }
 
     public void persistProductCategory(ProductCategory pc){
       this.persist(pc);
-    }
-
-    public void saveProductCategory(ProductCategory pc){
-      this.save(pc);
     }
 
 

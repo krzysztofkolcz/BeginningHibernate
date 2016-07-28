@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
     }
 
     public User findByEmail(String email) {
-        return userDao.findByEmail(email);
+        return userDao.findByNaturalKey(email);
     }
  
     /*
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
         userProfile.setType (UserProfileType.REGISTERED.getUserProfileType());
         userProfiles.add(userProfile);
         user.setUserProfiles(userProfiles);
-        userDao.saveUser(user); 
+        userDao.save(user); 
         return user;
     }
 
@@ -77,13 +77,12 @@ public class UserServiceImpl implements UserService{
         user.setPassword(userCommand.getPassword());
         user.setEmail(userCommand.getEmail());
         user.setUserProfiles(userCommand.getUserProfiles());
-        userDao.saveUser(user); 
+        userDao.save(user); 
         return user;
     }
 
     public boolean emailExistExceptId(String email,int id) {
-        /* User user = userDao.findByEmail(email); */
-        List<User> users = userDao.findByEmailExpectId(email,id);
+        List<User> users = userDao.findByNaturalKeyExceptId(email,id);
         if (users != null && users.size()!=0) {
             return true;
         }
@@ -91,7 +90,7 @@ public class UserServiceImpl implements UserService{
     }
 
     public boolean emailExist(String email) {
-        User user = userDao.findByEmail(email);
+        User user = userDao.findByNaturalKey(email);
         if (user != null) {
             return true;
         }
@@ -111,7 +110,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(userCommand.getPassword());
         user.setEmail(userCommand.getEmail());
         user.setUserProfiles(userCommand.getUserProfiles());
-        userDao.saveUser(user); 
+        userDao.save(user); 
         return user;
     }
  

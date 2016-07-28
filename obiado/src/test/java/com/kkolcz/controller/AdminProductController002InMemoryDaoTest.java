@@ -99,8 +99,8 @@ public class  AdminProductController002InMemoryDaoTest extends AdminProductContr
 
         ProductCategory pc1 = getProductCategory1();
         ProductCategory pc2 = getProductCategory2();
-        productCategoryDao.saveProductCategory(pc1);
-        productCategoryDao.saveProductCategory(pc2);
+        productCategoryDao.save(pc1);
+        productCategoryDao.save(pc2);
         Product p1 = getProduct1();
         System.out.println(p1.getName());
         Product p2 = getProduct2();

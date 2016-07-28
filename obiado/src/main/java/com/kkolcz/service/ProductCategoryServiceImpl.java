@@ -23,11 +23,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     }
  
     public ProductCategory findByName(String name){
-        return dao.findByName(name);
+        return dao.findByNaturalKey(name);
     }
  
     public List<ProductCategory> findAllProductCategories() {
-        return dao.findAllProductCategories();
+        return dao.findAll();
     }
 
     public void addProductCategory(ProductCategoryCommand productCategoryCommand){
@@ -44,7 +44,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     }
 
     public boolean nameExist(String name){
-        ProductCategory productCategory = dao.findByName(name);
+        ProductCategory productCategory = dao.findByNaturalKey(name);
         if (productCategory != null) {
             return true;
         }
@@ -53,7 +53,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
 
 
     public boolean nameExistExceptId(String name,int id) {
-        List<ProductCategory> productCategories = dao.findByNameExceptId(name,id);
+        List<ProductCategory> productCategories = dao.findByNaturalKeyExceptId(name,id);
         if(productCategories != null && productCategories.size()>0){
           return true;
         }
