@@ -27,7 +27,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     }
  
     public List<ProductCategory> findAllProductCategories() {
-        return dao.findAll();
+        return dao.findAll("name");
     }
 
     public void addProductCategory(ProductCategoryCommand productCategoryCommand){
@@ -51,10 +51,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
         return false;
     }
 
-
+    /* updateUnique */
     public boolean nameExistExceptId(String name,int id) {
-        List<ProductCategory> productCategories = dao.findByNaturalKeyExceptId(name,id);
-        if(productCategories != null && productCategories.size()>0){
+        ProductCategory productCategory = dao.findByNaturalKeyExceptId(name,id);
+        if(productCategory != null){
           return true;
         }
         return false;

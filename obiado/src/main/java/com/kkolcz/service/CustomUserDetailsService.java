@@ -23,7 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService{
      
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        /* User user = userService.findBySso(ssoId); */
         User user = userService.findByEmail(email);
         System.out.println("User : "+user);
         if(user==null){
@@ -48,7 +47,6 @@ public class CustomUserDetailsService implements UserDetailsService{
                  user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
     }
  
-     
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
          

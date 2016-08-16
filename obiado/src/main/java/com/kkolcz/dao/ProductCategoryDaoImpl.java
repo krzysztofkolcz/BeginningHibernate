@@ -15,9 +15,8 @@ import com.kkolcz.model.ProductCategory;
 @Repository("productCategoryDao")
 public class ProductCategoryDaoImpl extends AbstractDao<Integer, ProductCategory> implements ProductCategoryDao {
 
-    @SuppressWarnings("unchecked")
-    public List<ProductCategory> findAll() {
-      return super.findAll("name");
+    public String getNaturalKeyName(){
+      return "name";
     }
- 
+
 }

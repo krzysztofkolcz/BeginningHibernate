@@ -30,14 +30,7 @@ public class UserServiceImpl implements UserService{
         return userDao.findByNaturalKey(email);
     }
  
-    /*
-    public User findBySso(String sso) {
-        return userDao.findBySSO(sso);
-    }
-    */
-
     public List<User> findAllUsers(){
-        /* return userDao.findAllUsers(); */
         return userDao.findAll();
     }
 
