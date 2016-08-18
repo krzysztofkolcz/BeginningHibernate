@@ -7,7 +7,7 @@ import java.util.ArrayList;
  
 public class ProductInMemoryDao extends AbstractInMemoryDao<Product> implements ProductDao {
 
-    public Product findById(int id){
+    public Product findById(Integer id){
       return this.getByKey(id);
     }
      

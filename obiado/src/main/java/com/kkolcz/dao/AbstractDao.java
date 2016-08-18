@@ -81,40 +81,23 @@ public abstract class AbstractDao<PK extends Serializable, T extends Model> impl
         /* TODO */
     }
 
-    /* TODO */
-    public T findByNaturalKey(String naturalKeyValue) {
-        Criteria crit = createEntityCriteria();
-        /* Method method = persistentClass.getClass().getMethod("getNaturalKeyName",null); */
-        /* String naturalKey = (String)method.invoke(persistentClass,null); */
-        /* crit.add(Restrictions.eq(naturalKey, naturalKeyValue)); */
-        /* T element = (T) crit.uniqueResult(); */
-        /* return element; */
-        return null;
-    }
-    public List<T> findByNaturalKeyExceptId(String naturalKeyValue,int id){
-        /* Criteria crit = createEntityCriteria(); */
-        /* Method method = persistentClass.getClass().getMethod("getNaturalKeyName",null); */
-        /* String naturalKey = (String)method.invoke(persistentClass,null); */
-        /* crit.add(Restrictions.eq(naturalKey, naturalKeyValue)); */
-        /* crit.add(Restrictions.ne("id", id)); */
-        /* List<T> elements = (List<T>)crit.list(); */
-        /* return elements; */
-        return null;
-    }
+    public abstract String getNaturalKeyName();
 
-    /* TODO - change to findByNaturalKey */
-    public T findByName(String name) {
+    public T findByNaturalKey(String naturalKeyValue) {
+        String naturalKeyName = getNaturalKeyName();
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("name", name));
+        crit.add(Restrictions.eq(naturalKeyName, naturalKeyValue));
         T element = (T) crit.uniqueResult();
         return element;
     }
-    public List<T> findByNameExceptId(String name,int id){
+
+    public T findByNaturalKeyExceptId(String naturalKeyValue,int id){
+        String naturalKeyName = getNaturalKeyName();
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("name", name));
+        crit.add(Restrictions.eq(naturalKeyName, naturalKeyValue));
         crit.add(Restrictions.ne("id", id));
-        List<T> elements = (List<T>)crit.list();
-        return elements;
+        T element = (T) crit.uniqueResult();
+        return element;
     }
 
     public T findByFieldUnique(String fieldName, String fieldValue) {
@@ -151,7 +134,6 @@ public abstract class AbstractDao<PK extends Serializable, T extends Model> impl
         T element = (T) crit.uniqueResult();
         return element;
     }
-
 
     public List<T> findByFieldsExceptId(HashMap<String,String> map,int id){
         Criteria crit = createEntityCriteria();

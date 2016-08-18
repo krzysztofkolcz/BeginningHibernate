@@ -15,6 +15,10 @@ import com.kkolcz.model.User;
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
+    public String getNaturalKeyName(){
+      return "email";
+    }
+
     public User findById(int id) {
         /* websystique - hibernate many-to-many */
         User user = getByKey(id);

@@ -44,7 +44,9 @@ import com.kkolcz.dao.AbstractDao;
 import com.kkolcz.model.User;
 import com.kkolcz.model.UserProfile;
 import com.kkolcz.model.UserProfileType;
-import com.kkolcz.config.InMemoryDaoAppContext;
+/* import com.kkolcz.config.InMemoryDaoAppContext; */
+import com.kkolcz.config.AdminUserController002InMemoryDaoContext;
+import com.kkolcz.config.ViewResolverContext;
 import com.kkolcz.config.AppConfig;
 
 
@@ -75,7 +77,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InMemoryDaoAppContext.class})
+/* @ContextConfiguration(classes = {InMemoryDaoAppContext.class}) */
+@ContextConfiguration(classes = {AdminUserController002InMemoryDaoContext.class,ViewResolverContext.class })
 @WebAppConfiguration
 public class InMemoryDaoControllerTest {
 

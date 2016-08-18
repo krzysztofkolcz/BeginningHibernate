@@ -9,10 +9,7 @@ public interface Dao<P>{
     public void save(P p);
     public void removeAll();
 
-    /* TODO - zastąpić przez findByNaturalKey */
-    /* public P findByName(String name); */
-    /* public List<P> findByNameExceptId(String name,int id); */
-
-    public P findByNaturalKey(String key);
-    public List<P> findByNaturalKeyExceptId(String key,int id);
+    public String getNaturalKeyName();
+    public P findByNaturalKey(String keyValue);
+    public P findByNaturalKeyExceptId(String keyValue,int id);
 }

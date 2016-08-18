@@ -14,6 +14,10 @@ import com.kkolcz.model.UserProfile;
 @Repository("userProfileDao")
 public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao{
 
+    public String getNaturalKeyName(){
+      return "type";
+    }
+
  
     public UserProfile findById(int id) {
         return getByKey(id);
@@ -30,10 +34,6 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>impleme
         Criteria crit = createEntityCriteria();
         crit.addOrder(Order.asc("type"));
         return (List<UserProfile>)crit.list();
-    }
-
-    public void removeAll(){
-    //TODO
     }
      
 }
