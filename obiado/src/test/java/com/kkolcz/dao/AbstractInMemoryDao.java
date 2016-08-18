@@ -46,14 +46,14 @@ public abstract class AbstractInMemoryDao<T extends Model> {
         return null;
     }
 
-    public List<T> findByNaturalKeyExceptId(String naturalKeyValue,int id){
-        List<T> found = new ArrayList<T>();
+    public T findByNaturalKeyExceptId(String naturalKeyValue,int id){
+        /* List<T> found = new ArrayList<T>(); */
         for(T t : dao){
            if(t.getNaturalKey() == naturalKeyValue && t.getId()!=id){
-             found.add(t);
+             return t;
            } 
         }
-        return found;
+        return null;
     }
 
 }

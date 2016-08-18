@@ -7,6 +7,10 @@ import java.util.ArrayList;
  
 public class UserInMemoryDao extends AbstractInMemoryDao<User> implements UserDao {
 
+    public String getNaturalKeyName(){
+      return "email";
+    }
+
     public User findById(Integer id){
       return this.getByKey(id);
     }

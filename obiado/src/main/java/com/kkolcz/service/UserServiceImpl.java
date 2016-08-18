@@ -75,8 +75,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public boolean emailExistExceptId(String email,int id) {
-        List<User> users = userDao.findByNaturalKeyExceptId(email,id);
-        if (users != null && users.size()!=0) {
+        User user = userDao.findByNaturalKeyExceptId(email,id);
+        if (user != null) {
             return true;
         }
         return false;

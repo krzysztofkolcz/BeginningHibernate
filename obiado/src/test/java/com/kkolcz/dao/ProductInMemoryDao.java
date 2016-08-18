@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.ArrayList;
  
 public class ProductInMemoryDao extends AbstractInMemoryDao<Product> implements ProductDao {
+    
+    public String getNaturalKeyName(){
+      return "sku";
+    }
 
     public Product findById(Integer id){
       return this.getByKey(id);

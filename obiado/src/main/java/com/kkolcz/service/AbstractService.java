@@ -51,8 +51,8 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
 
     public boolean nameExistExceptId(String name,int id){
         /* List<T> elements = dao.findByNameExceptId(name,id); */
-        List<T> elements = dao.findByNaturalKeyExceptId(name,id);
-        if(elements != null && elements.size()>0){
+        T element = dao.findByNaturalKeyExceptId(name,id);
+        if(element != null ){
           return true;
         }
         return false;
