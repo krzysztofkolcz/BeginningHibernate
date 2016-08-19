@@ -34,6 +34,7 @@ import com.kkolcz.model.ProductCategory;
 import com.kkolcz.command.ProductCommand;
 import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Const;
+import com.kkolcz.validator.ProductValidator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -49,6 +50,7 @@ public class AdminProductController extends BaseController{
 
   @Autowired private ProductService productService;
   @Autowired private ProductCategoryService productCategoryService;
+  @Autowired private ProductValidator productValidator;
 
   @Autowired private MessageSource messageSource; /* na potrzeby wypisania binding errors */
 
@@ -79,10 +81,12 @@ public class AdminProductController extends BaseController{
       WebRequest request) {
       Product product = new Product();
 
-      boolean skuExists = productService.skuExists(productCommand.getSku());
-      if(skuExists){
-          result.rejectValue("sku", "message.skuError");
-      }
+      productValidator.validate(productCommand,result);
+
+      /* boolean skuExists = productService.skuExists(productCommand.getSku()); */
+      /* if(skuExists){ */
+      /*     result.rejectValue("sku", "message.skuError"); */
+      /* } */
 
       if (result.hasErrors()) {
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);

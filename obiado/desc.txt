@@ -104,6 +104,9 @@ http://stackoverflow.com/questions/2781771/how-can-i-validate-two-or-more-fields
 http://in.relation.to/2008/03/25/bean-validation-sneak-peek-part-i/
 http://in.relation.to/2008/04/01/bean-validation-sneak-peek-part-ii-custom-constraints/#H-ClasslevelConstraints
 
+rodzaje validacji stackoverflow:
+http://stackoverflow.com/questions/12146298/spring-mvc-how-to-perform-validation
+
 
 log4j
 Dodaje log4j properties

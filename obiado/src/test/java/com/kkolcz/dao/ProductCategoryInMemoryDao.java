@@ -7,6 +7,10 @@ import java.util.ArrayList;
  
 public class ProductCategoryInMemoryDao extends AbstractInMemoryDao<ProductCategory> implements ProductCategoryDao {
 
+    public String getNaturalKeyName(){
+      return "name";
+    }
+
     public ProductCategory findById(Integer id){
       return this.getByKey(id);
     }
