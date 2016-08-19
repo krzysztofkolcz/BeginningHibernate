@@ -2,6 +2,7 @@ package com.kkolcz.validator;
 
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +11,7 @@ import com.kkolcz.service.ProductService;
 import com.kkolcz.command.ProductCommand;
 
 /* http://stackoverflow.com/questions/12146298/spring-mvc-how-to-perform-validation */
-@Service("productValidator")
+@Component
 public class ProductValidator implements Validator {
 
   @Autowired private ProductService productService;

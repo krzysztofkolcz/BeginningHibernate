@@ -13,6 +13,7 @@ import com.kkolcz.dao.*;
 import com.kkolcz.service.*;
 import com.kkolcz.controller.*;
 import com.kkolcz.converter.CategoriesToProductCategoryConverter;
+import com.kkolcz.validator.ProductValidator;
 
 
 import org.springframework.web.servlet.ViewResolver;
@@ -83,5 +84,10 @@ public class AdminProductController002InMemoryDaoTestContext extends WebMvcConfi
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(categoriesToProductCategoryConverter);
+    }
+
+    @Bean
+    public ProductValidator productValidator(){
+        return new ProductValidator();
     }
 }

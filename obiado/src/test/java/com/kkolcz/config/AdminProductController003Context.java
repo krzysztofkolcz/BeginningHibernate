@@ -9,6 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import com.kkolcz.dao.*;
 import com.kkolcz.service.*;
 import com.kkolcz.controller.*;
+import com.kkolcz.validator.ProductValidator;
 
 import org.hibernate.SessionFactory;
 
@@ -51,6 +52,11 @@ public class AdminProductController003Context{
     @Bean 
     public AdminProductController adminProductController(){
       return new  AdminProductController();
+    }
+
+    @Bean
+    public ProductValidator productValidator(){
+        return new ProductValidator();
     }
 
 }

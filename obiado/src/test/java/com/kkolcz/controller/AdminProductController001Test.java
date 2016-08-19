@@ -73,6 +73,7 @@ import com.kkolcz.command.ProductCommand;
 import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Const;
 import com.kkolcz.fixture.Create;
+import com.kkolcz.validator.ProductValidator;
 
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
@@ -118,6 +119,11 @@ public class AdminProductController001Test extends AdminProductController000Gene
         @Bean
         public CategoriesToProductCategoryConverter categoriesToProductCategoryConverter (){
             return new CategoriesToProductCategoryConverter(); 
+        }
+
+        @Bean
+        public ProductValidator productValidator(){
+            return new ProductValidator();
         }
 
         @Autowired CategoriesToProductCategoryConverter categoriesToProductCategoryConverter;
