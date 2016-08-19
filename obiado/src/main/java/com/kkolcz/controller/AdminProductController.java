@@ -71,6 +71,7 @@ public class AdminProductController extends BaseController{
   public String addProduct(ModelMap model){
       ProductCommand productCommand = new ProductCommand();
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
+      logger.error("add product get");
       return Const.A_VIEW_PRODUCT_EDIT;
   }
 
@@ -79,6 +80,8 @@ public class AdminProductController extends BaseController{
       @ModelAttribute("productCommand") @Valid ProductCommand productCommand, 
       BindingResult result, 
       WebRequest request) {
+
+      logger.error("add product post");
       Product product = new Product();
 
       productValidator.validate(productCommand,result);
