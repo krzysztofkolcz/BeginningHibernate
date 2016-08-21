@@ -25,6 +25,8 @@ public class ProductServiceImpl extends AbstractService<Product,ProductCommand,P
     @Autowired
     public ProductServiceImpl(ProductDao productDao){
       super(productDao);
+      logger.error("productserviceimpl service constructor");
+      logger.error("productDao");
     } 
 
     @Override

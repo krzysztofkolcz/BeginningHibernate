@@ -256,3 +256,84 @@ log4j.appender.file.MaxBackupIndex=10
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
 
+
+# Wyświetlanie selecta, oraz pobieranie wartości z selecta
+
+public class ProductCommand extends AbstractCommand implements Serializable{
+  ...
+    @NotNull
+    @NotEmpty
+    private String state;
+  ...
+}
+
+
+@Entity
+@Table(name="product")
+public class Product extends AbstractModel<ProductCommand> implements Model {
+  ...
+    @Column(name="state", nullable=false)
+    private String state=State.ACTIVE.getState();
+  ...
+}
+
+
+public enum State {
+ 
+    ACTIVE("Active"),
+    INACTIVE("Inactive"),
+    DELETED("Deleted"),
+    LOCKED("Locked");
+     
+    private String state;
+     
+    private State(final String state){
+        this.state = state;
+    }
+     
+    public String getState(){
+        return this.state;
+    }
+ 
+    @Override
+    public String toString(){
+        return this.state;
+    }
+ 
+    public String getName(){
+        return this.name();
+    }
+}
+
+1. jak wypełnić selecta wartościami State?
+
+
+public class AdminProductController extends BaseController{
+  ...
+  @ModelAttribute("states")
+  public List<State> initializeStates() {
+      /* State.values(); returns State[] */
+      return Arrays.asList(State.values());
+  }
+  ...
+}
+
+productEdit.jsp
+
+                    <div class="input-group input-sm">
+                        <label class="input-group-addon" for="state">State</label>
+                        <form:select class="form-control" id="state" path="state" name="state" items="${states}" />
+                        <form:errors path="state" element="div" />
+                    </div>
+
+
+
+
+TODO - jak wyświetliś wartości ze state w jsp?
+TODO - jak pobrać wartości z jsp, zwalidować, a następnie poprawnie przekonwertować ze stringa
+
+https://bthurley.wordpress.com/2012/10/25/enum-translations-in-spring-mvc/
+http://stackoverflow.com/questions/9927549/how-to-use-java-enum-with-formselect
+
+
+# ProeprtyEditor

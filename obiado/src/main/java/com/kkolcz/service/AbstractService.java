@@ -24,6 +24,12 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     protected D dao;
 
     AbstractService(D dao){
+       logger.error("abstract service constructor");
+       if(dao==null){
+         logger.error("dao == null");
+       }else{
+         logger.error("dao != null");
+       }
        this.dao = dao;
     }
 
