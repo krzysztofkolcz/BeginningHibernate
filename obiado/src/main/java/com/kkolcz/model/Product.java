@@ -15,6 +15,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.slf4j.Logger; 
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 
 import com.kkolcz.command.ProductCommand;
@@ -22,6 +25,8 @@ import com.kkolcz.command.ProductCommand;
 @Entity
 @Table(name="product")
 public class Product extends AbstractModel<ProductCommand> implements Model {
+
+    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractModel.class);
  
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
@@ -56,6 +61,7 @@ public class Product extends AbstractModel<ProductCommand> implements Model {
         this.active = command.isActive();
         this.state = command.getState();
         this.productCategories = command.getProductCategories(); 
+        logger.error("fill data:"+this.toString());
     }
  
     public int getId() {

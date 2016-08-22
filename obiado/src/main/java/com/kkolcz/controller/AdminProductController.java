@@ -2,6 +2,7 @@ package com.kkolcz.controller;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -36,6 +37,8 @@ import com.kkolcz.exception.SkuExistsException;
 import com.kkolcz.constants.Const;
 import com.kkolcz.validator.ProductValidator;
 
+import com.kkolcz.model.State; 
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -60,10 +63,18 @@ public class AdminProductController extends BaseController{
       return productCategoryService.findAllProductCategories();
   }
 
+  @ModelAttribute("states")
+  public List<State> initializeStates() {
+      /* State.values(); returns State[] */
+      return Arrays.asList(State.values());
+  }
+
+
   @RequestMapping(value = "/product-list", method = RequestMethod.GET)
   public String productListPage(ModelMap model){
       List<Product> productList = productService.findAll();
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_LIST,productList);
+      /* model.addAttribute("states",State.values()); */
       return Const.A_VIEW_PRODUCT_LIST;
   }
 
@@ -71,6 +82,7 @@ public class AdminProductController extends BaseController{
   public String addProduct(ModelMap model){
       ProductCommand productCommand = new ProductCommand();
       model.addAttribute(Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND,productCommand);
+      logger.error("add product get");
       return Const.A_VIEW_PRODUCT_EDIT;
   }
 
@@ -79,16 +91,14 @@ public class AdminProductController extends BaseController{
       @ModelAttribute("productCommand") @Valid ProductCommand productCommand, 
       BindingResult result, 
       WebRequest request) {
+
+      logger.error("add product post");
       Product product = new Product();
 
       productValidator.validate(productCommand,result);
 
-      /* boolean skuExists = productService.skuExists(productCommand.getSku()); */
-      /* if(skuExists){ */
-      /*     result.rejectValue("sku", "message.skuError"); */
-      /* } */
-
       if (result.hasErrors()) {
+          logger.error("result errors");
           return new ModelAndView(Const.A_VIEW_PRODUCT_EDIT, Const.A_MODEL_ATTRIBUTE_PRODUCT_COMMAND, productCommand);
       }else{
           productService.add(productCommand,product);

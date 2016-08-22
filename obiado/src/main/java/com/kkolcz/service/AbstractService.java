@@ -24,6 +24,12 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     protected D dao;
 
     AbstractService(D dao){
+       logger.error("abstract service constructor");
+       if(dao==null){
+         logger.error("dao == null");
+       }else{
+         logger.error("dao != null");
+       }
        this.dao = dao;
     }
 
@@ -59,7 +65,7 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
     }
 
     public void add(C command,T element) {
-        logger.info("logger abstract service add");
+        logger.error("logger abstract service add");
         System.out.println("abstract service add");
         element.fillDataFromCommandObject(command);
         System.out.println(element);

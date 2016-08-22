@@ -19,9 +19,9 @@
                 <form:form modelAttribute="productCommand"  method="post" class="form-horizontal">
 
                     <div class="input-group input-sm">
-                        <label class="input-group-addon" for="firstName">Name</label>
-                        <form:input class="form-control" id="Name" path="Name" name="Name" value="" />
-                        <form:errors path="Name" element="div" />
+                        <label class="input-group-addon" for="name">Name</label>
+                        <form:input class="form-control" id="name" path="name" name="name" value="" />
+                        <form:errors path="name" element="div" />
                     </div>
 
                     <div class="input-group input-sm">
@@ -32,8 +32,17 @@
 
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="active">Active</label>
-                        <form:input class="form-control" id="active" path="active" name="active" value="" />
+                        <form:select class="form-control" id="active" path="active" name="active">
+                          <form:option value="true" label="true" />
+                          <form:option value="false" label="false" />
+                        </form:select>
                         <form:errors path="active" element="div" />
+                    </div>
+
+                    <div class="input-group input-sm">
+                        <label class="input-group-addon" for="state">State</label>
+                        <form:select class="form-control" id="state" path="state" name="state" items="${states}" />
+                        <form:errors path="state" element="div" />
                     </div>
 
                     <div class="input-group input-sm">

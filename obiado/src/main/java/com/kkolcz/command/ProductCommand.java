@@ -114,4 +114,11 @@ public class ProductCommand extends AbstractCommand implements Serializable{
     public void setState(String state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Product [id=" + id + ", name =" + name 
+                + ", sku =" + sku + ", price =" + price 
+                + ", active =" +  String.valueOf(active) + ", productCategories=" + productCategories  +"]";
+    }
 }
