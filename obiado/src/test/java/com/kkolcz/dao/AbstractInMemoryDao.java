@@ -32,6 +32,9 @@ public abstract class AbstractInMemoryDao<T extends Model> {
     public void delete(T entity) {
       dao.remove(dao.indexOf(entity));
     }
+
+    public void merge(T entity) {
+    }
      
     protected Criteria createEntityCriteria(){
       return null;

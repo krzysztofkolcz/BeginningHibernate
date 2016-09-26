@@ -8,7 +8,7 @@ Formularz rejestracji:
 http://www.baeldung.com/registration-with-spring-mvc-and-spring-security
 
 liquibase:
-/home/kkolcz/app/liquibase
+/home/kkolcz/apps/liquibase
 liquibase.properties (jak liquibase.properties.example)
 java -jar liquibase.jar migrate
 
@@ -337,3 +337,24 @@ http://stackoverflow.com/questions/9927549/how-to-use-java-enum-with-formselect
 
 
 # ProeprtyEditor
+
+# Cart - dodaje tylko objekt SessionCart
+@Component("sessionCart")
+@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
+public class SessionCart implements Cart, Serializable{
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

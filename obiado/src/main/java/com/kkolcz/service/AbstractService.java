@@ -77,6 +77,7 @@ public abstract class AbstractService<T extends AbstractModel,C extends Abstract
         T element =  (T)dao.findById(command.getId());
         if(unique(command)){
             element.fillDataFromCommandObject(command); 
+            dao.merge(element);
             dao.save(element);
         }
     }
