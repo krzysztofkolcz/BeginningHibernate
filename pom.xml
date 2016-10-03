@@ -27,6 +27,10 @@
     <module>springScheduler002</module>
     <module>beanInstantiation</module>
     <module>jsonExample</module>
+    <module>interceptor</module>
+    <module>springioRestclient</module>
+    <module>ipktRest001</module>
+    <module>springIntegrationMy001</module>
   </modules>
 
     <name>hibernate-parent</name>
