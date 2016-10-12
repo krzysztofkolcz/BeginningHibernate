@@ -205,5 +205,9 @@ public class  AdminProductController004DbUnitLiquibaseTest extends AdminProductC
 
     }
 
+    @Test
+    public void adminEditProductPOSTActiveFalse() throws Exception{
+        super.adminEditProductPOSTActiveFalse();
+    }
 
 }

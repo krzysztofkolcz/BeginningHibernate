@@ -330,4 +330,22 @@ public abstract class AdminProductController000General{
       ;
     }
 
+
+    /* test */
+    public void adminEditProductPOSTActiveFalse() throws Exception {
+      String id = "2";
+      String sku = "000-000-011";
+      String name ="Filet z kurczaka zestaw";
+      String price = new BigDecimal("19.50").toString();
+      String active = "false";
+      boolean activeB = false;
+      String state ="Active";
+      String productCat1 = "1";
+      String productCat2 = "2";
+
+      postEditProductForm ( id, name,  price,  sku,  active,  state,   productCat1/* ,   productCat2 */ )
+      .andExpect(view().name(Const.A_VIEW_PRODUCT_EDIT))
+      ;
+    }
+
 }
