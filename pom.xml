@@ -31,6 +31,7 @@
     <module>springioRestclient</module>
     <module>ipktRest001</module>
     <module>springIntegrationMy001</module>
+    <module>springRestDigestAuth</module>
   </modules>
 
     <name>hibernate-parent</name>

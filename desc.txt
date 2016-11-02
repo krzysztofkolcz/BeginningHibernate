@@ -31,6 +31,7 @@ http://stackoverflow.com/questions/29878937/how-to-properly-close-hibernate-sess
 
 
 ## ipktRest001
+TODO - skąd robiony ten tutorial lub skąd brane źródła
 mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=ipktRest001 -Dpackage=com.kkolcz -Dversion=1.0
 
 ## jsonExample
@@ -1281,6 +1282,13 @@ aha, loguje ERROR, bo nie chce mi się zmieniać już konfiguracji log4j ;)
 
 ## springioRestclient
 mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springioRestclient -Dpackage=com.kkolcz -Dversion=1.0
+
+klasa do celów testowania REST api 
+mvn spring-boot:run
+
+## springRestDigestAuth
+mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=springRestDigestAuth -Dpackage=com.kkolcz -Dversion=1.0
+autoryzacja digest - sprawdzenie rest ipakietu.
 
 ## Erlang
 https://howistart.org/posts/erlang/1
