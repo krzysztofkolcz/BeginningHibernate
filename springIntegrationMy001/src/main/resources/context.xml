@@ -12,8 +12,7 @@
 
     <rabbit:connection-factory id="connectionFactory" />
 
-    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory"
-      exchange="myExchange" routing-key="foo.bar"/>
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="myExchange" routing-key="foo.bar"/>
 
     <rabbit:admin connection-factory="connectionFactory" />
 

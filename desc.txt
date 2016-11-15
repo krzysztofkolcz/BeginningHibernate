@@ -1142,6 +1142,13 @@ mvn archetype:generate -DgroupId=simy.sample -DartifactId=springIntegrationMy001
 
 mvn compile exec:java -Dexec.mainClass=simy.sample.App
 
+AppOne.java, one.xml - na podstawie: 
+App.java i 
+context.xml oraz 
+spring-integration-samples 
+i dokumentacji springa: https://www.rabbitmq.com/tutorials/tutorial-two-java.html
+
+
 ## springIntegration014
 mvn archetype:generate -DgroupId=siia.helloworld.channel -DartifactId=springIntegration014 -DarchetypeArtifactId=maven-archetype-quickstart -Dpackage=siia.helloworld.channel -DinteractiveMode=false
 
