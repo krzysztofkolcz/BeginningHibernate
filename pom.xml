@@ -32,6 +32,7 @@
     <module>ipktRest001</module>
     <module>springIntegrationMy001</module>
     <module>springRestDigestAuth</module>
+    <module>websystiqueHibernate005OneToOneBiSharedPK</module>
   </modules>
 
     <name>hibernate-parent</name>

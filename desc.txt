@@ -391,6 +391,7 @@ public class Address {
 
 
 ==websystiqueHibernate005OneToOneBiSharedPK==
+mvn archetype:generate -DgroupId=com.websystique.hibernate -DartifactId=websystiqueHibernate005OneToOneBiSharedPK -Dpackage=com.websystique.hibernate -Dversion=1.0-SNAPSHOT
 Nie zaimplementowane
 One To One Bidirectional with shared pk
 http://websystique.com/hibernate/hibernate-one-to-one-bidirectional-with-shared-primary-key-annotation-example/

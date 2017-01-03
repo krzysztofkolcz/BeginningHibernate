@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:annotation-config />
+  <context:component-scan base-package="com.kkolcz.controller" />
+  <context:component-scan base-package="com.kkolcz.rest" />
+
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix"> <value>/WEB-INF/jsp/</value> </property>
+    <property name="suffix"> <value>.jsp</value> </property>
+  </bean>
+
+  <bean id="restService" class="com.kkolcz.rest.Service">
+    <property name="restTemplate" ref="restTemplate"/>
+    <property name="hostname" value="localhost:8080"/>
+  </bean>
+
+  <bean id="restTemplate" class="com.kkolcz.rest.RestTemplate">
+    <property name="messageConverters">
+      <list>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+          <property name="objectMapper" ref="jacksonObjectMapper"/>
+        </bean>
+      </list>
+    </property>
+    <property name="errorHandler" ref="errorHandler"/>
+  </bean>
+
+  <bean id="errorHandler" class="com.kkolcz.error.ErrorHandler">
+    <property name="mapper" ref="jacksonObjectMapper"></property>
+  </bean>
+  <bean id="jacksonObjectMapper" class="com.kkolcz.mapper.JacksonObjectMapper"/>
+
+</beans>
