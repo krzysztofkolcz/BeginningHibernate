@@ -1,3 +1,103 @@
+## Hibernate configuration examples:
+### websystique:
+#### /src/main/resources/hibernate.cfg.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ 
+ 
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.username">myuser</property>
+        <property name="hibernate.connection.password">mypassword</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/websystique</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">false</property>
+        <mapping class="com.websystique.hibernate.model.Student"/>
+        <mapping class="com.websystique.hibernate.model.Address"/>
+    </session-factory>
+</hibernate-configuration>
+
+#### Hibernate Utility Class
+package com.websystique.hibernate;
+ 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
+ 
+public class HibernateUtil {
+     
+    private static final SessionFactory sessionFactory;
+     
+    static{
+        try{
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+ 
+        }catch (Throwable ex) {
+            System.err.println("Session Factory could not be created." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }   
+    }
+     
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+     
+}
+
+### BeginningHibernate:
+#### /src/main/resources/hibernate.cfg.xml
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
+        <property name="connection.url">jdbc:hsqldb:db2;shutdown=true</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password"/>
+        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="c3p0.timeout">10</property><!-- anyd c3p0 property - With this line in the configuration, Hibernate will disable its internal connection pool and use c3p0 instead.-->
+        <mapping class="chapter03.hibernate.Person"/>
+        <mapping class="chapter03.hibernate.Skill"/>
+        <mapping class="chapter03.hibernate.Ranking"/>
+    </session-factory>
+   
+</hibernate-configuration>
+
+#### SessionUtil.java
+package com.websystique.hibernate;
+ 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
+ 
+public class HibernateUtil {
+     
+    private static final SessionFactory sessionFactory;
+     
+    static{
+        try{
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+ 
+        }catch (Throwable ex) {
+            System.err.println("Session Factory could not be created." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }   
+    }
+     
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+     
+}
+
 ## One To One Uni PK 003
 ### SQL
 create table STUDENT (
