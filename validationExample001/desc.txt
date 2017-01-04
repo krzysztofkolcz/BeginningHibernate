@@ -1,0 +1,10 @@
+Chcę odpalić przykład walidacji na kilku polach klasy w metodzie main (bez springa)
+
+mvn archetype:generate -DgroupId=com.kkolcz.validationExample001 -DartifactId=validationExample001 -DinteractiveMode=false -Dpackage=com.kkolcz
+
+http://in.relation.to/2008/03/25/bean-validation-sneak-peek-part-i/
+http://stackoverflow.com/questions/1972933/cross-field-validation-with-hibernate-validator-jsr-303
+
+mvn compile exec:java -Dexec.mainClass=com.kkolcz.App -Dexec.cleanupDaemonThreads=false
+
+nie chce mi się robić wszystkich importów w vimie. Sprawdzę łatwiejszą klase.
