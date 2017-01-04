@@ -57,6 +57,7 @@ create table ADDRESS (
  
 create table STUDENT (
    student_id BIGINT NOT NULL AUTO_INCREMENT,
+   home_address_id BIGINT NOT NULL,
    PRIMARY KEY (student_id),
    CONSTRAINT student_address FOREIGN KEY (home_address_id) REFERENCES ADDRESS ( address_id)
 );
