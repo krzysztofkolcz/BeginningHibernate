@@ -21,9 +21,5 @@
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
         </dependency>
-        <dependency>
-          <groupId>com.kkolcz.hibernate</groupId>
-          <artifactId>util</artifactId>
-        </dependency>
     </dependencies>
 </project>

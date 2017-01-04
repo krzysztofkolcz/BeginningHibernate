@@ -5,12 +5,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import javax.persistence.*;
-import com.kkolcz.hibernate.util.SessionUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import java.util.Map;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import chapter04.util.SessionUtil;
 
 public class TestBrokenInversion{
   @Test()
