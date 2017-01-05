@@ -501,3 +501,135 @@ session.persist(student1);
 session.persist(student2);
 
 //commit transaction
+
+## Lifecycle
+Transient - obiekt istnieje w pamięci, nie istnieje w bazie ani nie ma reprezentacji w sesji Hibernate. Zapisanie obiektu zmienia jego stan na Persisten i przypisuje mu identyfikator
+
+Persisten - obiekt zapisany do bazy. Jeżeli zmienią się pola obiektu w tym stanie, zostana one zapisane do bazy (w momencie commita transakcji)
+
+Detached - obiekt zapisany do bazy, ale jego zmiany nie będa odzwierciedlane w bazie (i odwrotnie). Obiekt taki powstaje przez zamknięcie sesji, z którą był związany, lub przez wywołanie metody sesji evict(). Powód - pobranie z bazy, odłączenie i zapisanie w innym miejscu zmienionego obiektu. Aby wprowadzić zmiany w obiekcie do bazy, należy go przypiąć do otwartej sesji Hibernateowej (lub do nowej sesji?) za pomocą jednej z metod: load(), refresh(), merge(), update(), save().
+
+Removed - obiekty w stanie persistent, które zostały przekazane do metody sesji remove(). Rozumiem, że jeszcze przed commitem. 
+
+## Associations
+### wersja OneToOne bez mapped by
+@Entity
+public class Message {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+   
+  @OneToOne
+  Email email;
+}
+
+@Entity
+public class Email {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+   
+  @OneToOne //(mappedBy = "email")
+  Message message;
+}
+
+@Test()
+public void testBrokenInversionCode() {
+  Long emailId;
+  Long messageId;
+
+  Session session = SessionUtil.getSession();
+  Transaction tx = session.beginTransaction();
+
+  Email email = new Email("Broken");
+  Message message = new Message("Broken");
+
+  email.setMessage(message);
+  // message.setEmail(email); // jeżeli to odkomentuję, to message.getEmail() nie będzie nullem.
+
+  session.save(email);
+  session.save(message);
+
+  emailId = email.getId();
+  messageId = message.getId();
+
+  tx.commit();
+  session.close();
+
+  assertNotNull(email.getMessage());
+  assertNull(message.getEmail());
+
+  session = SessionUtil.getSession();
+  tx = session.beginTransaction();
+  email = (Email) session.get(Email.class, emailId);
+  message = (Message) session.get(Message.class, messageId);
+
+  tx.commit();
+  session.close();
+
+  assertNotNull(email.getMessage());
+  assertNull(message.getEmail());
+}
+
+
+### wersja OneToOne z dodanym mapped by
+@Entity(name = "Message2")
+public class Message {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+
+  @OneToOne
+  Email email;
+}
+
+@Entity(name = "Email2")
+public class Email {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+
+  @OneToOne(mappedBy = "email") /* Czyli do Message2 dodana zostaje chyba kolumna email_id, czyli zarządzanie relacją po stronie Message2? TODO - Która strona jest właścicielem relacji???? */
+  Message message;
+}
+
+@Test
+  public void testImpliedRelationship() {
+  Long emailId;
+  Long messageId;
+
+  Session session = SessionUtil.getSession();
+  Transaction tx = session.beginTransaction();
+
+  Email email = new Email("Inverse Email");
+  Message message = new Message("Inverse Message");
+
+  // email.setMessage(message);
+  message.setEmail(email);
+
+  session.save(email);
+  session.save(message);
+
+  emailId = email.getId();
+  messageId = message.getId();
+  tx.commit();
+  session.close();
+
+  assertNull(email.getMessage()); /* Tu jeszcze null */
+  assertNotNull(message.getEmail());
+
+  session = SessionUtil.getSession();
+  tx = session.beginTransaction();
+  email = (Email) session.get(Email.class, emailId);
+  message = (Message) session.get(Message.class, messageId);
+
+  tx.commit();
+  session.close();
+
+  assertNotNull(email.getMessage()); /* Tu już wartość */
+  assertNotNull(message.getEmail());
+}
+
+
+
+
