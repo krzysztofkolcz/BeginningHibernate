@@ -362,6 +362,13 @@ for (Student s : students) { System.out.println(s+s.getUniversity()); }
 //commit transaction
 
 
+## TODO
+str. 97:
+cascade - javax.persistence.CascadeType: MERGE - update, PERSIST - insert, REFRESH - select, DETACH - cascades removal from persistence context, REMOVE - delete
+fetch - EAGER | LAZY
+orphanRemoval 
+
+
 ## Many To Many Uni 008
 ### SQL
 create table STUDENT (
@@ -505,11 +512,26 @@ session.persist(student2);
 ## Lifecycle
 Transient - obiekt istnieje w pamięci, nie istnieje w bazie ani nie ma reprezentacji w sesji Hibernate. Zapisanie obiektu zmienia jego stan na Persisten i przypisuje mu identyfikator
 
-Persisten - obiekt zapisany do bazy. Jeżeli zmienią się pola obiektu w tym stanie, zostana one zapisane do bazy (w momencie commita transakcji)
+persistent - obiekt zapisany do bazy. Jeżeli zmienią się pola obiektu w tym stanie, zostana one zapisane do bazy (w momencie commita transakcji)
 
-Detached - obiekt zapisany do bazy, ale jego zmiany nie będa odzwierciedlane w bazie (i odwrotnie). Obiekt taki powstaje przez zamknięcie sesji, z którą był związany, lub przez wywołanie metody sesji evict(). Powód - pobranie z bazy, odłączenie i zapisanie w innym miejscu zmienionego obiektu. Aby wprowadzić zmiany w obiekcie do bazy, należy go przypiąć do otwartej sesji Hibernateowej (lub do nowej sesji?) za pomocą jednej z metod: load(), refresh(), merge(), update(), save().
+detached - obiekt zapisany do bazy, ale jego zmiany nie będa odzwierciedlane w bazie (i odwrotnie). Obiekt taki powstaje przez zamknięcie sesji, z którą był związany, lub przez wywołanie metody sesji evict(). Powód - pobranie z bazy, odłączenie i zapisanie w innym miejscu zmienionego obiektu. Aby wprowadzić zmiany w obiekcie do bazy, należy go przypiąć do otwartej sesji Hibernateowej (lub do nowej sesji?) za pomocą jednej z metod: load(), refresh(), merge(), update(), save().
 
 Removed - obiekty w stanie persistent, które zostały przekazane do metody sesji remove(). Rozumiem, że jeszcze przed commitem. 
+
+## Identifiers
+identity - relies on natural table sequencing
+
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  Long id;
+
+sequence - databases, that can create table sequences (Oracle, PostgreSQL)
+
+table - use table that stores blocks of artificial identifiers 
+
+auto - maps to identity most of the time (but depends on db)
+
+none - manual assignment of id. If session.persists() without id - IdentifierGenerationException
 
 ## Associations
 ### wersja OneToOne bez mapped by
@@ -630,6 +652,90 @@ public class Email {
   assertNotNull(message.getEmail());
 }
 
+
+
+## Primary key
+
+### Compound primary key
+
+#### @Id, @Embeddable
+
+@Entity
+public class CPKBook {
+  @Id
+  ISBN id;
+  //other columns, getters, setters, constructor
+}
+
+@Embeddable
+public class ISBN implements Serializable {
+  @Column(name="group_number") // because "group" is an invalid column name for SQL
+  int group;
+  int publisher;
+  int title;
+  int checkdigit;
+  //getters, setters, constructor
+
+  //Klasa będąca kluczem złożonym musi implementować te metody.
+  @Override
+  public boolean equals(Object o) {...}
+  @Override
+  public int hashCode() {...}
+}
+
+#### @EmbeddedId
+@Entity
+public class EmbeddedPKBook {
+  @EmbeddedId
+  EmbeddedISBN id;
+  @Column
+  String name;
+   
+   static class EmbeddedISBN implements Serializable {
+     // looks fundamentally the same as the ISBN class from Listing 6-7
+   }
+}
+
+#### @IdClass, @Id
+
+//TODO
+
+### @SecondaryTable
+Klasa, na którą składają się dwie tabele
+ 
+@Entity
+@Table(name = "customer")
+@SecondaryTable(name = "customer_details")
+public class Customer {
+  @Id
+  public int id;
+  public String name;
+  @Column(table = "customer_details")
+  public String address;
+  public Customer() { }
+}
+
+## Annotations
+### @Basic
+@Basic(optional=true|false,fetch=EAGER|LAZY)
+optional=false - oznacza pole NOT NULL
+fetch - pobieranie z bazy. LAZY traktowane tylko jako wskazówka dla Hibernate, EAGER zawsze brane pod uwagę.
+Przeważnie jednak używa się @Column
+
+### @Transient
+Pola nie są zapisywane do bazy
+
+### @Column
+name - wyspecyfikowana nazwa (jeżeli inna niż nazwa pola)
+lenght - długość
+nullable - true|false
+unique - 
+table
+insertable
+updatable
+columnDefinition
+precision
+scale
 
 
 
