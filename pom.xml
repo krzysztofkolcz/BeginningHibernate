@@ -33,6 +33,8 @@
     <module>springIntegrationMy001</module>
     <module>springRestDigestAuth</module>
     <module>websystiqueHibernate005OneToOneBiSharedPK</module>
+    <module>simple</module>
+    <module>sslCertTest</module>
   </modules>
 
     <name>hibernate-parent</name>
