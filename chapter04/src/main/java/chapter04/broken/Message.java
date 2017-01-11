@@ -1,6 +1,7 @@
 package chapter04.broken;
 import javax.persistence.*; 
 @Entity
+@Table(name="message_broken")
 public class Message {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

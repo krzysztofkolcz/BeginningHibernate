@@ -3,6 +3,7 @@ package chapter04.broken;
 import javax.persistence.*;
  
 @Entity
+@Table(name="email_broken")
 public class Email {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
