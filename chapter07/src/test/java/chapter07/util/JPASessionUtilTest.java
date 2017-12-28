@@ -1,0 +1,77 @@
+package chapter07.util;
+
+import chapter07.Thing;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import javax.persistence.*;
+import javax.persistence.Query;
+
+import org.hibernate.*;
+
+import static org.testng.Assert.fail;
+
+public class JPASessionUtilTest {
+
+    public void getEntityManager() {
+        EntityManager em = JPASessionUtil.getEntityManager("utiljpa");
+        em.close();
+    }
+    @Test(expectedExceptions = {javax.persistence.PersistenceException.class})
+    public void nonexistentEntityManagerName() {
+        JPASessionUtil.getEntityManager("nonexistent");
+        fail("We shouldn't be able to acquire an EntityManager here");
+    }
+
+    public void getSession() {
+        Session session = JPASessionUtil.getSession("utiljpa");
+        session.close();
+    }
+    @Test(expectedExceptions = {javax.persistence.PersistenceException.class})
+    public void nonexistentSessionName() {
+        JPASessionUtil.getSession("nonexistent");
+        fail("We shouldn't be able to acquire a Session here");
+    }
+
+    @Test
+    public void testEntityManager(){
+        EntityManager em = JPASessionUtil.getEntityManager("utiljpa");
+        em.getTransaction().begin();
+        Thing t = new Thing();
+        t.setName("Thing 1");
+        em.persist(t);
+        em.getTransaction().commit();
+        em.close();
+        em = JPASessionUtil.getEntityManager("utiljpa");
+        em.getTransaction().begin();
+        Query q = em.createQuery("from Thing t where t.name=:name");
+        q.setParameter("name", "Thing 1");
+        Thing result = (Thing) q.getSingleResult();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result, t);
+        em.remove(result);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Test
+    public void testSession() {
+        Session session = JPASessionUtil.getSession("utiljpa");
+        Transaction tx = session.beginTransaction();
+        Thing t = new Thing();
+        t.setName("Thing 2");
+        session.persist(t);
+        tx.commit();
+        session.close();
+        session = JPASessionUtil.getSession("utiljpa");
+        tx = session.beginTransaction();
+        org.hibernate.Query q =
+                session.createQuery("from Thing t where t.name=:name");
+        q.setParameter("name", "Thing 2");
+        Thing result = (Thing) q.uniqueResult();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result, t);
+        session.delete(result);
+        tx.commit();
+        session.close();
+    }
+}

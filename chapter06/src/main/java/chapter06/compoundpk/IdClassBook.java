@@ -1,8 +1,6 @@
 package chapter06.compoundpk;
  
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.io.Serializable;
  
 @Entity
@@ -68,7 +66,7 @@ public class IdClassBook {
     int title;
     int checkdigit;
      
-    public ISBN() {
+    public EmbeddedISBN() {
     }
      
     public int getGroup() {

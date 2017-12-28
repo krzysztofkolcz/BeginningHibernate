@@ -19,7 +19,7 @@ public class EmbeddedPKBook {
     int title;
     int checkdigit;
      
-    public ISBN() {
+    public EmbeddedISBN() {
     }
      
     public int getGroup() {

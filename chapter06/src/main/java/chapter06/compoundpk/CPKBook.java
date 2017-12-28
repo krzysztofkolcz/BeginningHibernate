@@ -29,4 +29,12 @@ public class CPKBook {
   public void setName(String title) {
     this.name = title;
   }
+
+  @Override
+  public String toString() {
+    return "CPKBook{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            '}';
+  }
 }

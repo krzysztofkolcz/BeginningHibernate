@@ -1,6 +1,6 @@
 package chapter06.compoundpk;
  
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
  
 @Embeddable
@@ -66,4 +66,14 @@ public class ISBN implements Serializable {
     result = 31 * result + checkdigit;
     return result;
   }
-} 
+
+  @Override
+  public String toString() {
+    return "ISBN{" +
+            "group=" + group +
+            ", publisher=" + publisher +
+            ", title=" + title +
+            ", checkdigit=" + checkdigit +
+            '}';
+  }
+}

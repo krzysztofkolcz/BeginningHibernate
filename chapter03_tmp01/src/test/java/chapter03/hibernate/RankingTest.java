@@ -38,19 +38,22 @@ public class RankingTest {
 
     @Test
     public void testSaveRanking() {
-      Session session = factory.openSession();
-      Transaction tx = session.beginTransaction();
-      Person object = savePerson(session,"Stefan");
-      Person subject = savePerson(session,"Genowefa");
-      Skill skill = saveSkill(session,"Java");
-      Ranking ranking = new Ranking();
-      ranking.setObserver(object);
-      ranking.setSubject(subject);
-      ranking.setSkill(skill);
-      ranking.setRanking(9);
-      session.save(ranking);
-      tx.commit();
-      session.close();
+        //TODO - myślę, że lepiej wywalić zapisywanie do osobnych metod,
+        //gdzie każda zawiera pojedyńczą transakcję.
+        //do przemyślenia.
+        Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+        Person object = savePerson(session,"Stefan");
+        Person subject = savePerson(session,"Genowefa");
+        Skill skill = saveSkill(session,"Java");
+        Ranking ranking = new Ranking();
+        ranking.setObserver(object);
+        ranking.setSubject(subject);
+        ranking.setSkill(skill);
+        ranking.setRanking(9);
+        session.save(ranking);
+        tx.commit();
+        session.close();
     }
 
     private Person savePerson(Session session,String name){
@@ -175,6 +178,7 @@ public class RankingTest {
       session.delete(r);
       tx.commit();
       session.close();
+      assertEquals(getAverage("Stefan","Java"),7);
     }
 }
 

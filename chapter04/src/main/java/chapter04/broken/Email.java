@@ -45,4 +45,13 @@ public class Email {
   public Long getId(){
     return id;
   }
+
+  @Override
+  public String toString() {
+    return "Email{" +
+            "id=" + id +
+            ", subject='" + subject + '\'' +
+            ", message=" + message +
+            '}';
+  }
 }

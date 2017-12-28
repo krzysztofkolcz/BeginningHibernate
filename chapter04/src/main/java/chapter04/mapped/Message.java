@@ -43,4 +43,14 @@ public class Message {
   public Long getId(){
     return id;
   }
+
+  @Override
+  public String toString() {
+    String em = email == null ? " email is null ":", email is set " ;
+    return "Message{" +
+            "id=" + id +
+            ", content='" + content + '\'' +
+            em +
+            '}';
+  }
 }

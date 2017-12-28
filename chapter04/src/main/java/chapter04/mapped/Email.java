@@ -8,13 +8,13 @@ public class Email {
 
   @Column
   String subject;
-  
-  @OneToOne(mappedBy="email")
+
+  @OneToOne(mappedBy="email",fetch = FetchType.LAZY)
   Message message;
-   
+
   public Email() {
   }
-   
+
   public Email(String subject) {
     setSubject(subject);
   }
@@ -41,6 +41,16 @@ public class Email {
   }
 
   public Long getId(){
-    return id;
+  return id;
+}
+
+  @Override
+  public String toString() {
+    String m = message == null ? " message is null " : " message is set " ;
+    return "Email{" +
+            "id=" + id +
+            ", subject='" + subject + '\'' +
+            m +
+            '}';
   }
 }

@@ -95,7 +95,7 @@ public class HibernateRankingService implements RankingService{
         Person subject = savePerson(session,subjectName);
         Skill skill = saveSkill(session,skillName);
         Ranking ranking = new Ranking();
-        ranking.setObject(object);
+        ranking.setObserver(object);
         ranking.setSubject(subject);
         ranking.setSkill(skill);
         ranking.setRanking(rank);

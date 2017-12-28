@@ -12,7 +12,7 @@ public class SessionUtil {
  
   private SessionUtil() {
     Configuration configuration = new Configuration();
-    configuration.configure();
+    configuration.configure(SessionUtil.class.getResource("/hibernate-hsqldb.cfg.xml"));
     ServiceRegistryBuilder srBuilder = new ServiceRegistryBuilder();
     srBuilder.applySettings(configuration.getProperties());
     ServiceRegistry serviceRegistry = srBuilder.buildServiceRegistry();

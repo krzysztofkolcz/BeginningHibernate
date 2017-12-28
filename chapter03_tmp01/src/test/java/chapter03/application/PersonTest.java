@@ -6,11 +6,15 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.ExpectedExceptions;
 import org.testng.annotations.Test;
 import chapter03.hibernate.Person;
- 
+
+import java.util.List;
+
 public class PersonTest {
   SessionFactory factory;
  
@@ -31,15 +35,23 @@ public class PersonTest {
    
   @Test
   public void testSavePerson() {
-    Session session=factory.openSession();
-    Transaction tx=session.beginTransaction();
+    String name ="J. C. Smell";
+    PersonService personService = new PersonServiceImpl();
+    personService.savePerson(name);
 
-    Person person=new Person();
-    person.setName("J. C. Smell");
-     
-    session.save(person);
-     
-    tx.commit();
-    session.close();
+
+    List<Person> personList = personService.findAllPersons();
+    Assert.assertEquals(1,personList.size());
+  }
+
+  //TODO - sprawdzić unique name constraint
+
+  @Test
+  public void findPersonTest(){
+    String name = "C. J. Frank";
+    PersonService personService = new PersonServiceImpl();
+    personService.savePerson(name);
+    Person foundPerson = personService.findPersonByName(name);
+    Assert.assertEquals(foundPerson.getName(),name);
   }
 }

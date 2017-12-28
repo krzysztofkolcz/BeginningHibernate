@@ -33,9 +33,11 @@
     <module>springIntegrationMy001</module>
     <module>springRestDigestAuth</module>
     <module>websystiqueHibernate005OneToOneBiSharedPK</module>
-    <module>simple</module>
+    <!--<module>simple</module>-->
     <module>sslCertTest</module>
-  </modules>
+        <module>chapter07</module>
+        <module>chapter08</module>
+    </modules>
 
     <name>hibernate-parent</name>
     <url>http://maven.apache.org</url>

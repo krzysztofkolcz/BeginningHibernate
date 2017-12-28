@@ -1,3 +1,5 @@
+package chapter01.pojo;
+
 public class Message {
   String text;
   public Message() { }

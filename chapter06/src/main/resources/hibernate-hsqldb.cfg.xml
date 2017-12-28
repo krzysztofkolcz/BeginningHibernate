@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:db2;shutdown=true</property>
+        <property name="hibernate.connection.username">sa</property>
+        <property name="hibernate.connection.password"/>
+        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">false</property>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="c3p0.timeout">10</property><!-- anyd c3p0 property - With this line in the configuration, Hibernate will disable its internal hibernate.connection pool and use c3p0 instead.-->
+
+        <!--<mapping class="chapter06.compoundpk.CPKBook"/>-->
+        <!--<mapping class="chapter06.compoundpk.EmbeddedPKBook"/>-->
+        <!--<mapping class="chapter06.compoundpk.IdClassBook"/>-->
+        <!--<mapping class="chapter06.compoundpk.ISBN"/>-->
+
+        <!--<mapping class="chapter06.inheritance.mappedsuperclass.BlogPost"/>-->
+        <!--<mapping class="chapter06.inheritance.mappedsuperclass.Book"/>-->
+        <!--<mapping class="chapter06.inheritance.mappedsuperclass.Publication"/>-->
+        <!--<mapping class="chapter06.inheritance.Author"/>-->
+
+        <!--<mapping class="chapter06.inheritance.tableperclass.BlogPost"/>-->
+        <!--<mapping class="chapter06.inheritance.tableperclass.Book"/>-->
+        <!--<mapping class="chapter06.inheritance.tableperclass.Publication"/>-->
+        <!--<mapping class="chapter06.inheritance.tableperclass.Author"/>-->
+
+        <mapping class="chapter06.inheritance.joined.BlogPost"/>
+        <mapping class="chapter06.inheritance.joined.Book"/>
+        <mapping class="chapter06.inheritance.joined.Publication"/>
+
+    </session-factory>
+
+</hibernate-configuration>

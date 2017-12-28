@@ -44,4 +44,13 @@ public class Message {
   public Long getId(){
     return id;
   }
+
+  @Override
+  public String toString() {
+    return "Message{" +
+            "id=" + id +
+            ", content='" + content + '\'' +
+            ", email=" + email +
+            '}';
+  }
 }

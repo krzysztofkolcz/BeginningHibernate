@@ -9,3 +9,5 @@ chapter03/*
 tmp002
 obiado/.idea/
 obiado/obiado.iml
+*.iml
+*/.idea/
