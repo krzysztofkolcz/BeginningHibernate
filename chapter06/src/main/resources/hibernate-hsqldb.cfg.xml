@@ -19,19 +19,19 @@
         <!--<mapping class="chapter06.compoundpk.IdClassBook"/>-->
         <!--<mapping class="chapter06.compoundpk.ISBN"/>-->
 
-        <!--<mapping class="chapter06.inheritance.mappedsuperclass.BlogPost"/>-->
-        <!--<mapping class="chapter06.inheritance.mappedsuperclass.Book"/>-->
-        <!--<mapping class="chapter06.inheritance.mappedsuperclass.Publication"/>-->
-        <!--<mapping class="chapter06.inheritance.Author"/>-->
+        <mapping class="chapter06.inheritance.mappedsuperclass.BlogPost"/>
+        <mapping class="chapter06.inheritance.mappedsuperclass.Book"/>
+        <mapping class="chapter06.inheritance.mappedsuperclass.Publication"/>
+        <mapping class="chapter06.inheritance.Author"/>
 
         <!--<mapping class="chapter06.inheritance.tableperclass.BlogPost"/>-->
         <!--<mapping class="chapter06.inheritance.tableperclass.Book"/>-->
         <!--<mapping class="chapter06.inheritance.tableperclass.Publication"/>-->
         <!--<mapping class="chapter06.inheritance.tableperclass.Author"/>-->
 
-        <mapping class="chapter06.inheritance.joined.BlogPost"/>
-        <mapping class="chapter06.inheritance.joined.Book"/>
-        <mapping class="chapter06.inheritance.joined.Publication"/>
+        <!--<mapping class="chapter06.inheritance.joined.BlogPost"/>-->
+        <!--<mapping class="chapter06.inheritance.joined.Book"/>-->
+        <!--<mapping class="chapter06.inheritance.joined.Publication"/>-->
 
     </session-factory>
 

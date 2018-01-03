@@ -37,6 +37,7 @@
     <module>sslCertTest</module>
         <module>chapter07</module>
         <module>chapter08</module>
+        <module>quiz</module>
     </modules>
 
     <name>hibernate-parent</name>

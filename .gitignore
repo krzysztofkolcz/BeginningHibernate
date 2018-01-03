@@ -11,3 +11,4 @@ obiado/.idea/
 obiado/obiado.iml
 *.iml
 */.idea/
+.idea/*
