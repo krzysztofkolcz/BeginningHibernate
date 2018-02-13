@@ -46,6 +46,10 @@ Problem z utf-8
 spring mvc test conentType text plain
 http://stackoverflow.com/questions/5649329/utf-8-encoding-problem-in-spring-mvc
 
+##springBoot001Microservices
+tutorial z artykułu:
+https://dzone.com/articles/spring-boot-creating
+
 ==websystiqueHibernate001Hello:==
 Problem z manifest file, przy odpaleniu
 java -jar target/HibernateStandAloneDemo.jar

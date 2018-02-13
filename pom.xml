@@ -38,6 +38,8 @@
         <module>chapter07</module>
         <module>chapter08</module>
         <module>quiz</module>
+        <module>springBoot001</module>
+        <module>springBoot001Microservices</module>
     </modules>
 
     <name>hibernate-parent</name>

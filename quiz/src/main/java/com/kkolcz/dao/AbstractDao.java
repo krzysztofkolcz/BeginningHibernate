@@ -40,12 +40,42 @@ public abstract class AbstractDao<T> implements Dao<T>{
     }
 
     @Override
+    public void saveOrUpdate(T entity) {
+        getSession().saveOrUpdate(entity);
+    }
+
+    @Override
     public void save(T entity) {
         getSession().save(entity);
     }
+
+    @Override
+    public void update(T entity) {
+        getSession().update(entity);
+    }
+
 
     protected Criteria createEntityCriteria(){
         return getSession().createCriteria(persistentClass);
     }
 
+    @Override
+    public void delete(int id) {
+        T object = findById(id);
+        if(object != null) {
+            getSession().delete(object);
+        }
+    }
+
+    @Override
+    public void delete(T object) {
+        if(object != null) {
+            getSession().delete(object);
+        }
+    }
+
+    @Override
+    public void merge(T object) {
+        getSession().merge(object);
+    }
 }
