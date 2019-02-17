@@ -9,7 +9,6 @@ import org.hibernate.service.ServiceRegistryBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.ExpectedExceptions;
 import org.testng.annotations.Test;
 import chapter03.hibernate.Person;
 

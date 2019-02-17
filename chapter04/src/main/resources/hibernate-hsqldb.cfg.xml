@@ -13,10 +13,17 @@
         <property name="format_sql">false</property>
         <property name="hbm2ddl.auto">create-drop</property>
         <property name="c3p0.timeout">10</property><!-- anyd c3p0 property - With this line in the configuration, Hibernate will disable its internal hibernate.connection pool and use c3p0 instead.-->
-        <!--<mapping class="chapter04.broken.Message"/>-->
-        <!--<mapping class="chapter04.broken.Email"/>-->
+        <mapping class="chapter04.broken.Message"/>
+        <mapping class="chapter04.broken.Email"/>
         <mapping class="chapter04.mapped.Message"/>
         <mapping class="chapter04.mapped.Email"/>
+        <mapping class="chapter04.model.SimpleObject"/>
+        <mapping class="chapter04.cascade.Message"/>
+        <mapping class="chapter04.cascade.Email"/>
+        <mapping class="chapter04.orphan.LibraryNoOrpahnRemoval"/>
+        <mapping class="chapter04.orphan.Library"/>
+        <mapping class="chapter04.orphan.BookNoOrphanRemoval"/>
+        <mapping class="chapter04.orphan.Book"/>
     </session-factory>
 
 </hibernate-configuration>

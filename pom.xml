@@ -11,35 +11,35 @@
         <!-- <module>chapter02</module> -->
         <!-- <module>util</module> -->
         <!-- <module>chapter03_tmp01</module> -->
-        <!-- <module>chapter04</module> -->
+         <module>chapter04</module>
         <!-- <module>websystique002</module> -->
         <!-- <module>websystiqueHibernateAnnotations002</module> -->
         <!-- <module>websystiqueHibernate004OneToOneUniFKA</module> -->
-      <module>obiado</module>
-    <module>websystiqueRest002</module>
-    <module>obiadoxml</module>
-    <module>websystiqueBasicMvc003FormValidation</module>
-    <module>validationExample002</module>
-    <module>mailingExample</module>
-    <module>springIntegration014</module>
-    <module>springScheduler001</module>
-    <module>rabbitapp</module>
-    <module>springScheduler002</module>
-    <module>beanInstantiation</module>
-    <module>jsonExample</module>
-    <module>interceptor</module>
-    <module>springioRestclient</module>
-    <module>ipktRest001</module>
-    <module>springIntegrationMy001</module>
-    <module>springRestDigestAuth</module>
-    <module>websystiqueHibernate005OneToOneBiSharedPK</module>
+      <!--<module>obiado</module>-->
+    <!--<module>websystiqueRest002</module>-->
+    <!--<module>obiadoxml</module>-->
+    <!--<module>websystiqueBasicMvc003FormValidation</module>-->
+    <!--<module>validationExample002</module>-->
+    <!--<module>mailingExample</module>-->
+    <!--<module>springIntegration014</module>-->
+    <!--<module>springScheduler001</module>-->
+    <!--<module>rabbitapp</module>-->
+    <!--<module>springScheduler002</module>-->
+    <!--<module>beanInstantiation</module>-->
+    <!--<module>jsonExample</module>-->
+    <!--<module>interceptor</module>-->
+    <!--<module>springioRestclient</module>-->
+    <!--<module>ipktRest001</module>-->
+    <!--<module>springIntegrationMy001</module>-->
+    <!--<module>springRestDigestAuth</module>-->
+    <!--<module>websystiqueHibernate005OneToOneBiSharedPK</module>-->
     <!--<module>simple</module>-->
-    <module>sslCertTest</module>
-        <module>chapter07</module>
-        <module>chapter08</module>
-        <module>quiz</module>
-        <module>springBoot001</module>
-        <module>springBoot001Microservices</module>
+    <!--<module>sslCertTest</module>-->
+        <!--<module>chapter07</module>-->
+        <!--<module>chapter08</module>-->
+        <!--<module>quiz</module>-->
+        <!--<module>springBoot001</module>-->
+        <!--<module>springBoot001Microservices</module>-->
     </modules>
 
     <name>hibernate-parent</name>

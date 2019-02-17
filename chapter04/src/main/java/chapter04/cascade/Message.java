@@ -1,7 +1,8 @@
-package chapter04.broken;
-import javax.persistence.*; 
-@Entity
-@Table(name="message_broken")
+package chapter04.cascade;
+
+import javax.persistence.*;
+
+@Entity(name="Message3_Casscade")
 public class Message {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,10 +13,10 @@ public class Message {
    
   @OneToOne
   Email email;
-   
+
   public Message() {
   }
-   
+
   public Message(String content) {
     setContent(content);
   }
@@ -47,9 +48,11 @@ public class Message {
 
   @Override
   public String toString() {
+    String em = email == null ? " email is null ":", email is set " ;
     return "Message{" +
             "id=" + id +
             ", content='" + content + '\'' +
+            em +
             '}';
   }
 }

@@ -1,22 +1,22 @@
-package chapter04.broken;
- 
+package chapter04.cascade;
+
 import javax.persistence.*;
- 
-@Entity
-@Table(name="email_broken")
+
+@Entity(name="Email3_Cascade")
 public class Email {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
-   
+
   @Column
   String subject;
-  @OneToOne //(mappedBy = "email")
+
+  @OneToOne(mappedBy="email",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   Message message;
-   
+
   public Email() {
   }
-   
+
   public Email(String subject) {
     setSubject(subject);
   }
@@ -43,14 +43,16 @@ public class Email {
   }
 
   public Long getId(){
-    return id;
-  }
+  return id;
+}
 
   @Override
   public String toString() {
+    String m = message == null ? " message is null " : " message is set " ;
     return "Email{" +
             "id=" + id +
             ", subject='" + subject + '\'' +
+            m +
             '}';
   }
 }
