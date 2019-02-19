@@ -31,21 +31,25 @@ public class App{
       tx.commit();
       session.close();
 
-      /* assertNotNull(email.getMessage()); */
-      /* assertNull(message.getEmail()); */
+      /*
+      email.getMessage() - ustawione
+      message.getEmail() - null
+      */
 
       session = SessionUtil.getSession();
       tx = session.beginTransaction();
       email = (Email) session.get(Email.class, emailId);
       System.out.println(email);
       message = (Message) session.get(Message.class, messageId);
-      System.out.println(message);
+      System.out.println(message);//email w message nie jest ustawiony i nie jest zapisany - jest null.
       tx.commit();
       session.close();
 
-      /* assertNotNull(email.getMessage()); */
-      /* assertNull(message.getEmail()); */
- 
+      /*
+      email.getMessage() - ustawione
+      message.getEmail() - null
+       */
+
     }
  
 }

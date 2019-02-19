@@ -47,9 +47,11 @@ public class Message {
 
   @Override
   public String toString() {
+    String em = email == null ? " email is null ":", email is set " ;
     return "Message{" +
             "id=" + id +
             ", content='" + content + '\'' +
+            em +
             '}';
   }
 }

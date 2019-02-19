@@ -12,7 +12,37 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import chapter04.util.SessionUtil;
 
+/*
+W tym przypadku ani klasa Email ani Message nie mają ustawionego pola mappedBy.
+Czyli
+Email{
+...
+  @OneToOne
+  Message message;
+}
+
+Message{
+...
+  @OneToOne
+  Email email;
+}
+
+Oznacza to, że Hibernate wygeneruje sqla, gdzie obydwie tabele będą miały klucz obcy.
+
+Utworzenie objektów i ustawienie tylko w jednym:
+
+email.setMessage(message);
+// brak ustawienia - message.setEmail(email);
+session.save(email);
+session.save(message);
+
+spowoduje, że po ponownym pobraniu z bazy
+message.getEmail() - będzie null
+
+Przypadek, gdzie mappedBy jest ustawiona - chapter04.mapped.TestImpliedInversion
+ */
 public class TestBrokenInversion{
+
   @Test()
   public void testBrokenInversionCode() {
     Long emailId;
@@ -25,7 +55,7 @@ public class TestBrokenInversion{
     Message message = new Message("Broken");
      
     email.setMessage(message);
-    // message.setEmail(email);
+    // brak ustawienia - message.setEmail(email);
 
     session.save(email);
     session.save(message);

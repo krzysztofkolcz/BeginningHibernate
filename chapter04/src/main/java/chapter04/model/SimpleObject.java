@@ -2,6 +2,9 @@ package chapter04.model;
 
 import javax.persistence.*;
 
+/*
+Klasa na potrzeby testów funkcjonalności merge i refresh.
+ */
 @Entity
 @Table(name = "simple_object")
 public class SimpleObject {
